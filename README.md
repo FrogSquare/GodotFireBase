@@ -5,10 +5,11 @@ Godot_FireBase is a firebase integration for godot android;
 > Analytics
 
 Build/Compile module
-Edit file modules/FireBase/config.py Line 17 with
+copy your `google-services.json` file to `[GODOT-ROOT]\platform/android/java\` and edit file modules/FireBase/config.py at line 17
 ```
 env.android_add_default_config("applicationId 'com.your.appid'")
 ```
+replay `com.your.appid` with you android application id.
 
 # Initialize FireBase
 
