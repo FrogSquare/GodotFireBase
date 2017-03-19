@@ -1,0 +1,38 @@
+String 	ACHIEVEMENT_ID		Game achievement ID (String).
+String 	ACLID			CAMPAIGN_DETAILS click ID.
+String 	CAMPAIGN		CAMPAIGN_DETAILS name; used for keyword analysis to identify a specific product promotion or strategic campaign.
+String 	CHARACTER		Character used in game (String).
+String 	CONTENT			CAMPAIGN_DETAILS content; used for A/B testing and content-targeted ads to differentiate ads or links that point to the same URL.
+String 	CONTENT_TYPE		Type of content selected (String).
+String 	COUPON			Coupon code for a purchasable item (String).
+String 	CP1			CAMPAIGN_DETAILS custom parameter.
+String 	CURRENCY		Purchase currency in 3 letter ISO_4217 format (String).
+String 	DESTINATION		Flight or Travel destination (String).
+String 	END_DATE		The arrival date, check-out date, or rental end date for the item (String).
+String 	FLIGHT_NUMBER		Flight number for travel events (String).
+String 	GROUP_ID		Group/clan/guild id (String).
+String 	ITEM_CATEGORY		Item category (String).
+String 	ITEM_ID			Item ID (String).
+String 	ITEM_LOCATION_ID	The Google Place ID that corresponds to the associated item (String).
+String 	ITEM_NAME		Item name (String).
+String 	LEVEL			Level in game (long).
+String 	LOCATION		Location (String).
+String 	MEDIUM			CAMPAIGN_DETAILS medium; used to identify a medium such as email or cost-per-click (cpc).
+String 	NUMBER_OF_NIGHTS	Number of nights staying at hotel (long).
+String 	NUMBER_OF_PASSENGERS	Number of passengers traveling (long).
+String 	NUMBER_OF_ROOMS		Number of rooms for travel events (long).
+String 	ORIGIN			Flight or Travel origin (String).
+String 	PRICE			Purchase price (double).
+String 	QUANTITY		Purchase quantity (long).
+String 	SCORE			Score in game (long).
+String 	SEARCH_TERM		The search string/keywords used (String).
+String 	SHIPPING		Shipping cost (double).
+String 	SIGN_UP_METHOD		Signup method (String).
+String 	SOURCE			CAMPAIGN_DETAILS source; used to identify a search engine, newsletter, or other source.
+String 	START_DATE		The departure date, check-in date, or rental start date for the item (String).
+String 	TAX			Tax amount (double).
+String 	TERM			CAMPAIGN_DETAILS term; used with paid search to supply the keywords for ads.
+String 	TRANSACTION_ID		A single ID for a ecommerce group transaction (String).
+String 	TRAVEL_CLASS		Travel class (String).
+String 	VALUE			A context-specific numeric value which is accumulated automatically for each event type.
+String 	VIRTUAL_CURRENCY_NAME	Name of virtual currency type (String).
