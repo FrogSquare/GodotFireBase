@@ -55,7 +55,7 @@ public class FireBase extends Godot.SingletonBase {
 	public void init() {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				init();
+				initFireBase();
 			}
 		});
 	}
