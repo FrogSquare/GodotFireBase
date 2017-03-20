@@ -28,7 +28,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public FireBase(Activity p_activity) {
 		registerClass ("FireBase", new String[] {
-			"init", "setScreenName", "sendAchivement", "sendCustom", "alert"
+			"init", "setScreenName", "sendAchievement", "sendCustom", "alert"
 		});
 
 		activity = p_activity;
@@ -68,10 +68,10 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
-	public void sendAchivement(final String a_id) {
+	public void sendAchievement(final String a_id) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				send_achivement(a_id);
+				send_achievement(a_id);
 			}
 		});
 	}
@@ -103,7 +103,7 @@ public class FireBase extends Godot.SingletonBase {
 		Log.d(TAG, "Setting current screen to: " + s_name);
 	}
 
-	private void send_achivement(final String id) {
+	private void send_achievement(final String id) {
 		Bundle bundle = new Bundle();
 		bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, id);
 

@@ -28,7 +28,7 @@ firebase.init();
 ```
 firebase.sendCustom("TestKey", "SomeValue");
 firebase.setScreenName("Screen_name");
-firebase.sendAchivement("someAchivementId");
+firebase.sendAchievement("someAchievementId");
 ```
 
 # AlertDialog aditional;
