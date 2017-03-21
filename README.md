@@ -4,6 +4,8 @@ Godot_FireBase is a firebase integration for godot android;
 # Available Features
 > Analytics
 
+> Firebase Notification
+
 # Build/Compile module
 copy your `google-services.json` file to `[GODOT-ROOT]\platform/android/java\` and edit file modules/FireBase/config.py at line 17
 ```
@@ -34,6 +36,16 @@ firebase.sendAchievement("someAchievementId");
 # AlertDialog aditional;
 ```
 firebase.alert("Message goes here..!");
+```
+
+# Subscribe to Firebase topic
+```
+firebase.subscribeToTopic("topic");
+```
+
+# get firebase token
+```
+firebase.getToken();
 ```
 
 # Log FireBase Events
