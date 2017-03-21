@@ -9,10 +9,11 @@ def configure(env):
 		env.android_add_gradle_classpath("com.google.gms:google-services:3.0.0")
 		env.android_add_gradle_plugin("com.google.gms.google-services")
 
-		env.android_add_dependency("compile 'com.google.firebase:firebase-core:10.0.1'")
+                env.android_add_dependency("compile 'com.google.firebase:firebase-core:10.0.1'")
+                env.android_add_dependency("compile 'com.google.firebase:firebase-messaging:10.0.1'")
 
 		env.android_add_java_dir("android");
 		env.android_add_res_dir("res");
 		env.android_add_to_manifest("android/AndroidManifestChunk.xml");
-		env.android_add_default_config("applicationId 'com.godot.game'")
+		env.android_add_default_config("applicationId 'com.froglogics.dotsndots'")
 		env.disable_module()

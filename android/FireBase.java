@@ -28,7 +28,8 @@ public class FireBase extends Godot.SingletonBase {
 
 	public FireBase(Activity p_activity) {
 		registerClass ("FireBase", new String[] {
-			"init", "setScreenName", "sendAchievement", "sendCustom", "alert"
+			"init", "setScreenName", "sendAchievement", "sendCustom", "alert",
+			"subscribeToTopic", "getToken"
 		});
 
 		activity = p_activity;
@@ -36,7 +37,8 @@ public class FireBase extends Godot.SingletonBase {
 
 	private void initFireBase() {
 		mFirebaseApp = FirebaseApp.initializeApp(activity);
-		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
+
+		Analytics.getInstance(activity).init(mFirebaseApp);
 
 		Log.d(TAG, "FireBase initialized.");
 	}
@@ -52,6 +54,11 @@ public class FireBase extends Godot.SingletonBase {
 		bld.create().show();
 	}
 
+	public void initMessaging() {
+		Notification.getInstance(activity).init(mFirebaseApp);
+		Log.d(TAG, "Cloud Messaging initialized..!");
+	}
+
 	public void init() {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -63,7 +70,7 @@ public class FireBase extends Godot.SingletonBase {
 	public void setScreenName (final String screen_name) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				set_screen_name(screen_name);
+				Analytics.getInstance(activity).set_screen_name(screen_name);
 			}
 		});
 	}
@@ -71,7 +78,7 @@ public class FireBase extends Godot.SingletonBase {
 	public void sendAchievement(final String a_id) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				send_achievement(a_id);
+				Analytics.getInstance(activity).send_achievement(a_id);
 			}
 		});
 	}
@@ -79,7 +86,7 @@ public class FireBase extends Godot.SingletonBase {
 	public void sendCustom(final String key, final String value) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				send_custom(key, value);
+				Analytics.getInstance(activity).send_custom(key, value);
 			}
 		});
 	}
@@ -92,33 +99,40 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
-	private void set_screen_name(final String s_name) {
-		this.currentScreen = s_name;
-
-		Bundle bundle = new Bundle();
-		bundle.putString("screen_name", s_name);
-
-		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
-		mFirebaseAnalytics.logEvent("current_screen", bundle);
-		Log.d(TAG, "Setting current screen to: " + s_name);
+	public void subscribeToTopic (final String topic) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Notification.getInstance(activity).subscribe(topic);
+			}
+		});
 	}
 
-	private void send_achievement(final String id) {
-		Bundle bundle = new Bundle();
-		bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, id);
-
-		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
-		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
-		Log.d(TAG, "Sending Achievement: " + id);
+	public String getToken (final String topic) {
+		return Notification.getInstance(activity).getFirebaseMessagingToken();
 	}
 
-	private void send_custom(final String key, final String value) {
-		Bundle bundle = new Bundle();
-		bundle.putString(key, value);
+	public void sendTokenToServer () {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
 
-		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
-		mFirebaseAnalytics.logEvent("appEvent", bundle);
-		Log.d(TAG, "Sending App Event: " + bundle.toString());
+			}
+		});
+	}
+
+	protected void onMainActivityResult (int requestCode, int resultCode, Intent data) {
+		// Analytics.getInstance(activity).onActivityResult(requestCode, resultCode, data);
+	}
+
+	protected void onMainPause () {
+		// Analytics.getInstance(activity).onPause();
+	}
+
+	protected void onMainResume () {
+		// Analytics.getInstance(activity).onResume();
+	}
+
+	protected void onMainDestroy () {
+		// Analytics.getInstance(activity).onStop();
 	}
 
 	private static Context context;
@@ -126,7 +140,5 @@ public class FireBase extends Godot.SingletonBase {
 	protected static String currentScreen = "None";
 
 	private FirebaseApp mFirebaseApp = null;
-	private FirebaseAnalytics mFirebaseAnalytics = null;
-
 	private static final String TAG = "FireBase";
 }
