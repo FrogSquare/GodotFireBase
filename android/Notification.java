@@ -27,12 +27,12 @@ public class Notification {
 	}
 
 	public void init (FirebaseApp firebaseApp) {
-		String token = getFirebaseMessagingtoken();
+		String token = getFirebaseMessagingToken();
 		Log.d(TAG, "Firebase Cloud messaging token: " + token);
 	}
 
 	public void subscribe(final String topic) {
-		FirebaseMessaging.getInstance().subscribetoTopic(topic);
+		FirebaseMessaging.getInstance().subscribeToTopic(topic);
 	}
 
 	public String getFirebaseMessagingToken() {
