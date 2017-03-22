@@ -27,16 +27,31 @@ public class Notification {
 	}
 
 	public void init (FirebaseApp firebaseApp) {
+		mFirebaseApp = firebaseApp;
 		String token = getFirebaseMessagingToken();
+
 		Log.d(TAG, "Firebase Cloud messaging token: " + token);
 	}
 
 	public void subscribe(final String topic) {
+		if (!isInitialized()) { return; }
+
 		FirebaseMessaging.getInstance().subscribeToTopic(topic);
 	}
 
 	public String getFirebaseMessagingToken() {
+		if (!isInitialized()) { return "NULL"; }
+
 		return FirebaseInstanceId.getInstance().getToken();
+	}
+
+	private boolean isInitialized() {
+		if (mFirebaseApp == null) {
+			Log.d(TAG, "Notification is not initialized.");
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	private static Context context;

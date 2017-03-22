@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>firebase_remoteconfig_test</key>
+        <value>This is remote config default Test Value...</value>
+    </entry>
+</defaultsMap>
