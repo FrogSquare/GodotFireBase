@@ -64,7 +64,7 @@ var defs = Dictionary()
 defs["some_remoteconfig_key1"] = "remote_config_value1"
 defs["some_remoteconfig_key2"] = "remote_config_value2"
 
-firevase.setRemoteDefaults(defs.to_json())
+firebase.setRemoteDefaults(defs.to_json())
 ```
 
 # Log FireBase Events
