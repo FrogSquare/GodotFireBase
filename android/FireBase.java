@@ -30,7 +30,7 @@ public class FireBase extends Godot.SingletonBase {
 		registerClass ("FireBase", new String[] {
 			"init", "setScreenName", "sendAchievement", "sendCustom",
 			"subscribeToTopic", "getToken", "invite", "getRemoteValue",
-			"setRemoteDefaults", "alert"
+			"setRemoteDefaults", "setRemoteDefaultsFile", "alert"
 		});
 
 		activity = p_activity;
@@ -186,6 +186,19 @@ public class FireBase extends Godot.SingletonBase {
 		return RemoteConfig.getInstance(activity).getValue(key);
 	}
 
+	public void setRemoteDefaultsFile (final String path) {
+		if (path.length() <= 0) {
+			Log.d(TAG, "File not provided for remote config");
+			return;
+		}
+
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				RemoteConfig.getInstance(activity).setDefaultsFile(path);
+			}
+		});
+	}
+
 	public void setRemoteDefaults (final String jsonData) {
 		if (jsonData.length() <= 0) {
 			Log.d(TAG, "No defaults were provided.");
@@ -199,28 +212,38 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
-	public void invite () {
+	public void invite (final String message, final String deepLink) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				Invites.getInstance(activity).invite();
+				if (deepLink.length() <= 0) {
+					Log.d(TAG, "DeepLink not provided falling back simple share");
+					Invites.getInstance(activity).invite(message);
+				} else {
+					Log.d(TAG, "Using Firebase DeepLink");
+					Invites.getInstance(activity).invite(message, deepLink);
+				}
 			}
 		});
 	}
 
 	protected void onMainActivityResult (int requestCode, int resultCode, Intent data) {
 		// Analytics.getInstance(activity).onActivityResult(requestCode, resultCode, data);
+		Invites.getInstance(activity).onActivityResult(requestCode, resultCode, data);
 	}
 
 	protected void onMainPause () {
 		// Analytics.getInstance(activity).onPause();
+		// RemoteConfig.getInstance(activity).onPause();
 	}
 
 	protected void onMainResume () {
 		// Analytics.getInstance(activity).onResume();
+		// RemoteConfig.getInstance(activity).onResume();
 	}
 
 	protected void onMainDestroy () {
 		// Analytics.getInstance(activity).onStop();
+		// RemoteConfig.getInstance(activity).onStop();
 	}
 
 	private static Context context;

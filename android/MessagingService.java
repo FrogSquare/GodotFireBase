@@ -44,7 +44,7 @@ public class MessagingService extends FirebaseMessagingService {
 		Intent intent = new Intent(this, org.godotengine.godot.Godot.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		PendingIntent pendingIntent = PendingIntent.getActivity(
-		this, NOTIFICATION_REQUEST_ID, intent, PendingIntent.FLAG_ONE_SHOT);
+		this, Utils.FIREBASE_NOTIFICATION_REQUEST, intent, PendingIntent.FLAG_ONE_SHOT);
 
 		Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)

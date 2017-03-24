@@ -4,6 +4,7 @@ package org.godotengine.godot;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;;
 import android.util.Log;
 
@@ -76,6 +77,20 @@ public class RemoteConfig {
 			// Log.d(TAG, "Fetched Value: " + getValue("firebase_remoteconfig_test"));
 			}
 		});
+	}
+
+	public void setDefaultsFile (final String filePath) {
+		if (!isInitialized()) { return; }
+
+		Log.d(TAG, "Loading Defaults from file:" + filePath);
+
+		String fPath = filePath;
+		if (fPath.startsWith("res://")) { fPath = fPath.replaceFirst("res://", ""); }
+
+		String data = Utils.readFromFile(fPath, activity.getApplicationContext());
+		data = data.replaceAll("\\s+", "");
+
+		setDefaults (data);
 	}
 
 	public void setDefaults(final String defaults) {
