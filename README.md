@@ -31,8 +31,9 @@ firebase = Globals.get_singleton("FireBase");
 For Analytics only `firebase.init("");` or to user RemoteConfig or Notifications (subscribing to topic)
 ```
 var config = Dictionary()
-config["Notification"] = true;
-config["RemoteConfig"] = true;
+config["Notification"] = true;  // Firebase Notification
+config["RemoteConfig"] = true;  // Firebase Remote Config
+config["Invites"] = true  // Firebase Invites
 
 firebase.init(config.to_json());
 ```
@@ -65,6 +66,14 @@ defs["some_remoteconfig_key1"] = "remote_config_value1"
 defs["some_remoteconfig_key2"] = "remote_config_value2"
 
 firebase.setRemoteDefaults(defs.to_json())
+```
+
+# Firebase Invites
+```
+Invite Friends with Email & SMS, DeepLink example: https://play.google.com/store/apps/details?id=[package-id].
+
+firebase.invite("message", "https://example.com/beed/link") // Send Firebase Invites.
+firebase.invite("message", "");  // Fallback to use default android share eg: Whatsapp, Twitter and more.
 ```
 
 # Log FireBase Events
