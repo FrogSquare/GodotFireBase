@@ -19,8 +19,8 @@ import java.io.BufferedReader;
 
 public class Utils {
 
-	public static final int FIREBASE_INVITE_REQUEST		= 9002;
-	public static final int FIREBASE_NOTIFICATION_REQUEST	= 9003;
+	public static final int FIREBASE_INVITE_REQUEST		= 8002;
+	public static final int FIREBASE_NOTIFICATION_REQUEST	= 8003;
 	// public static final int FIREBASE_ = ;
 
 	public static String readFromFile(String fileName, Context context) {
@@ -61,18 +61,18 @@ public class Utils {
 		script_instanceID = instanceID;
 	}
 
-	public static void callScriptFunc(int script_id, String id, String key, String value) {
-		GodotLib.calldeferred(script_id, "_recive_message", new Object[] { id, key, value });
+	public static void callScriptFunc(int script_id, String key, String value) {
+		GodotLib.calldeferred(script_id, "_recive_message", new Object[] { TAG, key, value });
 	}
 
-	public static void callScriptFunc(String id, String key, String value) {
+	public static void callScriptFunc(String key, String value) {
 		if (script_instanceID == -1) {
 			// Log.d(TAG, "Script instance not set");
 			return;
 		}
 
 		GodotLib.calldeferred(script_instanceID, "_recive_message",
-		new Object[] { id, key, value });
+		new Object[] { TAG, key, value });
 	}
 
 	public static boolean checkGooglePlayService(Activity activity) {
@@ -80,4 +80,5 @@ public class Utils {
 	}
 
 	public static int script_instanceID = -1;
+	private static final String TAG = "FireBase";
 }
