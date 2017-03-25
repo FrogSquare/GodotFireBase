@@ -8,6 +8,8 @@ Godot_FireBase is a firebase integration for godot android;
 
 > RemoteConfig
 
+> Invites (Email & SMS)
+
 # Build/Compile module
 copy your `google-services.json` file to `[GODOT-ROOT]/platform/android/java/` and edit file modules/FireBase/config.py at line 17
 ```
