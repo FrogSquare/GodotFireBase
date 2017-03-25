@@ -53,19 +53,24 @@ firebase.alert("Message goes here..!");
 ```
 firebase.subscribeToTopic("topic") // Subscribe to particular topic.
 firebase.getToken() // Get current client TokenID
+firebase.notifyInMins("message", 60) // Shedule notification in 60 min
 ```
 
 # RemoteConfig API
 ```
 firebase.getRemoteValue("remote_key") // Return String value
-
+```
 # Settings RemoteConfig default values
-
+```
 var defs = Dictionary()
 defs["some_remoteconfig_key1"] = "remote_config_value1"
 defs["some_remoteconfig_key2"] = "remote_config_value2"
 
 firebase.setRemoteDefaults(defs.to_json())
+```
+OR load from json file
+```
+firebase.setRemoteDefaultsFile("res://path/to/jsonfile.json")
 ```
 
 # Firebase Invites
