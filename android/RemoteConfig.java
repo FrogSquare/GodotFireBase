@@ -20,9 +20,7 @@ import com.godot.game.R;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Iterator;
 
 public class RemoteConfig {
 
@@ -96,27 +94,7 @@ public class RemoteConfig {
 	public void setDefaults(final String defaults) {
 		if (!isInitialized()) { return; }
 
-		JSONObject jobject = null;
-
-		try { jobject = new JSONObject(defaults); }
-		catch (JSONException e) { Log.d(TAG, "JSONObject exception: " + e.toString()); }
-
-		if (jobject == JSONObject.NULL) { return; }
-
-		Map<String, Object> defaultsMap = new HashMap<String, Object>();
-		Iterator<String> keysItr = jobject.keys();
-
-		while(keysItr.hasNext()) {
-			try {
-				String key = keysItr.next();
-				Object value = jobject.get(key);
-
-				defaultsMap.put(key, value);
-			} catch (JSONException e) {
-				Log.d(TAG, "JSONObject get key error" + e.toString());
-			}
-		}
-
+		Map<String, Object> defaultsMap = Utils.jsonToMap(defaults);
 		Log.d(TAG, "RemoteConfig: Setting Default values, " + defaultsMap.toString());
 
 		mFirebaseRemoteConfig.setDefaults(defaultsMap);

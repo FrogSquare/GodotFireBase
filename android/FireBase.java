@@ -29,8 +29,8 @@ public class FireBase extends Godot.SingletonBase {
 	public FireBase(Activity p_activity) {
 		registerClass ("FireBase", new String[] {
 			"init", "setScreenName", "sendAchievement", "sendCustom",
-			"subscribeToTopic", "getToken", "invite", "getRemoteValue",
-			"setRemoteDefaults", "setRemoteDefaultsFile", "alert"
+			"notifyInMins", "subscribeToTopic", "getToken", "invite",
+			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile", "alert"
 		});
 
 		activity = p_activity;
@@ -148,6 +148,14 @@ public class FireBase extends Godot.SingletonBase {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				alertMsg(message);
+			}
+		});
+	}
+
+	public void notifyInMins (final String message, final int mins) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Notification.getInstance(activity).notifyInMins(message, mins);
 			}
 		});
 	}

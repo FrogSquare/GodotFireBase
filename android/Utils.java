@@ -16,12 +16,38 @@ import org.json.JSONException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
 
 public class Utils {
 
 	public static final int FIREBASE_INVITE_REQUEST		= 8002;
 	public static final int FIREBASE_NOTIFICATION_REQUEST	= 8003;
 	// public static final int FIREBASE_ = ;
+
+	public static Map<String, Object> jsonToMap (String jsonData) {
+		JSONObject jobject = null;
+
+		try { jobject = new JSONObject(jsonData); }
+		catch (JSONException e) { Log.d(TAG, "JSONObject exception: " + e.toString()); }
+
+		Map<String, Object> retMap = new HashMap<String, Object>();
+		Iterator<String> keysItr = jobject.keys();
+
+		while(keysItr.hasNext()) {
+			try {
+				String key = keysItr.next();
+				Object value = jobject.get(key);
+
+				retMap.put(key, value);
+			} catch (JSONException e) {
+				Log.d(TAG, "JSONObject get key error" + e.toString());
+			}
+		}
+
+		return retMap;
+	}
 
 	public static String readFromFile(String fileName, Context context) {
 		StringBuilder returnString = new StringBuilder();

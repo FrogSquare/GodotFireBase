@@ -1,6 +1,8 @@
 ## GodotFireBase
 Godot_FireBase is a firebase integration for godot android;
 
+Requires GodotSQL: `https://github.com/FrogLogics/GodotSQL`
+
 # Available Features
 > Analytics
 
@@ -26,7 +28,7 @@ RemoteConfigs default parameters `.xml` file is at `[GODOT-ROOT]/modules/FireBas
 
 # GDScript - getting module singleton and initializing;
 ```
-firebase = Globals.get_singleton("FireBase");
+var firebase = Globals.get_singleton("FireBase");
 ```
 For Analytics only `firebase.init("");` or to user RemoteConfig or Notifications (subscribing to topic)
 ```
@@ -53,6 +55,8 @@ firebase.alert("Message goes here..!");
 ```
 firebase.subscribeToTopic("topic") // Subscribe to particular topic.
 firebase.getToken() // Get current client TokenID
+
+If recived notifiction has a payload, it will be saved inside SQL Database under key: "firebase_notification_data"
 ```
 
 # RemoteConfig API
