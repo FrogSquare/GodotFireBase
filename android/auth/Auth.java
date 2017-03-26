@@ -31,7 +31,6 @@ public class Auth {
 
 	public void init (FirebaseApp firebaseApp) {
 		mFirebaseApp = firebaseApp;
-		configure("{'Google':true, 'Facebook':true}");
 	}
 
 	public void configure (final String configData) {

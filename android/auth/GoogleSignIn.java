@@ -155,8 +155,8 @@ public class GoogleSignIn
 
 		try {
 			currentGoogleUser.put("name", user.getDisplayName());
-			currentGoogleUser.put("email", user.getEmail());
-			currentGoogleUser.put("photoUri", user.getPhotoUrl());
+			currentGoogleUser.put("email_id", user.getEmail());
+			currentGoogleUser.put("photo_uri", user.getPhotoUrl());
 		} catch (JSONException e) { Log.d(TAG, "Google:JSON:Error:" + e.toString()); }
 
 		Utils.callScriptFunc("GoogleLogin", "true");

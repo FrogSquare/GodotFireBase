@@ -197,8 +197,8 @@ public class FacebookSignIn {
 
 		try {
 			currentFBUser.put("name", user.getDisplayName());
-			currentFBUser.put("email", user.getEmail());
-			currentFBUser.put("photoUri", user.getPhotoUrl());
+			currentFBUser.put("email_id", user.getEmail());
+			currentFBUser.put("photo_uri", user.getPhotoUrl());
 		} catch (JSONException e) { Log.d(TAG, "FB:JSON:Error:" + e.toString()); }
 
 		// call Script

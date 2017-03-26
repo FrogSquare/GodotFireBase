@@ -34,7 +34,7 @@ public class FireBase extends Godot.SingletonBase {
 			"notifyInMins", "subscribeToTopic", "getToken", "invite",
 			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile", "alert",
 			"google_sign_in", "facebook_sign_in","google_sign_out", "facebook_sign_out",
-			"get_google_user", "get_facebook_user"
+			"get_google_user", "get_facebook_user", "authConfig"
 		});
 
 		activity = p_activity;
@@ -245,6 +245,14 @@ public class FireBase extends Godot.SingletonBase {
 	}
 
 	// FireBase Authentication.
+
+	public void authConfig(final String conf) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).configure(conf);
+			}
+		});
+	}
 
 	public void google_sign_in () {
 		activity.runOnUiThread(new Runnable() {
