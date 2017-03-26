@@ -18,6 +18,14 @@
 
 	</service>
 
+	<!-- Set facebook Application ID -->
+	<meta-data android:name="com.facebook.sdk.ApplicationId"
+	android:value="@string/facebook_app_id"/>
+
+	<!-- Register Facebook Activity -->
+	<activity android:name="com.facebook.FacebookActivity"
+	android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+	android:label="@string/godot_project_name_string" />
 
 	<!-- Set custom default icon.
 	This is used when no icon is set for incoming notification messages.

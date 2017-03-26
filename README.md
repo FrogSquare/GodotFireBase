@@ -1,7 +1,10 @@
 ## GodotFireBase
 Godot_FireBase is a firebase integration for godot android;
 
-Requires GodotSQL: `https://github.com/FrogLogics/GodotSQL`
+# Depends on
+> Godot game engine (2.1/2.2-legacy): `git clone https://github.com/godotengine/godot`
+
+> GodotSQL: `git clone https://github.com/FrogLogics/GodotSQL`
 
 # Available Features
 > Analytics

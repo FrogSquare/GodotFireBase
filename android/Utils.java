@@ -24,6 +24,9 @@ public class Utils {
 
 	public static final int FIREBASE_INVITE_REQUEST		= 8002;
 	public static final int FIREBASE_NOTIFICATION_REQUEST	= 8003;
+	public static final int FIREBASE_GOOGLE_SIGN_IN		= 8004;
+	public static final int FIREBASE_FACEBOOK_SIGN_IN	= 8005;
+	public static final int FIREBASE_TWITTER_SIGN_IN	= 8006;
 	// public static final int FIREBASE_ = ;
 
 	public static Map<String, Object> jsonToMap (String jsonData) {

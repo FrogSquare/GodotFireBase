@@ -10,10 +10,16 @@ def configure(env):
 		env.android_add_gradle_plugin("com.google.gms.google-services")
 
 		env.android_add_dependency("compile 'com.android.support:support-annotations:25.0.1'")
+
+		env.android_add_dependency("compile 'com.google.android.gms:play-services-auth:10.0.1'")
+		env.android_add_dependency("compile 'com.facebook.android:facebook-android-sdk:4.18.0'")
+
+		env.android_add_dependency("compile 'com.google.firebase:firebase-auth:10.0.1'")
                 env.android_add_dependency("compile 'com.google.firebase:firebase-core:10.0.1'")
+		env.android_add_dependency("compile 'com.google.firebase:firebase-config:10.0.1'")
                 env.android_add_dependency("compile 'com.google.firebase:firebase-messaging:10.0.1'")
 		env.android_add_dependency("compile 'com.google.firebase:firebase-invites:10.0.1'")
-		env.android_add_dependency("compile 'com.google.firebase:firebase-config:10.0.1'")
+
 		env.android_add_dependency("compile 'com.firebase:firebase-jobdispatcher:0.5.2'")
 
 		env.android_add_dependency("compile 'commons-codec:commons-codec:1.10'")

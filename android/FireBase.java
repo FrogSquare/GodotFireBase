@@ -20,6 +20,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import org.godotengine.godot.auth.Auth;
+
 public class FireBase extends Godot.SingletonBase {
 
 	static public Godot.SingletonBase initialize (Activity p_activity) {
@@ -30,7 +32,9 @@ public class FireBase extends Godot.SingletonBase {
 		registerClass ("FireBase", new String[] {
 			"init", "setScreenName", "sendAchievement", "sendCustom",
 			"notifyInMins", "subscribeToTopic", "getToken", "invite",
-			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile", "alert"
+			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile", "alert",
+			"google_sign_in", "facebook_sign_in","google_sign_out", "facebook_sign_out",
+			"get_google_user", "get_facebook_user"
 		});
 
 		activity = p_activity;
@@ -69,6 +73,11 @@ public class FireBase extends Godot.SingletonBase {
 			Invites.getInstance(activity).init(mFirebaseApp);
 		}
 
+		if (config.optBoolean("Authentication", false)) {
+			Log.d(TAG, "Initializing Firebase Authentication.");
+			Auth.getInstance(activity).init(mFirebaseApp);
+		}
+
 		Log.d(TAG, "FireBase initialized.");
 	}
 
@@ -88,13 +97,14 @@ public class FireBase extends Godot.SingletonBase {
 		Log.d(TAG, "Cloud Messaging initialized..!");
 	}
 
-	public void init(final String config) {
+	public void init(final String config, final int script_id) {
 		if (config.length() <= 0) {
 			Log.d(TAG, "Config not provided; initializing Analytics only.");
 		}
 
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
+				Utils.setScriptInstance(script_id);
 				initFireBase(config);
 			}
 		});
@@ -234,24 +244,70 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+	// FireBase Authentication.
+
+	public void google_sign_in () {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).sign_in(Auth.GOOGLE_AUTH);
+			}
+		});
+	}
+
+	public void google_sign_out() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).sign_out(Auth.GOOGLE_AUTH);
+			}
+		});
+	}
+
+	public void facebook_sign_in() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).sign_in(Auth.FACEBOOK_AUTH);
+			}
+		});
+	}
+
+	public void facebook_sign_out() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).sign_out(Auth.FACEBOOK_AUTH);
+			}
+		});
+	}
+
+	public String get_google_user() {
+		return Auth.getInstance(activity).getUserDetails(Auth.GOOGLE_AUTH);
+	}
+
+	public String get_facebook_user() {
+		return Auth.getInstance(activity).getUserDetails(Auth.FACEBOOK_AUTH);
+	}
+
 	protected void onMainActivityResult (int requestCode, int resultCode, Intent data) {
 		// Analytics.getInstance(activity).onActivityResult(requestCode, resultCode, data);
 		Invites.getInstance(activity).onActivityResult(requestCode, resultCode, data);
+		Auth.getInstance(activity).onActivityResult(requestCode, resultCode, data);
 	}
 
 	protected void onMainPause () {
 		// Analytics.getInstance(activity).onPause();
 		// RemoteConfig.getInstance(activity).onPause();
+		Auth.getInstance(activity).onPause();
 	}
 
 	protected void onMainResume () {
 		// Analytics.getInstance(activity).onResume();
 		// RemoteConfig.getInstance(activity).onResume();
+		Auth.getInstance(activity).onResume();
 	}
 
 	protected void onMainDestroy () {
 		// Analytics.getInstance(activity).onStop();
 		// RemoteConfig.getInstance(activity).onStop();
+		Auth.getInstance(activity).onStop();
 	}
 
 	private static Context context;
