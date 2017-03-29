@@ -37,15 +37,40 @@ RemoteConfigs default parameters `.xml` file is at `[GODOT-ROOT]/modules/FireBas
 ```
 var firebase = Globals.get_singleton("FireBase");
 ```
-For Analytics only `firebase.init("");` or to user RemoteConfig or Notifications (subscribing to topic)
-```
-var config = Dictionary()
-config["Authentication"] = true // Firebase Authentication
-config["Notification"] = true;  // Firebase Notification
-config["Invites"] = true  // Firebase Invites
-config["RemoteConfig"] = true;  // Firebase Remote Config
+For Analytics only `firebase.init("", get_instance_id());` or to user RemoteConfig or Notifications (subscribing to topic)
 
-firebase.init(config.to_json(), get_instance_id());
+# GodotFireBase: copy `godot-firebase-config.json` to your projects root directord.
+GodotFireBase config file, By default every feature is disabled.
+```
+{
+
+"AdMob"		 : false,
+"Authentication" : false,
+"Facebook"	 : false,
+"Google"	 : false,
+"Invites"	 : false,
+
+"Auth"		 : {
+			"Google" : false,			# enable google authentication
+
+			"Facebook" : false,			# enable facebook authentication
+			"FacebookAppID" : "1234566789875"	# facebook app id
+		   },
+
+"Ads"		 : {
+			"BannerAd" : false,			# enable banner Ad (true / false)
+			"BannerGravity" : "BOTTOM",		# banner Ad gravity (TOP / BOTTOM)
+			"BannerAdID" : "banner_id",		# Banner ad unit id
+
+			"InterstitialAd" : false,		# enable interstitial ad (true / false)
+			"InterstitialAdID" : "interstitial_id"	# Interstitial ad unit id
+		   }
+
+}
+```
+And  initialize firebase with file path
+```
+firebase.initWithFile("res://godot-firebase-config.json", get_instance_id());
 ```
 # Using FireBase Analytics
 ```
@@ -115,6 +140,14 @@ Invite Friends with Email & SMS, DeepLink example: https://play.google.com/store
 
 firebase.invite("message", "https://example.com/beed/link") // Send Firebase Invites.
 firebase.invite("message", "");  // Fallback to use default android share eg: Whatsapp, Twitter and more.
+```
+
+# Firebase AdMob
+```
+firebase.show_banner_ad(true)	// Show Banner Ad
+firebase.show_banner_ad(false)	// Hide Banner Ad
+
+firebase.show_interstitial_ad() // Show Interstitial Ad
 ```
 
 # Log FireBase Events

@@ -86,6 +86,26 @@ public class Auth {
 		}
 	}
 
+	public void revoke(final int type_id) {
+		if (!isInitialized()) { return; }
+
+		Log.d(TAG, "FB:Auth:!evoke:" + type_id);
+
+		switch (type_id) {
+			case GOOGLE_AUTH:
+				Log.d(TAG, "FB:Revoke:Google");
+				GoogleSignIn.getInstance(activity).revokeAccess();
+				break;
+			case FACEBOOK_AUTH:
+				Log.d(TAG, "FB:Revoke:Facebook");
+				// FacebookSignIn.getInstance(activity).revokeAccess();
+				break;
+			default:
+				Log.d(TAG, "FB:Auth:Type:NotFound");
+		}
+
+	}
+
 	public String getUserDetails(final int type_id) {
 		if (!isInitialized()) { return "NULL"; }
 

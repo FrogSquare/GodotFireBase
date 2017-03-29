@@ -82,10 +82,7 @@ public class RemoteConfig {
 
 		Log.d(TAG, "Loading Defaults from file:" + filePath);
 
-		String fPath = filePath;
-		if (fPath.startsWith("res://")) { fPath = fPath.replaceFirst("res://", ""); }
-
-		String data = Utils.readFromFile(fPath, activity.getApplicationContext());
+		String data = Utils.readFromFile(filePath, activity.getApplicationContext());
 		data = data.replaceAll("\\s+", "");
 
 		setDefaults (data);
