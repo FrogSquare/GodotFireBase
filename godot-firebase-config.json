@@ -1,0 +1,25 @@
+{
+
+"AdMob"		 : true,
+"Authentication" : true,
+"Facebook"	 : true,
+"Google"	 : true,
+"Invites"	 : true,
+
+"Auth"		 : {
+			"Google" : true,
+
+			"Facebook" : true,
+			"FacebookAppID" : "1234566789875"
+		   },
+
+"Ads"		 : {
+			"BannerAd" : true,
+			"BannerGravity" : "BOTTOM",
+			"BannerAdID" : "",
+
+			"InterstitialAd" : true,
+			"InterstitialAdID" : ""
+		   }
+
+}
