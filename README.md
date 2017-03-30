@@ -7,6 +7,8 @@ Godot_FireBase is a firebase integration for godot android;
 > GodotSQL: `git clone https://github.com/FrogLogics/GodotSQL`
 
 # Available Features
+> AdMob
+
 > Analytics
 
 > Authentication [W.I.P] Google, Facebook
