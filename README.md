@@ -88,6 +88,8 @@ firebase.spend_currency("item_id", "currency", amount)	# when user spend virtual
 
 firebase.tutorial_begin()				# tutorial begin
 firebase.tutorial_complete()				# tutorial end
+
+Reference: https://support.google.com/firebase/answer/6317494?hl=en
 ```
 
 # AlertDialog aditional
@@ -120,12 +122,10 @@ TODO:
 ```
 firebase.subscribeToTopic("topic") // Subscribe to particular topic.
 firebase.getToken() // Get current client TokenID
-<<<<<<< HEAD
 
 If recived notifiction has a payload, it will be saved inside SQL Database under key: "firebase_notification_data"
 =======
 firebase.notifyInMins("message", 60) // Shedule notification in 60 min
->>>>>>> 6555676241adc8eb2ca36668892fea941ca31c79
 ```
 
 # RemoteConfig API
