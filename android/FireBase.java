@@ -31,6 +31,8 @@ public class FireBase extends Godot.SingletonBase {
 	public FireBase(Activity p_activity) {
 		registerClass ("FireBase", new String[] {
 			"init", "initWithFile", "setScreenName", "sendAchievement", "sendCustom",
+			"join_group", "level_up", "post_score", "content_select", "earn_currency",
+			"spend_currency", "tutorial_begin", "tutorial_complete",
 			"notifyInMins", "subscribeToTopic", "getToken", "invite",
 			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile", "alert",
 			"google_sign_in", "facebook_sign_in","google_sign_out", "facebook_sign_out",
@@ -125,6 +127,8 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+	/** Analytics **/
+
 	public void setScreenName (final String screen_name) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -151,6 +155,71 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+	public void join_group(final String id) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Analytics.getInstance(activity).send_group(id);
+			}
+		});
+	}
+
+	public void level_up(final String character, final int level) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Analytics.getInstance(activity).send_level_up(character, level);
+			}
+		});
+	}
+
+	public void post_score(final String character, final int level, final int score) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Analytics.getInstance(activity).send_score(character, level, score);
+			}
+		});
+	}
+
+	public void content_select(final String content, final String item_id) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Analytics.getInstance(activity).send_content(content, item_id);
+			}
+		});
+	}
+
+	public void earn_currency(final String currency_name, final int value) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Analytics.getInstance(activity).earn_currency(currency_name, value);
+			}
+		});
+	}
+
+	public void spend_currency(final String item_name, final String currency, final int value) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Analytics.getInstance(activity)
+				.spend_currency(item_name, currency, value);
+			}
+		});
+	}
+
+	public void tutorial_begin() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Analytics.getInstance(activity).send_tutorial_begin();
+			}
+		});
+	}
+
+	public void tutorial_complete() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Analytics.getInstance(activity).send_tutorial_complete();
+			}
+		});
+	}
+
 	public void sendCustom(final String key, final String value) {
 		if (key.length() <= 0 || value.length() <= 0) {
 			Log.d(TAG, "Key or Value is null.");
@@ -164,6 +233,8 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+	/** Extra **/
+
 	public void alert(final String message) {
 		if (message.length() <= 0) {
 			Log.d(TAG, "Message is empty.");
@@ -176,6 +247,8 @@ public class FireBase extends Godot.SingletonBase {
 			}
 		});
 	}
+
+	/** Notification **/
 
 	public void notifyInMins (final String message, final int mins) {
 		activity.runOnUiThread(new Runnable() {
@@ -209,6 +282,8 @@ public class FireBase extends Godot.SingletonBase {
 			}
 		});
 	}
+
+	/** RemoteConfig **/
 
 	public String getRemoteValue (final String key) {
 		if (key.length() <= 0) {
@@ -245,6 +320,8 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+	/** Invites **/
+
 	public void invite (final String message, final String deepLink) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -259,7 +336,7 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
-	// FireBase Authentication.
+	/** FireBase Authentication **/
 
 	public void authConfig(final String conf) {
 		activity.runOnUiThread(new Runnable() {
@@ -325,6 +402,8 @@ public class FireBase extends Godot.SingletonBase {
 		return Auth.getInstance(activity).getUserDetails(Auth.FACEBOOK_AUTH);
 	}
 
+	/** AdMob **/
+
 	public void show_banner_ad(final boolean show) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -340,6 +419,8 @@ public class FireBase extends Godot.SingletonBase {
 			}
 		});
 	}
+
+	/** Main Funcs **/
 
 	public static JSONObject getConfig() {
 		return firebaseConfig;

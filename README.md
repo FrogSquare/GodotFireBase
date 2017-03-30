@@ -75,8 +75,17 @@ firebase.initWithFile("res://godot-firebase-config.json", get_instance_id());
 # Using FireBase Analytics
 ```
 firebase.sendCustom("TestKey", "SomeValue");
-firebase.setScreenName("Screen_name");
-firebase.sendAchievement("someAchievementId");
+
+firebase.setScreenName("Screen_name")
+firebase.sendAchievement("someAchievementId")		# unlock achievement
+firebase.join_group("clan_name")			# join clan/group
+firebase.level_up("character_name", level)		# send character level
+firebase.post_score("charcter name", level, score)	# post your score
+firebase.earn_currency("currency", amount);		# when play earn some virtual currency gold/Diamond/any
+firebase.spend_currency("item_id", "currency", amount)	# when user spend virtual currency
+
+firebase.tutorial_begin()				# tutorial begin
+firebase.tutorial_complete()				# tutorial end
 ```
 
 # AlertDialog aditional
