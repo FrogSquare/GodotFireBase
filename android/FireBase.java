@@ -37,7 +37,7 @@ public class FireBase extends Godot.SingletonBase {
 			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile", "alert",
 			"google_sign_in", "facebook_sign_in","google_sign_out", "facebook_sign_out",
 			"get_google_user", "get_facebook_user", "google_revoke_access",
-			"revoke_facebook_access", "authConfig", "show_banner_ad", "show_interstitial_ad"
+			"facebook_revoke_access", "authConfig", "show_banner_ad", "show_interstitial_ad"
 		});
 
 		activity = p_activity;

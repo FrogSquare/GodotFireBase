@@ -21,6 +21,7 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import com.google.firebase.FirebaseApp;
 
+import com.godot.game.BuildConfig;
 import com.godot.game.R;
 
 import org.godotengine.godot.Godot;
@@ -64,11 +65,15 @@ public class AdMob {
 			AdParams.gravity = Gravity.BOTTOM;
 		} else { AdParams.gravity = Gravity.TOP; }
 
-		AdRequest adRequest = new AdRequest.Builder()
-		.tagForChildDirectedTreatment(true)
-		.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-		.addTestDevice(Utils.getDeviceId(activity))
-		.build();
+		AdRequest.Builder adRequestB = new AdRequest.Builder();
+		adRequestB.tagForChildDirectedTreatment(true);
+
+		if (BuildConfig.DEBUG) {
+			adRequestB.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+			adRequestB.addTestDevice(Utils.getDeviceId(activity));
+		}
+
+		AdRequest adRequest = adRequestB.build();
 
 		String ad_unit_id = config.optString("BannerAdId", "");
 

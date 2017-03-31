@@ -98,7 +98,7 @@ public class Auth {
 				break;
 			case FACEBOOK_AUTH:
 				Log.d(TAG, "FB:Revoke:Facebook");
-				// FacebookSignIn.getInstance(activity).revokeAccess();
+				FacebookSignIn.getInstance(activity).revokeAccess();
 				break;
 			default:
 				Log.d(TAG, "FB:Auth:Type:NotFound");

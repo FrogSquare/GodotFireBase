@@ -166,6 +166,24 @@ public class FacebookSignIn {
 		LoginManager.getInstance().logOut();
 	}
 
+	public void revokeAccess() {
+		mAuth.signOut();
+
+		AccessToken token = AccessToken.getCurrentAccessToken();
+                GraphRequest graphRequest = GraphRequest.newDeleteObjectRequest(
+                token, "me/permissions", new GraphRequest.Callback() {
+                        @Override
+                        public void onCompleted(GraphResponse response) {
+                                FacebookRequestError error = response.getError();
+                                if (error == null) {
+	                                Log.d(TAG, "delete Req" + response.toString());
+                                }
+                        }
+                });
+
+                graphRequest.executeAsync();
+	}
+
 	public void handleAccessToken(AccessToken token) {
 		Log.d(TAG, "FB:Handle:AccessToken: " + token);
 		// showProgressDialog();
