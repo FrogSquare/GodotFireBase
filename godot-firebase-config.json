@@ -19,7 +19,10 @@
 			"BannerAdID" : "",
 
 			"InterstitialAd" : true,
-			"InterstitialAdID" : ""
+			"InterstitialAdID" : "",
+
+			"RewardedVideoAd" : true,
+			"RewardedVideoAdID" : ""
 		   }
 
 }

@@ -20,6 +20,7 @@ def configure(env):
 		env.android_add_dependency("compile 'com.google.firebase:firebase-config:10.0.1'")
                 env.android_add_dependency("compile 'com.google.firebase:firebase-messaging:10.0.1'")
 		env.android_add_dependency("compile 'com.google.firebase:firebase-invites:10.0.1'")
+		env.android_add_dependency("compile 'com.google.firebase:firebase-storage:10.0.1'")
 
 		env.android_add_dependency("compile 'com.firebase:firebase-jobdispatcher:0.5.2'")
 

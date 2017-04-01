@@ -17,7 +17,11 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.reward.RewardItem;
 
 import com.google.firebase.FirebaseApp;
 
@@ -47,13 +51,16 @@ public class AdMob {
 	public void init (FirebaseApp firebaseApp) {
 		mFirebaseApp = firebaseApp;
 
-		JSONObject config = FireBase.getConfig().optJSONObject("Ads");
+		AdMobConfig = FireBase.getConfig().optJSONObject("Ads");
 
-		if (config.optBoolean("BannerAd", false)) { createBanner(config); }
-		if (config.optBoolean("InterstitialAd", false)) { createInterstitial(config); }
+		if (AdMobConfig.optBoolean("BannerAd", false)) { createBanner(); }
+		if (AdMobConfig.optBoolean("InterstitialAd", false)) { createInterstitial(); }
+		if (AdMobConfig.optBoolean("RewardedVideoAd", false)) { createRewardedVideo(); }
 	}
 
-	public void createBanner(JSONObject config) {
+	public void createBanner() {
+		if (AdMobConfig == null) { return; }
+
 		FrameLayout layout = ((Godot)activity).layout; // Getting Godots framelayout
 		FrameLayout.LayoutParams AdParams = new FrameLayout.LayoutParams(
 							FrameLayout.LayoutParams.MATCH_PARENT,
@@ -61,7 +68,7 @@ public class AdMob {
 
 		if(mAdView != null) { layout.removeView(mAdView); }
 
-		if (config.optString("BannetGravity", "BOTTOM").equals("BOTTOM")) {
+		if (AdMobConfig.optString("BannetGravity", "BOTTOM").equals("BOTTOM")) {
 			AdParams.gravity = Gravity.BOTTOM;
 		} else { AdParams.gravity = Gravity.TOP; }
 
@@ -75,7 +82,7 @@ public class AdMob {
 
 		AdRequest adRequest = adRequestB.build();
 
-		String ad_unit_id = config.optString("BannerAdId", "");
+		String ad_unit_id = AdMobConfig.optString("BannerAdId", "");
 
 		if (ad_unit_id.length() <= 0) {
 			Log.d(TAG, "AdMob:Banner:UnitId:NotProvided");
@@ -105,8 +112,10 @@ public class AdMob {
 		layout.addView(mAdView, AdParams);
 	}
 
-	public void createInterstitial(JSONObject config) {
-		String ad_unit_id = config.optString("InterstitialAdId", "");
+	public void createInterstitial() {
+		if (AdMobConfig == null) { return; }
+
+		String ad_unit_id = AdMobConfig.optString("InterstitialAdId", "");
 
 		if (ad_unit_id.length() <= 0) {
 			Log.d(TAG, "AdMob:Interstitial:UnitId:NotProvided");
@@ -136,8 +145,70 @@ public class AdMob {
 		requestNewInterstitial();
 	}
 
+	public void createRewardedVideo() {
+		mrv = MobileAds.getRewardedVideoAdInstance(activity);
+		mrv.setRewardedVideoAdListener(new RewardedVideoAdListener() {
+
+			@Override
+			public void onRewardedVideoAdLoaded() {
+				Log.d(TAG, "AdMob:Video:Loaded");
+			}
+
+			@Override
+			public void onRewarded(RewardItem rewardItem) {
+				Log.d(TAG, "AdMob:Rewarded");
+				//rewardItem.getType()
+				//rewardItem.getAmount()
+
+				JSONObject ret = new JSONObject();
+				try {
+					ret.put("RewardType", rewardItem.getType());
+					ret.put("RewardAmount", rewardItem.getAmount());
+				} catch (JSONException e) {
+					Log.d(TAG, "AdMob:Reward:Error:" + e.toString());
+				}
+
+				Utils.callScriptFunc("AdMobReward", ret.toString());
+			}
+
+			@Override
+			public void onRewardedVideoAdFailedToLoad(int errorCode) {
+				Log.d(TAG, "AdMob:VideoLoad:Failed");
+			}
+
+			@Override
+			public void onRewardedVideoAdClosed() {
+				Log.d(TAG, "AdMob:VideoAd:Closed");
+			}
+
+			@Override
+			public void onRewardedVideoAdLeftApplication() {
+				Log.d(TAG, "AdMob:VideoAd:LeftApp");
+			}
+
+			@Override
+			public void onRewardedVideoAdOpened() {
+				Log.d(TAG, "AdMon:VideoAd:Opended");
+			}
+
+			@Override
+			public void onRewardedVideoStarted() {
+				Log.d(TAG, "Reward:VideoAd:Started");
+			}
+		});
+
+		requestNewRewardedVideo();
+	}
+
+	public void show_rewarded_video() {
+		if (!isInitialized() || mrv == null) { return; }
+
+		if (mrv.isLoaded()) { mrv.show(); }
+		else { Log.d(TAG, "AdMob:RewardedVideo:NotLoaded"); }
+	}
+
 	public void show_banner_ad(final boolean show) {
-		if (!isInitialized()) { return; }
+		if (!isInitialized() || mAdView == null) { return; }
 
 		// Show Ad Banner here
 
@@ -157,7 +228,7 @@ public class AdMob {
 	}
 
 	public void show_interstitial_ad() {
-		if (!isInitialized()) { return; }
+		if (!isInitialized() || mInterstitialAd == null) { return; }
 
 		// Show interstitial ad
 
@@ -165,19 +236,42 @@ public class AdMob {
 		else { Log.d(TAG, "AdMob:Interstitial:NotLoaded"); }
 	}
 
-	private void requestNewInterstitial() {
-		AdRequest adRequest = new AdRequest.Builder()
-		.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-		.addTestDevice(Utils.getDeviceId(activity))
+	private void requestNewRewardedVideo() {
+		if (AdMobConfig == null) { return; }
 
-		.build();
+		AdRequest.Builder adRB = new AdRequest.Builder();
+
+		if (BuildConfig.DEBUG) {
+			adRB.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+			adRB.addTestDevice(Utils.getDeviceId(activity));
+		}
+
+		String ad_unit_id = AdMobConfig.optString("RewardedVideoAdId", "");
+
+		if (ad_unit_id.length() <= 0) {
+			Log.d(TAG, "AdMob:RewardedVideo:UnitId:NotProvided");
+			ad_unit_id = activity.getString(R.string.rewarded_video_ad_unit_id);
+		}
+
+		mrv.loadAd(ad_unit_id, adRB.build());
+	}
+
+	private void requestNewInterstitial() {
+		AdRequest.Builder adRB = new AdRequest.Builder();
+
+		if (BuildConfig.DEBUG) {
+			adRB.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+			adRB.addTestDevice(Utils.getDeviceId(activity));
+		}
+
+		AdRequest adRequest = adRB.build();
 
 		mInterstitialAd.loadAd(adRequest);
 	}
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Log.d(TAG, "AdMob is not initialized.");
+			Log.d(TAG, "AdMob:NotInitialized.");
 			return false;
 		} else {
 			return true;
@@ -190,24 +284,29 @@ public class AdMob {
 
 	public void onPause() {
 		if (mAdView != null) { mAdView.pause(); }
+		if (mrv != null) { mrv.pause(activity); }
 	}
 
 	public void onResume() {
 		if (mAdView != null) { mAdView.resume(); }
-
+		if (mrv != null) { mrv.resume(activity); }
 	}
 
 	public void onStop() {
 		if (mAdView != null) { mAdView.destroy(); }
+		if (mrv != null) { mrv.destroy(activity); }
 	}
 
 	private static Activity activity = null;
 	private static AdMob mInstance = null;
 
 	private AdView mAdView = null;
+	private RewardedVideoAd mrv = null;
 	private InterstitialAd mInterstitialAd = null;
 
 	private FirebaseApp mFirebaseApp = null;
+
+	private JSONObject AdMobConfig = null;
 
 	private static final String TAG = "FireBase";
 }

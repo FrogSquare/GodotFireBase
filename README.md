@@ -66,13 +66,23 @@ GodotFireBase config file, By default every feature is disabled.
 
 			"InterstitialAd" : false,		# enable interstitial ad (true / false)
 			"InterstitialAdID" : "interstitial_id"	# Interstitial ad unit id
+
+			"RewardedVideoAd" : true,		# enable Rewarded video ad
+			"RewardedVideoAdID" : ""		# Rewarded Vide ad unit id
 		   }
 
 }
 ```
 And  initialize firebase with file path
 ```
-firebase.initWithFile("res://godot-firebase-config.json", get_instance_id());
+func _ready():
+	if OS.get_name() == "Android":
+		firebase.initWithFile("res://godot-firebase-config.json", get_instance_id());
+
+func _recive_message(from, key, data):
+	from == "FireBase":
+		print("Key: " + key, " Data: ", data)
+
 ```
 # Using FireBase Analytics
 ```
@@ -112,10 +122,17 @@ firebase.facebook_sign_out() // Firebase disconnect from facebook.
 var gUserDetails = firebase.get_google_user() // returns name, email_id, photo_uri
 var fbUserDetails = firebase.get_facebook_user() // returns name, email_id, photo_uri
 
-TODO:
-	firebase.google_revoke_access();
-	firebase.facebook_revoke_access();
+firebase.google_revoke_access();
+firebase.facebook_revoke_access();
+```
 
+Recive message from java
+
+```
+func _recive_message(from, key, data):
+	from == "FireBase":
+		if key == "GoogleLogin" && data == "true": print("User Signed in.");
+		if key == "FacebookLogin" && data == "true": print("User Signed in.");
 ```
 
 # Firebase Notification API
@@ -124,7 +141,7 @@ firebase.subscribeToTopic("topic") // Subscribe to particular topic.
 firebase.getToken() // Get current client TokenID
 
 If recived notifiction has a payload, it will be saved inside SQL Database under key: "firebase_notification_data"
-=======
+
 firebase.notifyInMins("message", 60) // Shedule notification in 60 min
 ```
 
@@ -159,6 +176,16 @@ firebase.show_banner_ad(true)	// Show Banner Ad
 firebase.show_banner_ad(false)	// Hide Banner Ad
 
 firebase.show_interstitial_ad() // Show Interstitial Ad
+
+firebase.show_rewarded_video()	// Show Rewarded Video Ad
+```
+
+Recive message from java
+
+```
+func _recive_message(from, key, data):
+	from == "FireBase":
+		if key == "AdMobReward": print("json data with [RewardType & RewardAmount]: ", data);
 ```
 
 # Log FireBase Events
