@@ -21,6 +21,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.godotengine.godot.auth.Auth;
+import org.godotengine.godot.storage.Storage;
 
 public class FireBase extends Godot.SingletonBase {
 
@@ -38,7 +39,7 @@ public class FireBase extends Godot.SingletonBase {
 			"google_sign_in", "facebook_sign_in","google_sign_out", "facebook_sign_out",
 			"get_google_user", "get_facebook_user", "google_revoke_access",
 			"facebook_revoke_access", "authConfig", "show_banner_ad",
-			"show_interstitial_ad", "show_rewarded_video"
+			"show_interstitial_ad", "show_rewarded_video", "download"
 		});
 
 		activity = p_activity;
@@ -88,15 +89,24 @@ public class FireBase extends Godot.SingletonBase {
 			AdMob.getInstance(activity).init(mFirebaseApp);
 		}
 
+		if (config.optBoolean("Storage", false)) {
+			Log.d(TAG, "Initializing Firebase Storage.");
+			Storage.getInstance(activity).init(mFirebaseApp);
+		}
+
 		Log.d(TAG, "FireBase initialized.");
 	}
 
 	public void alertMsg(String message) {
+		alertMsg("FireBase", message);
+	}
+
+	public void alertMsg(String title, String message) {
 		AlertDialog.Builder bld;
 
 		bld = new AlertDialog.Builder(activity, AlertDialog.THEME_HOLO_LIGHT);
 		bld.setIcon (com.godot.game.R.drawable.icon);
-		bld.setTitle("FireBase");
+		bld.setTitle(title);
 		bld.setMessage(message);
 		bld.setNeutralButton("OK", null);
 		bld.create().show();
@@ -429,6 +439,13 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+	public void download(final String file, final String path) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Storage.getInstance(activity).download(file, path);
+			}
+		});
+	}
 
 	/** Main Funcs **/
 
@@ -464,6 +481,7 @@ public class FireBase extends Godot.SingletonBase {
 
 		Auth.getInstance(activity).onStop();
 		AdMob.getInstance(activity).onStop();
+		Storage.getInstance(activity).onStop();
 	}
 
 	private static Context context = null;

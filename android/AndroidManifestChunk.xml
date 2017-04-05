@@ -18,6 +18,12 @@
 
 	</service>
 
+	<service android:name="org.godotengine.godot.storage.DownloadService"
+	android:exported="false"/>
+
+	<service android:name="org.godotengine.godot.storage.UploadService"
+	android:exported="false"/>
+
 	<!-- Set facebook Application ID -->
 	<meta-data android:name="com.facebook.sdk.ApplicationId"
 	android:value="@string/facebook_app_id"/>

@@ -56,6 +56,14 @@ public class GoogleSignIn
                 .requestEmail()
 		.build();
 
+		/**
+
+		try {
+			Class.forName("org.godotengine.godot.PlayService");
+		} catch () {  }
+
+		 **/
+
 		mGoogleApiClient = new GoogleApiClient.Builder(activity)
 		.addConnectionCallbacks(this)
 		.addOnConnectionFailedListener(this)

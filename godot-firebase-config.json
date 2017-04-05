@@ -2,9 +2,10 @@
 
 "AdMob"		 : true,
 "Authentication" : true,
-"Facebook"	 : true,
-"Google"	 : true,
 "Invites"	 : true,
+"RemoteConfig"	 : true,
+"Notification"	 : true,
+"Storage"	 : true,
 
 "Auth"		 : {
 			"Google" : true,

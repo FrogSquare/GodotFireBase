@@ -132,7 +132,35 @@ public class Utils {
 		return "";
 	}
 
-	// Device ID }
+	/* Checks if external storage is available for read and write */
+	public static boolean isExternalStorageWritable() {
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/* Checks if external storage is available to at least read */
+	public static boolean isExternalStorageReadable() {
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state) ||
+		Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	// Check for class
+	public static boolean isClass(String className) {
+		try  {
+			Class.forName(className);
+			return true;
+		}  catch (ClassNotFoundException e) { return false; }
+	}
 
 	public static void setScriptInstance(int instanceID) {
 		script_instanceID = instanceID;
