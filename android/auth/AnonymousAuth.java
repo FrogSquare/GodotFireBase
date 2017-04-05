@@ -47,6 +47,14 @@ public class AnonymousAuth {
 		// ...
 	}
 
+	public void signIn() {
+
+	}
+
+	public void signOut() {
+
+	}
+
 	protected void successSignIn () {
 
 	}
@@ -77,6 +85,9 @@ public class AnonymousAuth {
 
 	private static Activity activity = null;
 	private static AnonymousAuth mInstance = null;
+
+	private FirebaseAuth mAuth;
+	private FirebaseAuth.AuthStateListener mAuthListener;
 
 	private static final String TAG = "FireBase";
 }

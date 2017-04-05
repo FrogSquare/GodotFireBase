@@ -83,12 +83,6 @@ public class DownloadService extends BaseTaskService {
 		Uri fileUri = Uri.parse(downloadPath);
 		File localFile = new File(rootPath, fileUri.getLastPathSegment());
 
-		Log.d(TAG, "Doenloading Path: " + rootPath);
-		Log.d(TAG, "Doenloading Path: " + downloadPath);
-		Log.d(TAG, "Doenloading To: " + downloadTo);
-
-		Log.d(TAG, "Doenloading File: " + localFile.toString());
-
 		taskStarted();
 		showProgressNotification("Progress downloading", 0, 0);
 

@@ -5,9 +5,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -104,6 +107,16 @@ public class Auth {
 				Log.d(TAG, "FB:Auth:Type:NotFound");
 		}
 
+	}
+
+	@Nullable
+	public FirebaseUser getCurrentUser() {
+		if (!isInitialized()) { return null; }
+
+		FirebaseUser ret = FirebaseAuth.getInstance().getCurrentUser();
+		if (ret == null) { Log.d(TAG, "Auth:UserNotSignedIn"); }
+
+		return ret;
 	}
 
 	public String getUserDetails(final int type_id) {

@@ -60,15 +60,17 @@ public class UploadService extends BaseTaskService {
 		return START_REDELIVER_INTENT;
 	}
 
-	private void uploadFromUri(final Uri fileUri) {
+	private void uploadFromUri(final Uri fileUri, final String folder) {
 		Log.d(TAG, "SD:UploadFromUri:src:" + fileUri.toString());
 
 		taskStarted();
 		showProgressNotification("progress_uploading", 0, 0);
 
 		// Get a reference to store file at photos/<FILENAME>.jpg
-		final StorageReference photoRef = mStorageRef.child("photos")
-		.child(fileUri.getLastPathSegment());
+		final StorageReference photoRef;
+
+		if (folder.equals("")) { photoRef = mStorageRef.child(fileUri.getLastPathSegment()); }
+		else { photoRef = mStorageRef.child(folder).child(fileUri.getLastPathSegment()); }
 
 		// Upload file to Firebase Storage
 		Log.d(TAG, "SD:UploadFromUri:dst:" + photoRef.getPath());

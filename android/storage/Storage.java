@@ -46,13 +46,6 @@ public class Storage {
 	public void init (FirebaseApp firebaseApp) {
 		mFirebaseApp = firebaseApp;
 
-//		if (!Auth.getInstance(activity).isInitialized()) {
-
-//		}
-
-		// onNewIntent(getIntent());
-
-
 		// Local broadcast receiver
 		mBroadcastReceiver = new BroadcastReceiver() {
 			@Override
@@ -99,7 +92,7 @@ public class Storage {
 	}
 
 	public void download(String url, String path) {
-		if (!isInitialized()) { return; }
+		if (!isInitialized() || Auth.getInstance(activity).getCurrentUser() == null) { return; }
 
 		Log.d(TAG, "SD:Downloading:"+url);
 		mDownloadUrl = Uri.parse(url);
@@ -116,6 +109,13 @@ public class Storage {
 	}
 
 	public void upload(final String filePath) {
+		if (!isInitialized() || Auth.getInstance(activity).getCurrentUser() == null) { return; }
+
+		/**
+
+		Uri.parse("file:///android_asset/" + filePath);
+
+		**/
 
 		Log.d(TAG, "SD:Uploading:"+filePath);
 		Uri fileUri = Uri.parse(filePath);
