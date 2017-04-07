@@ -94,6 +94,10 @@ public class Utils {
 		return returnString.toString();
 	}
 
+	public static String askForPath(final String folder) {
+		return Environment.getExternalStorageDirectory().getAbsolutePath() + folder;
+	}
+
 	// { Device ID - https://stackoverflow.com/questions/4524752/how-can-i-get-device-id-for-admob
 
 	public static String getDeviceId(Activity activity) {

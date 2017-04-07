@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -24,8 +25,10 @@ import org.json.JSONException;
 
 import org.godotengine.godot.auth.Auth;
 import org.godotengine.godot.FireBase;
+import org.godotengine.godot.Godot;
 
 import java.util.Locale;
+import java.io.File;
 
 // SharedPreferences
 
@@ -108,22 +111,26 @@ public class Storage {
 		activity.startService(intent);
 	}
 
-	public void upload(final String filePath) {
+	public void upload(final String filePath, final String child) {
+		String path = "";
 		if (!isInitialized() || Auth.getInstance(activity).getCurrentUser() == null) { return; }
 
-		/**
+		if (filePath.startsWith("user://")) {
+			path = filePath.replaceFirst("user://", "");
+			path = Godot.getInstance().io.getDataDir() + "/" + path;
+		} else {
+			path =
+			Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filePath;
+		}
 
-		Uri.parse("file:///android_asset/" + filePath);
-
-		**/
-
-		Log.d(TAG, "SD:Uploading:"+filePath);
-		Uri fileUri = Uri.parse(filePath);
+		Log.d(TAG, "SD:Uploading:"+path);
+		Uri fileUri = Uri.fromFile(new File(path));
 		// String path = mFileUri.getLastPathSegment();
 
-		// Kick off MyDownloadService to download the file
-		Intent intent = new Intent(activity, DownloadService.class)
+		// Kick off UploadService to upload the file
+		Intent intent = new Intent(activity, UploadService.class)
 		.putExtra(UploadService.EXTRA_FILE_URI, fileUri)
+		.putExtra(UploadService.EXTRA_FILE_CHILD, child)
 		.setAction(UploadService.ACTION_UPLOAD);
 
 		Log.d(TAG, "SD:Starting:Service:Upload");

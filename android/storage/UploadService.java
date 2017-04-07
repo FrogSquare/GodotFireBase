@@ -16,6 +16,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StreamDownloadTask;
 import com.godot.game.BuildConfig;
 import com.godot.game.R;
@@ -33,6 +34,7 @@ public class UploadService extends BaseTaskService {
 
 	/** Intent Extras **/
 	public static final String EXTRA_FILE_URI = "extra_file_uri";
+	public static final String EXTRA_FILE_CHILD = "extra_file_child";
 	public static final String EXTRA_DOWNLOAD_URL = "extra_download_url";
 
 	@Override
@@ -53,14 +55,21 @@ public class UploadService extends BaseTaskService {
 		Log.d(TAG, "SD:OnStartCommand: {" + intent + ":" + startId + "}");
 
 		if (ACTION_UPLOAD.equals(intent.getAction())) {
+			Log.d(TAG, "Intent here: " + intent.getExtras().toString());
+
 			Uri fileUri = intent.getParcelableExtra(EXTRA_FILE_URI);
-			uploadFromUri(fileUri);
+			String child = intent.getStringExtra(EXTRA_FILE_CHILD);
+			uploadFromUri(fileUri, child);
 		}
 
 		return START_REDELIVER_INTENT;
 	}
 
-	private void uploadFromUri(final Uri fileUri, final String folder) {
+	private void uploadFromUri(final Uri fileUri, final String child) {
+		uploadFromUri(fileUri, child, "");
+	}
+
+	private void uploadFromUri(final Uri fileUri, final String folder, final String meta) {
 		Log.d(TAG, "SD:UploadFromUri:src:" + fileUri.toString());
 
 		taskStarted();
@@ -73,18 +82,27 @@ public class UploadService extends BaseTaskService {
 		else { photoRef = mStorageRef.child(folder).child(fileUri.getLastPathSegment()); }
 
 		// Upload file to Firebase Storage
-		Log.d(TAG, "SD:UploadFromUri:dst:" + photoRef.getPath());
+		Log.d(TAG, "SD:UploadFromUri:dist:" + photoRef.getPath());
 
-		photoRef.putFile(fileUri)
-		.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+		UploadTask task;
+
+		if (meta.equals("")) { task = photoRef.putFile(fileUri); }
+		else {
+			StorageMetadata metadata = new StorageMetadata.Builder()
+			.setContentType(meta)
+			.build();
+
+			task = photoRef.putFile(fileUri, metadata);
+		}
+
+		task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
 			@Override
 			public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
 				showProgressNotification("progress_uploading",
 				taskSnapshot.getBytesTransferred(),
 				taskSnapshot.getTotalByteCount());
 			}
-		})
-		.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+		}).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 			@Override
 			public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 				// Upload succeeded
@@ -97,8 +115,7 @@ public class UploadService extends BaseTaskService {
 				showUploadFinishedNotification(downloadUri, fileUri);
 				taskCompleted();
 			}
-		})
-		.addOnFailureListener(new OnFailureListener() {
+		}).addOnFailureListener(new OnFailureListener() {
 			@Override
 			public void onFailure(@NonNull Exception exception) {
 				// Upload failed
@@ -148,6 +165,22 @@ public class UploadService extends BaseTaskService {
 
 		return filter;
 	}
+
+	@Override
+	public void onDestroy() {
+
+	}
+
+	/**
+	// Pause the upload
+	uploadTask.pause();
+
+	// Resume the upload
+	uploadTask.resume();
+
+	// Cancel the upload
+	uploadTask.cancel();
+	**/
 
 	private StorageReference mStorageRef = null;
 
