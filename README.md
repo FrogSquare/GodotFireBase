@@ -17,6 +17,8 @@ Godot_FireBase is a firebase integration for godot android;
 
 > RemoteConfig
 
+> Storage
+
 > Invites (Email & SMS)
 
 # Build/Compile module
@@ -161,6 +163,15 @@ OR load from json file
 ```
 firebase.setRemoteDefaultsFile("res://path/to/jsonfile.json")
 ```
+
+# Firebase Storage
+``
+Upload Files from sdcard
+firebase.upload("images/file", "destFolder") // uploads file from sdcard to firebase
+
+Download Files from Firebase
+firebase.download("file", "images"); // Saves file from firebase to sdcard
+``
 
 # Firebase Invites
 ```
