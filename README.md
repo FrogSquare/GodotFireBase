@@ -48,29 +48,30 @@ GodotFireBase config file, By default every feature is disabled.
 ```
 {
 
-"AdMob"		 : false,
-"Authentication" : false,
-"Facebook"	 : false,
-"Google"	 : false,
-"Invites"	 : false,
+"AdMob"		 : true,
+"Authentication" : true,
+"Invites"	 : true,
+"RemoteConfig"	 : true,
+"Notification"	 : true,
+"Storage"	 : true,
 
 "Auth"		 : {
-			"Google" : false,			# enable google authentication
+			"Google" : true,
 
-			"Facebook" : false,			# enable facebook authentication
-			"FacebookAppID" : "1234566789875"	# facebook app id
+			"Facebook" : true,
+			"FacebookAppID" : "1234566789875"
 		   },
 
 "Ads"		 : {
-			"BannerAd" : false,			# enable banner Ad (true / false)
-			"BannerGravity" : "BOTTOM",		# banner Ad gravity (TOP / BOTTOM)
-			"BannerAdID" : "banner_id",		# Banner ad unit id
+			"BannerAd" : true,
+			"BannerGravity" : "BOTTOM",
+			"BannerAdID" : "",
 
-			"InterstitialAd" : false,		# enable interstitial ad (true / false)
-			"InterstitialAdID" : "interstitial_id"	# Interstitial ad unit id
+			"InterstitialAd" : true,
+			"InterstitialAdID" : "",
 
-			"RewardedVideoAd" : true,		# enable Rewarded video ad
-			"RewardedVideoAdID" : ""		# Rewarded Vide ad unit id
+			"RewardedVideoAd" : true,
+			"RewardedVideoAdID" : ""
 		   }
 
 }
@@ -126,6 +127,9 @@ var fbUserDetails = firebase.get_facebook_user() // returns name, email_id, phot
 
 firebase.google_revoke_access();
 firebase.facebook_revoke_access();
+
+firebase.is_google_connected() // bool check for google authentication
+firebase.is_facebook_connected() // bool check for facebook authentication
 ```
 
 Recive message from java
