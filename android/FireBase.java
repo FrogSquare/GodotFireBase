@@ -1,3 +1,18 @@
+/**
+ * Copyright 2017 FrogLogics. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ **/
 
 package org.godotengine.godot;
 
@@ -37,6 +52,7 @@ public class FireBase extends Godot.SingletonBase {
 			"notifyInMins", "subscribeToTopic", "getToken", "invite",
 			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile", "alert",
 			"google_sign_in", "facebook_sign_in","google_sign_out", "facebook_sign_out",
+			"is_google_connected", "is_facebook_connected",
 			"get_google_user", "get_facebook_user", "google_revoke_access",
 			"facebook_revoke_access", "authConfig", "show_banner_ad",
 			"show_interstitial_ad", "show_rewarded_video", "download", "upload"
@@ -403,6 +419,14 @@ public class FireBase extends Godot.SingletonBase {
 				Auth.getInstance(activity).revoke(Auth.FACEBOOK_AUTH);
 			}
 		});
+	}
+
+	public boolean is_google_connected() {
+		return Auth.getInstance(activity).isConnected(Auth.GOOGLE_AUTH);
+	}
+
+	public boolean is_facebook_connected() {
+		return Auth.getInstance(activity).isConnected(Auth.FACEBOOK_AUTH);
 	}
 
 	public String get_google_user() {
