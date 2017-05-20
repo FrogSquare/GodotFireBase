@@ -104,9 +104,10 @@ public class FacebookSignIn {
 			}
 		};
 
-		// AppEvenntsLogger.activityApp(activity);
+		// AppEventsLogger.activityApp(activity);
 
 		initCallbacks();
+		onStart();
 
 		Log.d(TAG, "Facebook auth initialized.");
 	}
@@ -226,6 +227,7 @@ public class FacebookSignIn {
 	}
 
 	protected void successLogin (FirebaseUser user) {
+		Log.d(TAG, "FB:Login:Success");
 		isFacebookConnected = true;
 
 		try {
