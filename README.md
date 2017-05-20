@@ -203,10 +203,7 @@ func _recive_message(from, key, data):
 		if key == "AdMobReward": print("json data with [RewardType & RewardAmount]: ", data);
 ```
 
-# Log FireBase Events
+# Log Event
 ```
-adb shell setprop log.tag.FA VERBOSE
-adb shell setprop log.tag.FA-SVC VERBOSE
-adb shell setprop debug.firebase.analytics.app {org.example.appname}
-adb logcat -v time -s FA FA-SV
+adb -d logcat godot:V FireBase:V DEBUG:V AndroidRuntime:V ValidateServiceOp:V *:S
 ```
