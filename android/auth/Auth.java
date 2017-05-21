@@ -152,15 +152,42 @@ public class Auth {
 		return "NULL";
 	}
 
+	public String getFacebookPermissions() {
+		return FacebookSignIn.getInstance(activity).getUserPermissions();
+	}
+
+	public boolean isPermissionGiven(final String permission) {
+		return FacebookSignIn.getInstance(activity).isPermissionGiven(permission);
+	}
+
+	public void revokeFacebookPermission(final String permission) {
+		if (!isInitialized() && !isConnected(FACEBOOK_AUTH)) { return; }
+
+		Log.d(TAG, "Auth:Ask:RevokePermission: " + permission);
+		FacebookSignIn.getInstance(activity).revokePermission(permission);
+	}
+
+	public void askForPermission(
+	final String title, final String message, final String permission, final boolean read) {
+		if (!isInitialized() && !isConnected(FACEBOOK_AUTH)) { return; }
+
+		Log.d(TAG, "Auth:Ask:Permission: " + permission);
+		FacebookSignIn.getInstance(activity)
+		.askForPermission(title, message, permission, read);
+	}
+
 	public boolean isConnected(final int type_id) {
 		Log.d(TAG, "Auth:Getting:Status");
 
 		if (type_id == GOOGLE_AUTH) {
+			Log.d(TAG, "Auth:Status:Google:True");
 			return GoogleSignIn.getInstance(activity).isConnected();
 		} else if (type_id == FACEBOOK_AUTH) {
+			Log.d(TAG, "Auth:Status:Facebook:True");
 			return FacebookSignIn.getInstance(activity).isConnected();
 		}
 
+		Log.d(TAG, "Auth:Status:False");
 		return false;
 	}
 

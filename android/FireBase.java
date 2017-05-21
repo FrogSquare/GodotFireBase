@@ -52,7 +52,9 @@ public class FireBase extends Godot.SingletonBase {
 			"notifyInMins", "subscribeToTopic", "getToken", "invite",
 			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile", "alert",
 			"google_sign_in", "facebook_sign_in","google_sign_out", "facebook_sign_out",
-			"is_google_connected", "is_facebook_connected",
+			"is_google_connected", "is_facebook_connected", "get_facebook_permissions",
+			"facebook_has_permission", "revoke_facebook_permission",
+			"ask_facebook_read_permission", "ask_facebook_publish_permission",
 			"get_google_user", "get_facebook_user", "google_revoke_access",
 			"facebook_revoke_access", "authConfig", "show_banner_ad",
 			"show_interstitial_ad", "show_rewarded_video", "download", "upload"
@@ -435,6 +437,44 @@ public class FireBase extends Godot.SingletonBase {
 
 	public String get_facebook_user() {
 		return Auth.getInstance(activity).getUserDetails(Auth.FACEBOOK_AUTH);
+	}
+
+	public String get_facebook_permissions() {
+		return Auth.getInstance(activity).getFacebookPermissions();
+	}
+
+	public boolean facebook_has_permission(final String permission) {
+		return Auth.getInstance(activity).isPermissionGiven (permission);
+	}
+
+	public void revoke_facebook_permission(final String permission) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).revokeFacebookPermission(permission);
+			}
+		});
+	}
+
+	public void ask_facebook_read_permission(
+	final String title, final String message, final String permission) {
+
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity)
+				.askForPermission(title, message, permission, true);
+			}
+		});
+	}
+
+	public void ask_facebook_publish_permission(
+	final String title, final String message, final String permission) {
+
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity)
+				.askForPermission(title, message, permission, false);
+			}
+		});
 	}
 
 	/** AdMob **/

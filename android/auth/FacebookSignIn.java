@@ -16,7 +16,7 @@
 
 package org.godotengine.godot.auth;
 
-import android.app.Activity;
+import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
@@ -32,6 +32,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.FacebookRequestError;
+import com.facebook.HttpMethod;
 import com.facebook.GraphRequest;
 import com.facebook.GraphRequestBatch;
 import com.facebook.GraphResponse;
@@ -150,8 +151,10 @@ public class FacebookSignIn {
 			AccessToken old, AccessToken current) {
 
 				Log.d(TAG, "FB:AccessToken:Changed");
-				if (current == null) { /** Logged out **/ }
-				else { /** Signed in **/ }
+				if (current == null) { successLogOut(); }
+				else {
+					accessToken = current;
+				}
 			}
 		};
 
@@ -159,8 +162,111 @@ public class FacebookSignIn {
 			@Override
 			protected void onCurrentProfileChanged(Profile old, Profile current) {
 				Log.d(TAG, "FB:Profile:Changed");
+				profile = current;
 			}
 		};
+
+		mAccessTokenTracker.startTracking();
+		mProfileTracker.startTracking();
+
+		accessToken = AccessToken.getCurrentAccessToken();
+		profile = Profile.getCurrentProfile();
+	}
+
+	public boolean isPermissionGiven (final String permission) {
+		Log.d(TAG, "FB:Checking:Available:Permissions:For: " + permission);
+		accessToken = AccessToken.getCurrentAccessToken();
+
+		if (accessToken == null && accessToken.isExpired()) {
+			Log.d(TAG, "FB:Token:NotValid");
+			return false;
+		}
+
+		return (mUserPermissions.contains(permission));
+	}
+
+	public void getPermissions() {
+		String uri = "me/permissions/";
+
+		new GraphRequest(AccessToken.getCurrentAccessToken(),
+		uri, null, HttpMethod.GET,
+			new GraphRequest.Callback() {
+				public void onCompleted(GraphResponse response) {
+					/* handle the result */
+					JSONArray data = response.getJSONObject().optJSONArray("data");
+					mUserPermissions.clear();
+
+					for (int i = 0; i < data.length(); i++) {
+						JSONObject dd = data.optJSONObject(i);
+
+						if (dd.optString("status").equals("granted")) {
+							mUserPermissions
+							.add(dd.optString("permission"));
+						}
+					}
+				}
+			}
+		).executeAsync();
+	}
+
+	public String getUserPermissions() {
+		if (!isConnected() && mUserPermissions.size() > 0) {
+			Log.d(TAG, "FB:Check:Login");
+			return "NULL";
+		}
+
+		return mUserPermissions.toString();
+	}
+
+	public void revokePermission(final String permission) {
+		AccessToken token = AccessToken.getCurrentAccessToken();
+
+		String uri = "me/permissions/" + permission;
+
+		GraphRequest graphRequest = GraphRequest.newDeleteObjectRequest(
+		token, uri, new GraphRequest.Callback() {
+			@Override
+			public void onCompleted(GraphResponse response) {
+				FacebookRequestError error = response.getError();
+				if (error == null) {
+					Log.d(TAG, "FB:Revoke:Response:" + response.toString());
+					getPermissions();
+				}
+			}
+		});
+
+		graphRequest.executeAsync();
+	}
+
+	public void askForPermission (
+	final String title, final String message, final String perm, final boolean read) {
+
+		new AlertDialog.Builder(activity, AlertDialog.THEME_HOLO_LIGHT)
+			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				if (!read) { requestPublishPermissions(Arrays.asList(perm)); }
+				else { requestReadPermissions(Arrays.asList(perm)); }
+			}
+		})
+		.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+
+			}
+		})
+		.setTitle(title)
+		.setMessage(message)
+		.show();
+	}
+
+	public void requestReadPermissions(List permissions) {
+		LoginManager.getInstance().logInWithReadPermissions(
+		activity, permissions);
+	}
+
+	public void requestPublishPermissions(List permissions) {
+		LoginManager.getInstance().logInWithPublishPermissions(
+		activity, permissions);
 	}
 
 	public void signIn() {
@@ -169,8 +275,9 @@ public class FacebookSignIn {
 			return;
 		}
 
-		LoginManager.getInstance().logInWithReadPermissions(
-		activity, Arrays.asList("email", "public_profile"));
+		requestReadPermissions(Arrays.asList("email", "public_profile"));
+//		LoginManager.getInstance().logInWithReadPermissions(
+//		activity, Arrays.asList("email", "public_profile"));
 	}
 
 	public void signOut() {
@@ -182,26 +289,54 @@ public class FacebookSignIn {
 		LoginManager.getInstance().logOut();
 	}
 
+	/** GraphRequest **/
+
+	/**
+	public void newRequest(final String uri, final String data) {
+
+	}
+
+	public void newPostRequest(final String uri, final String data) {
+		AccessToken token = AccessToken.getCurrentAccessToken();
+
+		GraphRequest graphRequest = GraphRequest.newDeleteObjectRequest(
+		token, uri, new GraphRequest.Callback() {
+			@Override
+			public void onCompleted(GraphResponse response) {
+				Log.d(TAG, "Revoke Permission: " + permission);
+			}
+		});
+
+		graphRequest.executeAsync();
+	}
+
+	public void newDeleteRequest(final String uri, final String data) {
+
+	}
+	**/
+
+	/** GraphRequest **/
+
 	public void revokeAccess() {
 		mAuth.signOut();
 
 		AccessToken token = AccessToken.getCurrentAccessToken();
-                GraphRequest graphRequest = GraphRequest.newDeleteObjectRequest(
-                token, "me/permissions", new GraphRequest.Callback() {
-                        @Override
-                        public void onCompleted(GraphResponse response) {
-                                FacebookRequestError error = response.getError();
-                                if (error == null) {
-	                                Log.d(TAG, "delete Req" + response.toString());
-                                }
-                        }
-                });
+		GraphRequest graphRequest = GraphRequest.newDeleteObjectRequest(
+		token, "me/permissions", new GraphRequest.Callback() {
+			@Override
+			public void onCompleted(GraphResponse response) {
+				FacebookRequestError error = response.getError();
+				if (error == null) {
+					Log.d(TAG, "FB:Delete:Access" + response.toString());
+				}
+			}
+		});
 
-                graphRequest.executeAsync();
+		graphRequest.executeAsync();
 	}
 
 	public void handleAccessToken(AccessToken token) {
-		Log.d(TAG, "FB:Handle:AccessToken: " + token);
+		Log.d(TAG, "FB:Handle:AccessToken: " + token.getToken());
 		// showProgressDialog();
 
 		AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -228,13 +363,19 @@ public class FacebookSignIn {
 
 	protected void successLogin (FirebaseUser user) {
 		Log.d(TAG, "FB:Login:Success");
+
 		isFacebookConnected = true;
+		accessToken = AccessToken.getCurrentAccessToken();
 
 		try {
 			currentFBUser.put("name", user.getDisplayName());
 			currentFBUser.put("email_id", user.getEmail());
 			currentFBUser.put("photo_uri", user.getPhotoUrl());
+			currentFBUser.put("token", accessToken.getToken().toString());
+
 		} catch (JSONException e) { Log.d(TAG, "FB:JSON:Error:" + e.toString()); }
+
+		getPermissions();
 
 		// call Script
 		Utils.callScriptFunc("FacebookLogin", "true");
@@ -272,8 +413,10 @@ public class FacebookSignIn {
 
 		isFacebookConnected = false;
 		activity = null;
-	}
 
+		mAccessTokenTracker.stopTracking();
+		mProfileTracker.stopTracking();
+	}
 
 	private static Activity activity = null;
 	private static FacebookSignIn mInstance = null;
@@ -284,8 +427,13 @@ public class FacebookSignIn {
 	private static AccessTokenTracker mAccessTokenTracker;
 	private static ProfileTracker mProfileTracker;
 
+	private static AccessToken accessToken;
+	private static Profile profile;
+
 	private Boolean isFacebookConnected = false;
 	private JSONObject currentFBUser = new JSONObject();
+
+	private ArrayList mUserPermissions = new ArrayList<String>();
 
 	private FirebaseAuth mAuth;
 	private FirebaseAuth.AuthStateListener mAuthListener;
