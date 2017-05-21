@@ -132,6 +132,19 @@ firebase.is_google_connected() // bool check for google authentication
 firebase.is_facebook_connected() // bool check for facebook authentication
 ```
 
+More for facebook permissions
+```
+firebase.facebook_has_permission("publish_actions") // Check for availabe permission
+
+firebase.revoke_facebook_permission("publish_actions") // revoke permission
+
+firebase.ask_facebook_publish_permission("publish_actions"); // asking write permission
+
+firebase.ask_facebook_read_permission("email"); // asking read only permission
+
+firbase.get_facebook_permissions() // getting available permissions
+```
+
 Recive message from java
 
 ```

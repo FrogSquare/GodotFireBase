@@ -154,6 +154,13 @@ public class FacebookSignIn {
 				if (current == null) { successLogOut(); }
 				else {
 					accessToken = current;
+
+					try {
+						currentFBUser
+						.put("token", accessToken.getToken().toString());
+					} catch (JSONException e) {
+						Log.d(TAG, "FB:JSON:Error:162:" + e.toString());
+					}
 				}
 			}
 		};
