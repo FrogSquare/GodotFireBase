@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ public class Notification {
 		new FirebaseJobDispatcher(new GooglePlayDriver(activity.getApplicationContext()));
 		dispatcher.cancel("firebase-notify-in-time-UID");
 
-		Log.d(TAG, "Firebase Cloud messaging token: " + token);
+		Utils.d("Firebase Cloud messaging token: " + token);
 	}
 
 	public void subscribe(final String topic) {
@@ -81,7 +81,7 @@ public class Notification {
 	public void notifyInMins (final String message, final int mins) {
 		int seconds = mins * 60;
 
-		Log.d(TAG, "Setting new Job with message: " + message);
+		Utils.d("Setting new Job with message: " + message);
 
 		Bundle bundle = new Bundle();
 		bundle.putString("message", message);
@@ -125,7 +125,7 @@ public class Notification {
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Log.d(TAG, "Notification is not initialized.");
+			Utils.d("Notification is not initialized.");
 			return false;
 		} else {
 			return true;
@@ -139,6 +139,4 @@ public class Notification {
 	private FirebaseJobDispatcher dispatcher = null;
 
 	private static Notification mInstance = null;
-
-	private static final String TAG = "FireBase";
 }

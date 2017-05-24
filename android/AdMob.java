@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,7 +100,7 @@ public class AdMob {
 		String ad_unit_id = AdMobConfig.optString("BannerAdId", "");
 
 		if (ad_unit_id.length() <= 0) {
-			Log.d(TAG, "AdMob:Banner:UnitId:NotProvided");
+			Utils.d("AdMob:Banner:UnitId:NotProvided");
 			ad_unit_id = activity.getString(R.string.banner_ad_unit_id);
 		}
 
@@ -112,12 +112,12 @@ public class AdMob {
 		mAdView.setAdListener(new AdListener() {
 			@Override
 			public void onAdLoaded() {
-				Log.d(TAG, "AdMob:Banner:OnAdLoaded");
+				Utils.d("AdMob:Banner:OnAdLoaded");
 			}
 
 			@Override
 			public void onAdFailedToLoad(int errorCode) {
-				Log.w(TAG, "AdMob:Banner:onAdFailedToLoad:" + errorCode);
+				Utils.w("AdMob:Banner:onAdFailedToLoad:" + errorCode);
 			}
 		});
 
@@ -133,7 +133,7 @@ public class AdMob {
 		String ad_unit_id = AdMobConfig.optString("InterstitialAdId", "");
 
 		if (ad_unit_id.length() <= 0) {
-			Log.d(TAG, "AdMob:Interstitial:UnitId:NotProvided");
+			Utils.d("AdMob:Interstitial:UnitId:NotProvided");
 			ad_unit_id = activity.getString(R.string.interstitial_ad_unit_id);
 		}
 
@@ -142,17 +142,17 @@ public class AdMob {
 		mInterstitialAd.setAdListener(new AdListener() {
 			@Override
 			public void onAdLoaded() {
-				Log.d(TAG, "AdMob:Interstitial:OnAdLoaded");
+				Utils.d("AdMob:Interstitial:OnAdLoaded");
 			}
 
 			@Override
 			public void onAdFailedToLoad(int errorCode) {
-				Log.w(TAG, "AdMob:Interstitial:onAdFailedToLoad:" + errorCode);
+				Utils.w("AdMob:Interstitial:onAdFailedToLoad:" + errorCode);
 			}
 
 			@Override
 			public void onAdClosed() {
-				Log.w(TAG, "AdMob:Interstitial:onAdClosed");
+				Utils.w("AdMob:Interstitial:onAdClosed");
 				requestNewInterstitial();
 			}
 		});
@@ -166,12 +166,12 @@ public class AdMob {
 
 			@Override
 			public void onRewardedVideoAdLoaded() {
-				Log.d(TAG, "AdMob:Video:Loaded");
+				Utils.d("AdMob:Video:Loaded");
 			}
 
 			@Override
 			public void onRewarded(RewardItem rewardItem) {
-				Log.d(TAG, "AdMob:Rewarded");
+				Utils.d("AdMob:Rewarded");
 				//rewardItem.getType()
 				//rewardItem.getAmount()
 
@@ -180,7 +180,7 @@ public class AdMob {
 					ret.put("RewardType", rewardItem.getType());
 					ret.put("RewardAmount", rewardItem.getAmount());
 				} catch (JSONException e) {
-					Log.d(TAG, "AdMob:Reward:Error:" + e.toString());
+					Utils.d("AdMob:Reward:Error:" + e.toString());
 				}
 
 				Utils.callScriptFunc("AdMobReward", ret.toString());
@@ -188,27 +188,27 @@ public class AdMob {
 
 			@Override
 			public void onRewardedVideoAdFailedToLoad(int errorCode) {
-				Log.d(TAG, "AdMob:VideoLoad:Failed");
+				Utils.d("AdMob:VideoLoad:Failed");
 			}
 
 			@Override
 			public void onRewardedVideoAdClosed() {
-				Log.d(TAG, "AdMob:VideoAd:Closed");
+				Utils.d("AdMob:VideoAd:Closed");
 			}
 
 			@Override
 			public void onRewardedVideoAdLeftApplication() {
-				Log.d(TAG, "AdMob:VideoAd:LeftApp");
+				Utils.d("AdMob:VideoAd:LeftApp");
 			}
 
 			@Override
 			public void onRewardedVideoAdOpened() {
-				Log.d(TAG, "AdMon:VideoAd:Opended");
+				Utils.d("AdMon:VideoAd:Opended");
 			}
 
 			@Override
 			public void onRewardedVideoStarted() {
-				Log.d(TAG, "Reward:VideoAd:Started");
+				Utils.d("Reward:VideoAd:Started");
 			}
 		});
 
@@ -219,7 +219,7 @@ public class AdMob {
 		if (!isInitialized() || mrv == null) { return; }
 
 		if (mrv.isLoaded()) { mrv.show(); }
-		else { Log.d(TAG, "AdMob:RewardedVideo:NotLoaded"); }
+		else { Utils.d("AdMob:RewardedVideo:NotLoaded"); }
 	}
 
 	public void show_banner_ad(final boolean show) {
@@ -230,13 +230,13 @@ public class AdMob {
 		if (show) {
 			if (mAdView.isEnabled()) { mAdView.setEnabled(true); }
 			if (mAdView.getVisibility() == View.INVISIBLE) {
-				Log.d(TAG, "AdMob:Visiblity:On");
+				Utils.d("AdMob:Visiblity:On");
 				mAdView.setVisibility(View.VISIBLE);
 			}
 		} else {
 			if (mAdView.isEnabled()) { mAdView.setEnabled(false); }
 			if (mAdView.getVisibility() != View.INVISIBLE) {
-				Log.d(TAG, "AdMob:Visiblity:Off");
+				Utils.d("AdMob:Visiblity:Off");
 				mAdView.setVisibility(View.INVISIBLE);
 			}
 		}
@@ -248,7 +248,7 @@ public class AdMob {
 		// Show interstitial ad
 
 		if (mInterstitialAd.isLoaded()) { mInterstitialAd.show(); }
-		else { Log.d(TAG, "AdMob:Interstitial:NotLoaded"); }
+		else { Utils.d("AdMob:Interstitial:NotLoaded"); }
 	}
 
 	private void requestNewRewardedVideo() {
@@ -264,7 +264,7 @@ public class AdMob {
 		String ad_unit_id = AdMobConfig.optString("RewardedVideoAdId", "");
 
 		if (ad_unit_id.length() <= 0) {
-			Log.d(TAG, "AdMob:RewardedVideo:UnitId:NotProvided");
+			Utils.d("AdMob:RewardedVideo:UnitId:NotProvided");
 			ad_unit_id = activity.getString(R.string.rewarded_video_ad_unit_id);
 		}
 
@@ -286,7 +286,7 @@ public class AdMob {
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Log.d(TAG, "AdMob:NotInitialized.");
+			Utils.d("AdMob:NotInitialized.");
 			return false;
 		} else {
 			return true;
@@ -322,6 +322,4 @@ public class AdMob {
 	private FirebaseApp mFirebaseApp = null;
 
 	private JSONObject AdMobConfig = null;
-
-	private static final String TAG = "FireBase";
 }

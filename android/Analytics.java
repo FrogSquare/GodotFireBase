@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public class Analytics {
 		mFirebaseApp = fireBaseApp;
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 
-		Log.d(TAG, "Firebase Analytics initialized..!");
+		Utils.d("Firebase Analytics initialized..!");
 	}
 
         public void set_screen_name(final String s_name) {
@@ -54,7 +54,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent("current_screen", bundle);
 
-		Log.d(TAG, "Setting current screen to: " + s_name);
+		Utils.d("Setting current screen to: " + s_name);
 	}
 
         public void send_achievement(final String id) {
@@ -64,7 +64,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
 
-		Log.d(TAG, "Sending:AchievementUnlocked: " + id);
+		Utils.d("Sending:AchievementUnlocked: " + id);
 	}
 
 	public void send_group(final String groupID) {
@@ -74,7 +74,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.JOIN_GROUP, bundle);
 
-		Log.d(TAG, "Sending:JoinGroup: " + groupID);
+		Utils.d("Sending:JoinGroup: " + groupID);
 	}
 
 	public void send_level_up(final String character, final int level) {
@@ -85,7 +85,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle);
 
-		Log.d(TAG, "Sending:Character:LevelUp: {" + character + "|" + level + "}");
+		Utils.d("Sending:Character:LevelUp: {" + character + "|" + level + "}");
 	}
 
 	public void send_score(final String character, final int level, final int score) {
@@ -97,7 +97,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle);
 
-		Log.d(TAG, "Sending:Level:Score: {" + character + "|" + level + "|" + score + "}");
+		Utils.d("Sending:Level:Score: {" + character + "|" + level + "|" + score + "}");
 	}
 
 	public void send_content(final String content_type, final String item_id) {
@@ -108,7 +108,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-		Log.d(TAG, "Sending:Content:Item: {" + content_type + "|" + item_id + "}");
+		Utils.d("Sending:Content:Item: {" + content_type + "|" + item_id + "}");
 	}
 
 	public void send_share() {
@@ -122,7 +122,7 @@ public class Analytics {
 
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
-		Log.d(TAG, "Sending Achievement: " + id);
+		Utils.d("Sending Achievement: " + id);
 		**/
 	}
 
@@ -134,7 +134,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.EARN_VIRTUAL_CURRENCY, bundle);
 
-		Log.d(TAG, "Sending:Currency:Earn: {" + currency_name + "|" + value + "}");
+		Utils.d("Sending:Currency:Earn: {" + currency_name + "|" + value + "}");
 	}
 
 	public void spend_currency(final String item_name, final String currency_name, final int value) {
@@ -146,7 +146,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SPEND_VIRTUAL_CURRENCY, bundle);
 
-		Log.d(TAG,
+		Utils.d(
 		"Sending:Currency:Spend: {" + item_name + "|" + currency_name + "|" + value + "}");
 	}
 
@@ -157,7 +157,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_BEGIN, bundle);
 
-		Log.d(TAG, "Sending:Tutorial:Begin");
+		Utils.d("Sending:Tutorial:Begin");
 	}
 
 	public void send_tutorial_complete() {
@@ -166,7 +166,7 @@ public class Analytics {
 
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, bundle);
-		Log.d(TAG, "Sending:Tutorial:Complete");
+		Utils.d("Sending:Tutorial:Complete");
 	}
 
         public void send_custom(final String key, final String value) {
@@ -175,7 +175,7 @@ public class Analytics {
 
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent("appEvent", bundle);
-		Log.d(TAG, "Sending:App:Event:" + bundle.toString());
+		Utils.d("Sending:App:Event:" + bundle.toString());
 	}
 
 	private static Context context;
@@ -184,6 +184,4 @@ public class Analytics {
 
 	private FirebaseApp mFirebaseApp = null;
 	private FirebaseAnalytics mFirebaseAnalytics = null;
-
-	private static final String TAG = "FireBase";
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,8 @@ import com.google.firebase.auth.FirebaseUser;
 import org.json.JSONObject;
 import org.json.JSONException;
 
+import org.godotengine.godot.Utils;
+
 public class Auth {
 
 	public static final int GOOGLE_AUTH 	= 0x0003;
@@ -53,7 +55,7 @@ public class Auth {
 
 	public void configure (final String configData) {
 		try { config = new JSONObject(configData); }
-		catch (JSONException e) { Log.d(TAG, "JSONException, parse error: " + e.toString()); }
+		catch (JSONException e) { Utils.d("JSONException, parse error: " + e.toString()); }
 
 		if (config.optBoolean("Google", false)) {
 			GoogleSignIn.getInstance(activity).init();
@@ -67,19 +69,19 @@ public class Auth {
 	public void sign_in (final int type_id) {
 		if (!isInitialized()) { return; }
 
-		Log.d(TAG, "Auth:SignIn:TAG:" + type_id);
+		Utils.d("Auth:SignIn:TAG:" + type_id);
 
 		switch (type_id) {
 			case GOOGLE_AUTH:
-				Log.d(TAG, "Auth google sign in");
+				Utils.d("Auth google sign in");
 				GoogleSignIn.getInstance(activity).signIn();
 				break;
 			case FACEBOOK_AUTH:
-				Log.d(TAG, "Auth facebook sign in");
+				Utils.d("Auth facebook sign in");
 				FacebookSignIn.getInstance(activity).signIn();
 				break;
 			default:
-				Log.d(TAG, "Auth type not available.");
+				Utils.d("Auth type not available.");
 				break;
 		}
 	}
@@ -87,19 +89,19 @@ public class Auth {
 	public void sign_out (final int type_id) {
 		if (!isInitialized()) { return; }
 
-		Log.d(TAG, "Auth:SignOut:TAG:" + type_id);
+		Utils.d("Auth:SignOut:TAG:" + type_id);
 
 		switch (type_id) {
 			case GOOGLE_AUTH:
-				Log.d(TAG, "Auth google sign out");
+				Utils.d("Auth google sign out");
 				GoogleSignIn.getInstance(activity).signOut();
 				break;
 			case FACEBOOK_AUTH:
-				Log.d(TAG, "Auth facebook sign out");
+				Utils.d("Auth facebook sign out");
 				FacebookSignIn.getInstance(activity).signOut();
 				break;
 			default:
-				Log.d(TAG, "Auth type not available.");
+				Utils.d("Auth type not available.");
 				break;
 		}
 	}
@@ -107,19 +109,19 @@ public class Auth {
 	public void revoke(final int type_id) {
 		if (!isInitialized()) { return; }
 
-		Log.d(TAG, "FB:Auth:!evoke:" + type_id);
+		Utils.d("FB:Auth:!evoke:" + type_id);
 
 		switch (type_id) {
 			case GOOGLE_AUTH:
-				Log.d(TAG, "FB:Revoke:Google");
+				Utils.d("FB:Revoke:Google");
 				GoogleSignIn.getInstance(activity).revokeAccess();
 				break;
 			case FACEBOOK_AUTH:
-				Log.d(TAG, "FB:Revoke:Facebook");
+				Utils.d("FB:Revoke:Facebook");
 				FacebookSignIn.getInstance(activity).revokeAccess();
 				break;
 			default:
-				Log.d(TAG, "FB:Auth:Type:NotFound");
+				Utils.d("FB:Auth:Type:NotFound");
 		}
 
 	}
@@ -129,7 +131,7 @@ public class Auth {
 		if (!isInitialized()) { return null; }
 
 		FirebaseUser ret = FirebaseAuth.getInstance().getCurrentUser();
-		if (ret == null) { Log.d(TAG, "Auth:UserNotSignedIn"); }
+		if (ret == null) { Utils.d("Auth:UserNotSignedIn"); }
 
 		return ret;
 	}
@@ -137,15 +139,15 @@ public class Auth {
 	public String getUserDetails(final int type_id) {
 		if (!isInitialized()) { return "NULL"; }
 
-		Log.d(TAG, "UserDetails:TAG:" + type_id);
+		Utils.d("UserDetails:TAG:" + type_id);
 
 		if (type_id == GOOGLE_AUTH && GoogleSignIn.getInstance(activity).isConnected()) {
-			Log.d(TAG, "Getting Google user details");
+			Utils.d("Getting Google user details");
 			return GoogleSignIn.getInstance(activity).getUserDetails();
 		}
 
 		if (type_id == FACEBOOK_AUTH && FacebookSignIn.getInstance(activity).isConnected()) {
-			Log.d(TAG, "Getting Facebook user details");
+			Utils.d("Getting Facebook user details");
 			return FacebookSignIn.getInstance(activity).getUserDetails();
 		}
 
@@ -163,7 +165,7 @@ public class Auth {
 	public void revokeFacebookPermission(final String permission) {
 		if (!isInitialized() && !isConnected(FACEBOOK_AUTH)) { return; }
 
-		Log.d(TAG, "Auth:Ask:RevokePermission: " + permission);
+		Utils.d("Auth:Ask:RevokePermission: " + permission);
 		FacebookSignIn.getInstance(activity).revokePermission(permission);
 	}
 
@@ -171,34 +173,34 @@ public class Auth {
 	final String title, final String message, final String permission, final boolean read) {
 		if (!isInitialized() && !isConnected(FACEBOOK_AUTH)) { return; }
 
-		Log.d(TAG, "Auth:Ask:Permission: " + permission);
+		Utils.d("Auth:Ask:Permission: " + permission);
 		FacebookSignIn.getInstance(activity)
 		.askForPermission(title, message, permission, read);
 	}
 
 	public boolean isConnected(final int type_id) {
-		Log.d(TAG, "Auth:Getting:Status");
+		Utils.d("Auth:Getting:Status");
 
 		if (type_id == GOOGLE_AUTH) {
-			Log.d(TAG, "Auth:Status:Google:True");
+			Utils.d("Auth:Status:Google:True");
 			return GoogleSignIn.getInstance(activity).isConnected();
 		} else if (type_id == FACEBOOK_AUTH) {
-			Log.d(TAG, "Auth:Status:Facebook:True");
+			Utils.d("Auth:Status:Facebook:True");
 			return FacebookSignIn.getInstance(activity).isConnected();
 		}
 
-		Log.d(TAG, "Auth:Status:False");
+		Utils.d("Auth:Status:False");
 		return false;
 	}
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Log.d(TAG, "FireBase Auth, not initialized");
+			Utils.d("FireBase Auth, not initialized");
 			return false;
 		}
 
 		if (config == null) {
-			Log.d(TAG, "FireBase Auth, not Configured");
+			Utils.d("FireBase Auth, not Configured");
 			return false;
 		}
 
@@ -258,8 +260,6 @@ public class Auth {
 	private static JSONObject config = null;
 
 	private FirebaseApp mFirebaseApp = null;
-
-	private static final String TAG = "FireBase";
 }
 
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public class InstanceIDService extends FirebaseInstanceIdService {
 	public void onTokenRefresh() {
 		// Get updated InstanceID token.
 		String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-		Log.d(TAG, "Refreshed token: " + refreshedToken);
+		Utils.d("Refreshed token: " + refreshedToken);
 
 		// If you want to send messages to this application instance or
 		// manage this apps subscriptions on the server side, send the
@@ -51,9 +51,7 @@ public class InstanceIDService extends FirebaseInstanceIdService {
 	*/
 	private void sendRegistrationToServer(String token) {
 		// TODO: Implement this method to send token to your app server.
-		Log.d(TAG, "Token: " + token);
+		Utils.d("Token: " + token);
 	}
-
-	private static final String TAG = "FireBase";
 
 }

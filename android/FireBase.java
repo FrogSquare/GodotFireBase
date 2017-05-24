@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.os.Bundle;
 import android.content.Intent;
@@ -64,7 +63,7 @@ public class FireBase extends Godot.SingletonBase {
 	}
 
 	private void initFireBase(final String data) {
-		Log.d(TAG, "Data From File: " + data);
+		Utils.d("Data From File: " + data);
 
 		JSONObject config = null;
 		mFirebaseApp = FirebaseApp.initializeApp(activity);
@@ -72,47 +71,47 @@ public class FireBase extends Godot.SingletonBase {
 		Analytics.getInstance(activity).init(mFirebaseApp);
 
 		if (data.length() <= 0) {
-			Log.d(TAG, "FireBase initialized.");
+			Utils.d("FireBase initialized.");
 			return;
 		}
 
 		try { config = new JSONObject(data); }
-		catch (JSONException e) { Log.d(TAG, "JSON Parse error: " + e.toString()); }
+		catch (JSONException e) { Utils.d("JSON Parse error: " + e.toString()); }
 
 		firebaseConfig = config;
 
 		if (config.optBoolean("Notification", false)) {
-			Log.d(TAG, "Initializing Firebase Notification.");
-			Notification.getInstance(activity).init(mFirebaseApp);
+			Utils.d("Initializing Firebase Notification.");
+				Notification.getInstance(activity).init(mFirebaseApp);
 		}
 
 		if (config.optBoolean("RemoteConfig", false)) {
-			Log.d(TAG, "Initializing Firebase RemoteConfig.");
+			Utils.d("Initializing Firebase RemoteConfig.");
 			RemoteConfig.getInstance(activity).init(mFirebaseApp);
 		}
 
 		if (config.optBoolean("Invites", false)) {
-			Log.d(TAG, "Initializing Firebase Invites.");
+			Utils.d("Initializing Firebase Invites.");
 			Invites.getInstance(activity).init(mFirebaseApp);
 		}
 
 		if (config.optBoolean("Authentication", false)) {
-			Log.d(TAG, "Initializing Firebase Authentication.");
+			Utils.d("Initializing Firebase Authentication.");
 			Auth.getInstance(activity).init(mFirebaseApp);
 			Auth.getInstance(activity).configure(config.optString("Auth"));
 		}
 
 		if (config.optBoolean("AdMob", false)) {
-			Log.d(TAG, "Initializing Firebase AdMob.");
+			Utils.d("Initializing Firebase AdMob.");
 			AdMob.getInstance(activity).init(mFirebaseApp);
 		}
 
 		if (config.optBoolean("Storage", false)) {
-			Log.d(TAG, "Initializing Firebase Storage.");
+			Utils.d("Initializing Firebase Storage.");
 			Storage.getInstance(activity).init(mFirebaseApp);
 		}
 
-		Log.d(TAG, "FireBase initialized.");
+		Utils.d("FireBase initialized.");
 	}
 
 	public void alertMsg(String message) {
@@ -132,7 +131,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void initMessaging() {
 		Notification.getInstance(activity).init(mFirebaseApp);
-		Log.d(TAG, "Cloud Messaging initialized..!");
+		Utils.d("Cloud Messaging initialized..!");
 	}
 
 	public void init(final String data, final int script_id) {
@@ -162,7 +161,7 @@ public class FireBase extends Godot.SingletonBase {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				if (screen_name.length() <= 0) {
-					Log.d(TAG, "Screen name is empty defaults to main");
+					Utils.d("Screen name is empty defaults to main");
 					Analytics.getInstance(activity).set_screen_name("Main Screen");
 				} else {
 					Analytics.getInstance(activity).set_screen_name(screen_name);
@@ -173,7 +172,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void sendAchievement(final String a_id) {
 		if (a_id.length() <= 0) {
-			Log.d(TAG, "Achievement id not provided");
+			Utils.d("Achievement id not provided");
 			return;
 		}
 
@@ -251,7 +250,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void sendCustom(final String key, final String value) {
 		if (key.length() <= 0 || value.length() <= 0) {
-			Log.d(TAG, "Key or Value is null.");
+			Utils.d("Key or Value is null.");
 			return;
 		}
 
@@ -266,7 +265,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void alert(final String message) {
 		if (message.length() <= 0) {
-			Log.d(TAG, "Message is empty.");
+			Utils.d("Message is empty.");
 			return;
 		}
 
@@ -289,7 +288,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void subscribeToTopic (final String topic) {
 		if (topic.length() <= 0) {
-			Log.d(TAG, "Topic id not provided.");
+			Utils.d("Topic id not provided.");
 			return;
 		}
 
@@ -316,7 +315,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public String getRemoteValue (final String key) {
 		if (key.length() <= 0) {
-			Log.d(TAG, "getting remote config: key not provided, returning null");
+			Utils.d("getting remote config: key not provided, returning null");
 			return "NULL";
 		}
 
@@ -325,7 +324,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void setRemoteDefaultsFile (final String path) {
 		if (path.length() <= 0) {
-			Log.d(TAG, "File not provided for remote config");
+			Utils.d("File not provided for remote config");
 			return;
 		}
 
@@ -338,7 +337,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void setRemoteDefaults (final String jsonData) {
 		if (jsonData.length() <= 0) {
-			Log.d(TAG, "No defaults were provided.");
+			Utils.d("No defaults were provided.");
 			return;
 		}
 
@@ -355,10 +354,10 @@ public class FireBase extends Godot.SingletonBase {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				if (deepLink.length() <= 0) {
-					Log.d(TAG, "DeepLink not provided falling back simple share");
+					Utils.d("DeepLink not provided falling back simple share");
 					Invites.getInstance(activity).invite(message);
 				} else {
-					Log.d(TAG, "Using Firebase DeepLink");
+					Utils.d("Using Firebase DeepLink");
 					Invites.getInstance(activity).invite(message, deepLink);
 				}
 			}
@@ -563,5 +562,4 @@ public class FireBase extends Godot.SingletonBase {
 	private static JSONObject firebaseConfig = new JSONObject();
 
 	private FirebaseApp mFirebaseApp = null;
-	private static final String TAG = "FireBase";
 }

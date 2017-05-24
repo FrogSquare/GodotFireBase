@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import android.util.Log;
 
 import com.godot.game.R;
 
+import org.godotengine.godot.Utils;
+
 /**
  * Base class for Services that keep track of the number of active jobs and self-stop when the
  * count is zero
@@ -47,12 +49,12 @@ public abstract class BaseTaskService extends Service {
 	}
 
 	private synchronized void changeNumberOfTasks(int delta) {
-		Log.d(TAG, "Storage:ChangeNumOfTasks: {" + mNumTasks + ":" + delta + "}");
+		Utils.d("Storage:ChangeNumOfTasks: {" + mNumTasks + ":" + delta + "}");
 		mNumTasks += delta;
 
 		// If there are no tasks left, stop the service
 		if (mNumTasks <= 0) {
-			Log.d(TAG, "stopping");
+			Utils.d("stopping");
 			stopSelf();
 		}
 	}
@@ -111,6 +113,5 @@ public abstract class BaseTaskService extends Service {
 		manager.cancel(PROGRESS_NOTIFICATION_ID);
 	}
 
-	private static final String TAG = "FireBase";
 	private int mNumTasks = 0;
 }

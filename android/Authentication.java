@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ public class Authentication {
 
 	private boolean isInitialized () {
 		if (mFirebaseApp == null) {
-			Log.d(TAG, "Authentication is not initialized.");
+			Utils.d("Authentication is not initialized.");
 			return false;
 		} else {
 			return true;
@@ -63,6 +63,4 @@ public class Authentication {
 	private static Authentication mInstance = null;
 
 	private FirebaseApp mFirebaseApp = null;
-
-	private static final String TAG = "FireBase";
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,10 +31,10 @@ public class NotifyInTime extends JobService {
 	@Override
 	public boolean onStartJob(JobParameters job) {
 		// Do some work here
-		Log.d(TAG, "Job Started.");
+		Utils.d("Job Started.");
 
 		Bundle bundle = job.getExtras();
-		Log.d(TAG, "Message: " + bundle.getString("message"));
+		Utils.d("Message: " + bundle.getString("message"));
 
 		MessagingService.sendNotification(bundle.getString("message"), this);
 		return true; // Answers the question: "Is there still work going on?"
@@ -42,10 +42,8 @@ public class NotifyInTime extends JobService {
 
 	@Override
 	public boolean onStopJob(JobParameters job) {
-		Log.d(TAG, "Job Stopped.");
+		Utils.d("Job Stopped.");
 
 		return true; // Answers the question: "Should this job be retried?"
 	}
-
-	private static final String TAG = "FireBase";
 }

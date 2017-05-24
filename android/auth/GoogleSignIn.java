@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ public class GoogleSignIn
 		.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
 		.build();
 
-		Log.d(TAG, "Google:Initialized");
+		Utils.d("Google:Initialized");
 
 		mAuth = FirebaseAuth.getInstance();
 
@@ -96,7 +96,7 @@ public class GoogleSignIn
 
 				if (user != null) {
 					// User is signed in
-					Log.d(TAG,
+					Utils.d(
 					"Google:onAuthStateChanged:signed_in:" + user.getUid());
 
 					if (!mGoogleApiClient.isConnected() &&
@@ -107,7 +107,7 @@ public class GoogleSignIn
 					successSignIn(user);
 				} else {
 					// User is signed out
-					Log.d(TAG, "Google:onAuthStateChanged:signed_out");
+					Utils.d("Google:onAuthStateChanged:signed_out");
 					successSignOut();
 				}
 
@@ -120,14 +120,14 @@ public class GoogleSignIn
 
 	public void signIn() {
 		if (mGoogleApiClient == null) {
-			Log.d(TAG, "Google:NotInitialized");
+			Utils.d("Google:NotInitialized");
 			return;
 		}
 
 		if (!mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting()) {
 			Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 			activity.startActivityForResult(signInIntent, Utils.FIREBASE_GOOGLE_SIGN_IN);
-		} else { Log.d(TAG, "Google auth connected."); }
+		} else { Utils.d("Google auth connected."); }
 	}
 
 	public void signOut() {
@@ -170,7 +170,7 @@ public class GoogleSignIn
 	}
 
 	protected void successSignIn(FirebaseUser user) {
-		Log.d(TAG, "Google:Connection:Success");
+		Utils.d("Google:Connection:Success");
 
 		isResolvingConnectionFailure = false;
 		isGooglePlayConnected = true;
@@ -180,13 +180,13 @@ public class GoogleSignIn
 			currentGoogleUser.put("name", user.getDisplayName());
 			currentGoogleUser.put("email_id", user.getEmail());
 			currentGoogleUser.put("photo_uri", user.getPhotoUrl());
-		} catch (JSONException e) { Log.d(TAG, "Google:JSON:Error:" + e.toString()); }
+		} catch (JSONException e) { Utils.d("Google:JSON:Error:" + e.toString()); }
 
 		Utils.callScriptFunc("GoogleLogin", "true");
 	}
 
 	protected void successSignOut() {
-		Log.d(TAG, "Google:Disconnected");
+		Utils.d("Google:Disconnected");
 
 		isGooglePlayConnected = false;
 
@@ -198,7 +198,7 @@ public class GoogleSignIn
 
 	private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
-		Log.d(TAG, "Google:FirebaseAuthWithGoogle:" + acct.getId());
+		Utils.d("Google:FirebaseAuthWithGoogle:" + acct.getId());
 
 		// FireBase.showProgressDialog();
 
@@ -208,14 +208,14 @@ public class GoogleSignIn
 
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
-				Log.d(TAG,
+				Utils.d(
 				"Google:SignInWithCredential:onComplete:" + task.isSuccessful());
 
 				// If sign in fails, display a message to the user. If sign in succeeds
 				// the auth state listener will be notified and logic to handle the
 				// signed in user can be handled in the listener.
 				if (!task.isSuccessful()) {
-					Log.w(TAG, "Google:SignInWithCredential", task.getException());
+					Utils.w("Google:SignInWithCredential:" + task.getException());
 				}
 
 				// FireBase.hideProgressDialog();
@@ -225,7 +225,7 @@ public class GoogleSignIn
 
 	@Override
 	public void onConnected(Bundle m_bundle) {
-		Log.d(TAG, "Google:onConnected");
+		Utils.d("Google:onConnected");
 
 		if (m_bundle != null) {
 
@@ -234,12 +234,12 @@ public class GoogleSignIn
 
 	@Override
 	public void onConnectionSuspended(int m_cause) {
-		Log.d(TAG, "Google:Connection:Suspended:Check:Internet");
+		Utils.d("Google:Connection:Suspended:Check:Internet");
 	}
 
 	@Override
 	public void onConnectionFailed(@NonNull ConnectionResult m_result) {
-		Log.d(TAG, "Google:Connection:Failed");
+		Utils.d("Google:Connection:Failed");
 
 		if (isResolvingConnectionFailure) { return; }
 		if(!isIntentInProgress && m_result.hasResolution()) {
@@ -256,7 +256,7 @@ public class GoogleSignIn
 			}
 
 			isResolvingConnectionFailure = true;
-			Log.d(TAG, "Google:Connection:Resolving.");
+			Utils.d("Google:Connection:Resolving.");
                 }
 	}
 
@@ -309,6 +309,4 @@ public class GoogleSignIn
         private Boolean isResolvingConnectionFailure = false;
 
 	private static GoogleApiClient mGoogleApiClient = null;
-
-	private static final String TAG = "FireBase";
 }

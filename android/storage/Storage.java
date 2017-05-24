@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,7 @@ import org.json.JSONException;
 import org.godotengine.godot.auth.Auth;
 import org.godotengine.godot.FireBase;
 import org.godotengine.godot.Godot;
+import org.godotengine.godot.Utils;
 
 import java.util.Locale;
 import java.io.File;
@@ -69,7 +70,7 @@ public class Storage {
 		mBroadcastReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				Log.d(TAG, "SD:OnReceive:" + intent.toString());
+				Utils.d("SD:OnReceive:" + intent.toString());
 
 				// hideProgressDialog(); // Hiding our progress dialog
 
@@ -107,13 +108,13 @@ public class Storage {
 
 		onStart();
 
-		Log.d(TAG, "Initilaized Storage");
+		Utils.d("Initilaized Storage");
 	}
 
 	public void download(String url, String path) {
 		if (!isInitialized() || Auth.getInstance(activity).getCurrentUser() == null) { return; }
 
-		Log.d(TAG, "SD:Downloading:"+url);
+		Utils.d("SD:Downloading:"+url);
 		mDownloadUrl = Uri.parse(url);
 		// String path = mFileUri.getLastPathSegment();
 
@@ -123,7 +124,7 @@ public class Storage {
 		.putExtra(DownloadService.EXTRA_DOWNLOAD_TO, path)
 		.setAction(DownloadService.ACTION_DOWNLOAD);
 
-		Log.d(TAG, "SD:Starting:Service:Download");
+		Utils.d("SD:Starting:Service:Download");
 		activity.startService(intent);
 	}
 
@@ -139,7 +140,7 @@ public class Storage {
 			Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filePath;
 		}
 
-		Log.d(TAG, "SD:Uploading:"+path);
+		Utils.d("SD:Uploading:"+path);
 		Uri fileUri = Uri.fromFile(new File(path));
 		// String path = mFileUri.getLastPathSegment();
 
@@ -149,7 +150,7 @@ public class Storage {
 		.putExtra(UploadService.EXTRA_FILE_CHILD, child)
 		.setAction(UploadService.ACTION_UPLOAD);
 
-		Log.d(TAG, "SD:Starting:Service:Upload");
+		Utils.d("SD:Starting:Service:Upload");
 		activity.startService(intent);
 	}
 
@@ -166,7 +167,7 @@ public class Storage {
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Log.d(TAG, "FireBase Storage, not initialized");
+			Utils.d("FireBase Storage, not initialized");
 			return false;
 		}
 
@@ -181,7 +182,5 @@ public class Storage {
 	private BroadcastReceiver mBroadcastReceiver = null;
 	private Uri mDownloadUrl = null;
 	private Uri mFileUrl = null;
-
-	private static final String TAG = "FireBase";
 
 }

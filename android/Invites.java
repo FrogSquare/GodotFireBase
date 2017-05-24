@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ public class Invites {
 	public void invite (final String message, final String deepLink) {
 		if (!isInitialized()) { return; }
 		if (message.length() > AppInviteInvitation.IntentBuilder.MAX_MESSAGE_LENGTH) {
-			Log.d(TAG, "Message is too big for Invite, Max 100 characters.");
+			Utils.d("Message is too big for Invite, Max 100 characters.");
 			return;
 		}
 
@@ -80,28 +80,28 @@ public class Invites {
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.d(TAG, "onActivityResult: reqCode=" + requestCode + ", resCode=" + resultCode);
+		Utils.d("onActivityResult: reqCode=" + requestCode + ", resCode=" + resultCode);
 
 		if (requestCode == Utils.FIREBASE_INVITE_REQUEST) {
 			if (resultCode == activity.RESULT_OK) {
 				// Get the invitation IDs of all sent messages
-				Log.d(TAG, "Invite sent...!");
+				Utils.d("Invite sent...!");
 
 				String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
 
 				for (String id : ids) {
-					Log.d(TAG, "onActivityResult: sent invitation " + id);
+					Utils.d("onActivityResult: sent invitation " + id);
 				}
 			} else {
 				// Sending failed or it was canceled, show failure message to the user
-				Log.d(TAG, "Invite send failed...!");
+				Utils.d("Invite send failed...!");
 			}
 		}
 	}
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Log.d(TAG, "Invites is not initialized.");
+			Utils.d("Invites is not initialized.");
 			return false;
 		} else {
 			return true;
@@ -113,6 +113,4 @@ public class Invites {
 	private static Invites mInstance = null;
 
 	private FirebaseApp mFirebaseApp = null;
-
-	private static final String TAG = "FireBase";
 }

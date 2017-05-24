@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.godotengine.godot.Utils;
+
 public class UploadService extends BaseTaskService {
 
 	/** Intent Actions **/
@@ -68,10 +70,10 @@ public class UploadService extends BaseTaskService {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(TAG, "SD:OnStartCommand: {" + intent + ":" + startId + "}");
+		Utils.d("SD:OnStartCommand: {" + intent + ":" + startId + "}");
 
 		if (ACTION_UPLOAD.equals(intent.getAction())) {
-			Log.d(TAG, "Intent here: " + intent.getExtras().toString());
+			Utils.d("Intent here: " + intent.getExtras().toString());
 
 			Uri fileUri = intent.getParcelableExtra(EXTRA_FILE_URI);
 			String child = intent.getStringExtra(EXTRA_FILE_CHILD);
@@ -86,7 +88,7 @@ public class UploadService extends BaseTaskService {
 	}
 
 	private void uploadFromUri(final Uri fileUri, final String folder, final String meta) {
-		Log.d(TAG, "SD:UploadFromUri:src:" + fileUri.toString());
+		Utils.d("SD:UploadFromUri:src:" + fileUri.toString());
 
 		taskStarted();
 		showProgressNotification("progress_uploading", 0, 0);
@@ -98,7 +100,7 @@ public class UploadService extends BaseTaskService {
 		else { photoRef = mStorageRef.child(folder).child(fileUri.getLastPathSegment()); }
 
 		// Upload file to Firebase Storage
-		Log.d(TAG, "SD:UploadFromUri:dist:" + photoRef.getPath());
+		Utils.d("SD:UploadFromUri:dist:" + photoRef.getPath());
 
 		UploadTask task;
 
@@ -122,7 +124,7 @@ public class UploadService extends BaseTaskService {
 			@Override
 			public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 				// Upload succeeded
-				Log.d(TAG, "SD:UploadFromUri:onSuccess");
+				Utils.d("SD:UploadFromUri:onSuccess");
 
 				// Get the public download URL
 				Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
@@ -135,7 +137,7 @@ public class UploadService extends BaseTaskService {
 			@Override
 			public void onFailure(@NonNull Exception exception) {
 				// Upload failed
-				Log.w(TAG, "SD:UploadFromUri:onFailure", exception);
+				Utils.w("SD:UploadFromUri:onFailure:" + exception.toString());
 
 				broadcastUploadFinished(null, fileUri);
 				showUploadFinishedNotification(null, fileUri);
@@ -199,6 +201,4 @@ public class UploadService extends BaseTaskService {
 	**/
 
 	private StorageReference mStorageRef = null;
-
-	private static final String TAG = "FireBase";
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,7 +59,7 @@ public class DownloadService extends BaseTaskService {
 	public void onCreate() {
 		super.onCreate();
 
-		Log.d(TAG, "SD:DownloadTask:Created");
+		Utils.d("SD:DownloadTask:Created");
 
 		mStorageRef = FirebaseStorage.getInstance().getReference();
 	}
@@ -73,7 +73,7 @@ public class DownloadService extends BaseTaskService {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(TAG, "SD:OnStartCommand: {" + intent + ":" + startId + "}");
+		Utils.d("SD:OnStartCommand: {" + intent + ":" + startId + "}");
 
 		if (ACTION_DOWNLOAD.equals(intent.getAction())) {
 			String downloadPath = intent.getStringExtra(EXTRA_DOWNLOAD_PATH);
@@ -87,8 +87,8 @@ public class DownloadService extends BaseTaskService {
 
 	private void downloadToFile(final String downloadPath, final String downloadTo) {
 		if (Utils.isExternalStorageWritable()) {
-			Log.d(TAG, "SD:CanWrite");
-		} else { Log.d(TAG, "SD:CannotWrite"); }
+			Utils.d("SD:CanWrite");
+		} else { Utils.d("SD:CannotWrite"); }
 
 		File rootPath = new File(
 		Environment.getExternalStorageDirectory(), downloadTo);
@@ -126,7 +126,7 @@ public class DownloadService extends BaseTaskService {
 	}
 
 	private void downloadFromPath(final String downloadPath) {
-		Log.d(TAG, "SD:DownloadFromPath:" + downloadPath);
+		Utils.d("SD:DownloadFromPath:" + downloadPath);
 
 		taskStarted();
 //		showProgressNotification(getString(R.string.progress_downloading), 0, 0);
@@ -171,7 +171,7 @@ public class DownloadService extends BaseTaskService {
 	}
 
 	private void onMainSuccess(String path, long totalByteCount) {
-		Log.d(TAG, "SD:Download:SUCCESS");
+		Utils.d("SD:Download:SUCCESS");
 
 		// Send success broadcast with number of bytes downloaded
 		broadcastDownloadFinished(path, totalByteCount);
@@ -182,7 +182,7 @@ public class DownloadService extends BaseTaskService {
 	}
 
 	private void onMainFailure(String path, @NonNull Exception exception) {
-		Log.w(TAG, "SD:Download:FAILURE", exception);
+		Utils.w("SD:Download:FAILURE" + exception.toString());
 
 		// Send failure broadcast
 		broadcastDownloadFinished(path, -1);
@@ -238,5 +238,4 @@ public class DownloadService extends BaseTaskService {
 	}
 
 	private StorageReference mStorageRef = null;
-	private static final String TAG = "FireBase";
 }

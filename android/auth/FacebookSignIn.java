@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,11 +93,11 @@ public class FacebookSignIn {
 			public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 				FirebaseUser user = firebaseAuth.getCurrentUser();
 				if (user != null) {
-					Log.d(TAG, "FB:onAuthStateChanged:signed_in:" + user.getUid());
+					Utils.d("FB:onAuthStateChanged:signed_in:" + user.getUid());
 					successLogin(user);
 				} else {
 					// User is signed out
-					Log.d(TAG, "FB:onAuthStateChanged:signed_out");
+					Utils.d("FB:onAuthStateChanged:signed_out");
 					successLogOut();
 				}
 
@@ -110,7 +110,7 @@ public class FacebookSignIn {
 		initCallbacks();
 		onStart();
 
-		Log.d(TAG, "Facebook auth initialized.");
+		Utils.d("Facebook auth initialized.");
 	}
 
 	private void initCallbacks() {
@@ -121,7 +121,7 @@ public class FacebookSignIn {
 		new FacebookCallback<GameRequestDialog.Result>() {
 			@Override
 			public void onSuccess (GameRequestDialog.Result result) {
-				Log.d(TAG, "Facebook request sent.");
+				Utils.d("Facebook request sent.");
 			}
 		});
 		**/
@@ -130,18 +130,18 @@ public class FacebookSignIn {
 		new FacebookCallback<LoginResult>() {
 			@Override
 			public void onSuccess(LoginResult result) {
-				Log.d(TAG, "FB:Connected");
+				Utils.d("FB:Connected");
 				handleAccessToken(result.getAccessToken());
 			}
 
 			@Override
 			public void onCancel() {
-				Log.d(TAG, "FB:Canceled");
+				Utils.d("FB:Canceled");
 			}
 
 			@Override
 			public void onError(FacebookException exception) {
-				Log.d(TAG, "FB:Error, " + exception.toString());
+				Utils.d("FB:Error, " + exception.toString());
 			}
 		});
 
@@ -150,7 +150,7 @@ public class FacebookSignIn {
 			protected void onCurrentAccessTokenChanged(
 			AccessToken old, AccessToken current) {
 
-				Log.d(TAG, "FB:AccessToken:Changed");
+				Utils.d("FB:AccessToken:Changed");
 				if (current == null) { successLogOut(); }
 				else {
 					accessToken = current;
@@ -159,7 +159,7 @@ public class FacebookSignIn {
 						currentFBUser
 						.put("token", accessToken.getToken().toString());
 					} catch (JSONException e) {
-						Log.d(TAG, "FB:JSON:Error:162:" + e.toString());
+						Utils.d("FB:JSON:Error:162:" + e.toString());
 					}
 				}
 			}
@@ -168,7 +168,7 @@ public class FacebookSignIn {
 		mProfileTracker = new ProfileTracker() {
 			@Override
 			protected void onCurrentProfileChanged(Profile old, Profile current) {
-				Log.d(TAG, "FB:Profile:Changed");
+				Utils.d("FB:Profile:Changed");
 				profile = current;
 			}
 		};
@@ -181,11 +181,11 @@ public class FacebookSignIn {
 	}
 
 	public boolean isPermissionGiven (final String permission) {
-		Log.d(TAG, "FB:Checking:Available:Permissions:For: " + permission);
+		Utils.d("FB:Checking:Available:Permissions:For: " + permission);
 		accessToken = AccessToken.getCurrentAccessToken();
 
 		if (accessToken == null && accessToken.isExpired()) {
-			Log.d(TAG, "FB:Token:NotValid");
+			Utils.d("FB:Token:NotValid");
 			return false;
 		}
 
@@ -218,7 +218,7 @@ public class FacebookSignIn {
 
 	public String getUserPermissions() {
 		if (!isConnected() && mUserPermissions.size() > 0) {
-			Log.d(TAG, "FB:Check:Login");
+			Utils.d("FB:Check:Login");
 			return "NULL";
 		}
 
@@ -236,7 +236,7 @@ public class FacebookSignIn {
 			public void onCompleted(GraphResponse response) {
 				FacebookRequestError error = response.getError();
 				if (error == null) {
-					Log.d(TAG, "FB:Revoke:Response:" + response.toString());
+					Utils.d("FB:Revoke:Response:" + response.toString());
 					getPermissions();
 				}
 			}
@@ -278,7 +278,7 @@ public class FacebookSignIn {
 
 	public void signIn() {
 		if (callbackManager == null) {
-			Log.d(TAG, "FB:Initialized");
+			Utils.d("FB:Initialized");
 			return;
 		}
 
@@ -290,7 +290,7 @@ public class FacebookSignIn {
 	public void signOut() {
 		if (callbackManager == null) { return; }
 
-		Log.d(TAG, "FB:Logout");
+		Utils.d("FB:Logout");
 
 		mAuth.signOut();
 		LoginManager.getInstance().logOut();
@@ -310,7 +310,7 @@ public class FacebookSignIn {
 		token, uri, new GraphRequest.Callback() {
 			@Override
 			public void onCompleted(GraphResponse response) {
-				Log.d(TAG, "Revoke Permission: " + permission);
+				Utils.d("Revoke Permission: " + permission);
 			}
 		});
 
@@ -334,7 +334,7 @@ public class FacebookSignIn {
 			public void onCompleted(GraphResponse response) {
 				FacebookRequestError error = response.getError();
 				if (error == null) {
-					Log.d(TAG, "FB:Delete:Access" + response.toString());
+					Utils.d("FB:Delete:Access" + response.toString());
 				}
 			}
 		});
@@ -343,7 +343,7 @@ public class FacebookSignIn {
 	}
 
 	public void handleAccessToken(AccessToken token) {
-		Log.d(TAG, "FB:Handle:AccessToken: " + token.getToken());
+		Utils.d("FB:Handle:AccessToken: " + token.getToken());
 		// showProgressDialog();
 
 		AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -353,14 +353,15 @@ public class FacebookSignIn {
 
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
-				Log.d(TAG, "FB:signInWithCredential:onComplete:" + task.isSuccessful());
+				Utils.d("FB:signInWithCredential:onComplete:" + task.isSuccessful());
 
 				// If sign in fails, display a message to the user. If sign in succeeds
 				// the auth state listener will be notified and logic to handle the
 				// signed in user can be handled in the listener.
 
 				if (!task.isSuccessful()) {
-					Log.w(TAG, "FB:signInWithCredential", task.getException());
+					Utils.w("FB:signInWithCredential" + 
+						task.getException().toString());
 				}
 
 				// hideProgressDialog();
@@ -369,7 +370,7 @@ public class FacebookSignIn {
 	}
 
 	protected void successLogin (FirebaseUser user) {
-		Log.d(TAG, "FB:Login:Success");
+		Utils.d("FB:Login:Success");
 
 		isFacebookConnected = true;
 		accessToken = AccessToken.getCurrentAccessToken();
@@ -380,7 +381,7 @@ public class FacebookSignIn {
 			currentFBUser.put("photo_uri", user.getPhotoUrl());
 			currentFBUser.put("token", accessToken.getToken().toString());
 
-		} catch (JSONException e) { Log.d(TAG, "FB:JSON:Error:" + e.toString()); }
+		} catch (JSONException e) { Utils.d("FB:JSON:Error:" + e.toString()); }
 
 		getPermissions();
 
@@ -444,6 +445,4 @@ public class FacebookSignIn {
 
 	private FirebaseAuth mAuth;
 	private FirebaseAuth.AuthStateListener mAuthListener;
-
-	private static final String TAG = "FireBase";
 }

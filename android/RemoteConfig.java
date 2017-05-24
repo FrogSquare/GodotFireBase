@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ public class RemoteConfig {
 	}
 
 	private void fetchRemoteConfigs () {
-		Log.d(TAG, "Loading Remote Configs");
+		Utils.d("Loading Remote Configs");
 
 		long cacheExpiration = 3600;
 
@@ -80,14 +80,14 @@ public class RemoteConfig {
 			@Override
 			public void onComplete(@NonNull Task<Void> task) {
 				if (task.isSuccessful()) {
-					Log.d(TAG, "RemoteConfig, Fetch Successed");
+					Utils.d("RemoteConfig, Fetch Successed");
 
 					mFirebaseRemoteConfig.activateFetched();
 				} else {
-					Log.d(TAG, "RemoteConfig, Fetch Failed");
+					Utils.d("RemoteConfig, Fetch Failed");
 				}
 
-			// Log.d(TAG, "Fetched Value: " + getValue("firebase_remoteconfig_test"));
+			// Utils.d("Fetched Value: " + getValue("firebase_remoteconfig_test"));
 			}
 		});
 	}
@@ -95,7 +95,7 @@ public class RemoteConfig {
 	public void setDefaultsFile (final String filePath) {
 		if (!isInitialized()) { return; }
 
-		Log.d(TAG, "Loading Defaults from file:" + filePath);
+		Utils.d("Loading Defaults from file:" + filePath);
 
 		String data = Utils.readFromFile(filePath, activity.getApplicationContext());
 		data = data.replaceAll("\\s+", "");
@@ -107,7 +107,7 @@ public class RemoteConfig {
 		if (!isInitialized()) { return; }
 
 		Map<String, Object> defaultsMap = Utils.jsonToMap(defaults);
-		Log.d(TAG, "RemoteConfig: Setting Default values, " + defaultsMap.toString());
+		Utils.d("RemoteConfig: Setting Default values, " + defaultsMap.toString());
 
 		mFirebaseRemoteConfig.setDefaults(defaultsMap);
 	}
@@ -115,20 +115,20 @@ public class RemoteConfig {
 	public String getValue (final String key) {
 		if (!isInitialized()) { return "NULL"; }
 
-		Log.d(TAG, "Getting Remote config value for: " + key);
+		Utils.d("Getting Remote config value for: " + key);
 		return mFirebaseRemoteConfig.getValue(key).asString();
 	}
 
 	public String getValue (final String key, final String namespace) {
 		if (!isInitialized()) { return "NULL"; }
 
-		Log.d(TAG, "Getting Remote config value for { " + key + " : " + namespace + " }");
+		Utils.d("Getting Remote config value for { " + key + " : " + namespace + " }");
 		return mFirebaseRemoteConfig.getValue(key, namespace).asString();
 	}
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Log.d(TAG, "RemoteConfig is not initialized.");
+			Utils.d("RemoteConfig is not initialized.");
 			return false;
 		} else {
 			return true;
@@ -141,6 +141,4 @@ public class RemoteConfig {
 
 	private FirebaseApp mFirebaseApp = null;
 	private FirebaseRemoteConfig mFirebaseRemoteConfig = null;
-
-	private static final String TAG = "FireBase";
 }

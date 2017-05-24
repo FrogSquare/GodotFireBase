@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,14 +43,14 @@ public class MessagingService extends FirebaseMessagingService {
 
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {
-		Log.d(TAG, "Message From: " + remoteMessage.getFrom());
-		Log.d(TAG, "Message From: " + remoteMessage.toString());
+		Utils.d("Message From: " + remoteMessage.getFrom());
+		Utils.d("Message From: " + remoteMessage.toString());
 
 		// Check if message contains a data payload.
 		if (remoteMessage.getData().size() > 0) {
 			Map<String, String> data = remoteMessage.getData();
 
-			Log.d(TAG, "Message data payload: " + data.toString());
+			Utils.d("Message data payload: " + data.toString());
 
 			KeyValueStorage.set_context(this);
 			handleData(data);
@@ -58,7 +58,7 @@ public class MessagingService extends FirebaseMessagingService {
 
 		// Check if message contains a notification payload.
 		if (remoteMessage.getNotification() != null) {
-			Log.d(TAG,
+			Utils.d(
 			"Notification Body: " + remoteMessage.getNotification().getBody());
 
 			sendNotification(remoteMessage.getNotification().getBody(), this);
@@ -75,7 +75,7 @@ public class MessagingService extends FirebaseMessagingService {
 			for (Map.Entry<String, String> entry : data.entrySet()) {
 				jobject.put(entry.getKey(), entry.getValue());
 			}
-		} catch (JSONException e) { Log.d(TAG, "JSONException: parsing, " + e.toString()); }
+		} catch (JSONException e) { Utils.d("JSONException: parsing, " + e.toString()); }
 
 		if (jobject.length() > 0) {
 			KeyValueStorage.setValue("firebase_notification_data", jobject.toString());
@@ -105,6 +105,4 @@ public class MessagingService extends FirebaseMessagingService {
 
 		notificationManager.notify(7002, nBuilder.build());
 	}
-
-	private static final String TAG = "FireBase";
 }

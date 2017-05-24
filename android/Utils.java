@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 FrogLogics. All Rights Reserved.
+ * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,11 +49,35 @@ public class Utils {
 	public static final int FIREBASE_TWITTER_SIGN_IN	= 8006;
 	// public static final int FIREBASE_ = ;
 
+	public static void d(final String message) {
+		if (Config.DEBUG) {
+			Log.d(Config.TAG, message);
+		}
+	}
+
+	public static void e(final String message) {
+		if (Config.DEBUG) {
+			Log.e(Config.TAG, message);
+		}
+	}
+
+	public static void i(final String message) {
+		if (Config.DEBUG) {
+			Log.i(Config.TAG, message);
+		}
+	}
+
+	public static void w(final String message) {
+		if (Config.DEBUG) {
+			Log.w(Config.TAG, message);
+		}
+	}
+
 	public static Map<String, Object> jsonToMap (String jsonData) {
 		JSONObject jobject = null;
 
 		try { jobject = new JSONObject(jsonData); }
-		catch (JSONException e) { Log.d(TAG, "JSONObject exception: " + e.toString()); }
+		catch (JSONException e) { Utils.d("JSONObject exception: " + e.toString()); }
 
 		Map<String, Object> retMap = new HashMap<String, Object>();
 		Iterator<String> keysItr = jobject.keys();
@@ -65,7 +89,7 @@ public class Utils {
 
 				retMap.put(key, value);
 			} catch (JSONException e) {
-				Log.d(TAG, "JSONObject get key error" + e.toString());
+				Utils.d("JSONObject get key error" + e.toString());
 			}
 		}
 
@@ -146,7 +170,7 @@ public class Utils {
 			}
 
 			return hexString.toString();
-		} catch (NoSuchAlgorithmException e) { Log.w(TAG, "FB:MD5:Algorithm:" + e.toString()); }
+		} catch (NoSuchAlgorithmException e) { w("FB:MD5:Algorithm:" + e.toString()); }
 
 		return "";
 	}
@@ -186,17 +210,18 @@ public class Utils {
 	}
 
 	public static void callScriptFunc(int script_id, String key, String value) {
-		GodotLib.calldeferred(script_id, "_recive_message", new Object[] { TAG, key, value });
+		GodotLib.calldeferred(script_id, "_recive_message",
+		new Object[] { Config.TAG, key, value });
 	}
 
 	public static void callScriptFunc(String key, String value) {
 		if (script_instanceID == -1) {
-			// Log.d(TAG, "Script instance not set");
+			// Utils.d("Script instance not set");
 			return;
 		}
 
 		GodotLib.calldeferred(script_instanceID, "_recive_message",
-		new Object[] { TAG, key, value });
+		new Object[] { Config.TAG, key, value });
 	}
 
 	public static boolean checkGooglePlayService(Activity activity) {
@@ -204,5 +229,4 @@ public class Utils {
 	}
 
 	public static int script_instanceID = -1;
-	private static final String TAG = "FireBase";
 }
