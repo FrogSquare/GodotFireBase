@@ -121,7 +121,7 @@ public class FireBase extends Godot.SingletonBase {
 		//AdMob--
 
 		//Auth++
-		if (config.optBoolean("Authentication", false)) {
+		if (config.optBoolean("Auth", false)) {
 			Utils.d("Initializing Firebase Authentication.");
 			Auth.getInstance(activity).init(mFirebaseApp);
 			Auth.getInstance(activity).configure(config.optString("AuthConf"));
@@ -151,7 +151,7 @@ public class FireBase extends Godot.SingletonBase {
 
 		//Storage++
 		if (config.optBoolean("Storage", false)) {
-			if (!config.optBoolean("Authentication", false)) {
+			if (!config.optBoolean("Auth", false)) {
 				Utils.d("Firebase Storage needs Authentication.");
 			}
 

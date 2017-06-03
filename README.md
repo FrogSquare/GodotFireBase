@@ -48,14 +48,15 @@ GodotFireBase config file, By default every feature is disabled.
 ```
 {
 
-"AdMob"		 : true,
-"Authentication" : true,
-"Invites"	 : true,
-"RemoteConfig"	 : true,
-"Notification"	 : true,
-"Storage"	 : true,
+"Analytics"		 : true,
+"AdMob"			 : true,
+"Auth"			 : true,
+"Invites"		 : true,
+"Notification"		 : true,
+"RemoteConfig"		 : true,
+"Storage"		 : true,
 
-"Auth"		 : {
+"AuthConf"		 : {
 			"Google" : true,
 
 			"Facebook" : true,
@@ -82,7 +83,7 @@ func _ready():
 	if OS.get_name() == "Android":
 		firebase.initWithFile("res://godot-firebase-config.json", get_instance_id());
 
-func _recive_message(from, key, data):
+func _receive_message(from, key, data):
 	from == "FireBase":
 		print("Key: " + key, " Data: ", data)
 
