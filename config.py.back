@@ -1,5 +1,5 @@
-def can_build(plat):
 
+def can_build(plat):
 	return (plat == "android")
 
 def configure(env):
@@ -18,9 +18,30 @@ def configure(env):
 		env.android_add_dependency("compile 'com.google.firebase:firebase-auth:10.0.1'")
 		##Auth--
 
+		##AdMob++
+		env.android_add_dependency("compile 'com.google.firebase:firebase-ads:10.0.1'")
+		##AdMob--
+
+		##RemoteConfig++
+		env.android_add_dependency("compile 'com.google.firebase:firebase-config:10.0.1'")
+		##RemoteConfig--
+
+		##Notification++
+                env.android_add_dependency("compile 'com.google.firebase:firebase-messaging:10.0.1'")
+		env.android_add_dependency("compile 'com.firebase:firebase-jobdispatcher:0.5.2'")
+		##Notification--
+
+		##Invites++
+		env.android_add_dependency("compile 'com.google.firebase:firebase-invites:10.0.1'")
+		##Invites--
+
+		##Storage++
+		env.android_add_dependency("compile 'com.google.firebase:firebase-storage:10.0.1'")
+		##Storage--
+
 		env.android_add_dependency("compile 'commons-codec:commons-codec:1.10'")
 
-		env.android_add_java_dir("android_new");
+		env.android_add_java_dir("android");
 		env.android_add_res_dir("res");
 		env.android_add_to_manifest("android/AndroidManifestChunk.xml");
 		env.android_add_to_permissions("android/AndroidPermissionsChunk.xml");

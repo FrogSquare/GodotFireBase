@@ -1,13 +1,14 @@
 {
 
-"AdMob"		 : true,
-"Authentication" : true,
-"Invites"	 : true,
-"RemoteConfig"	 : true,
-"Notification"	 : true,
-"Storage"	 : true,
+"Analytics"	 : false,
+"AdMob"		 : false,
+"Auth"		 : true,
+"Invites"	 : false,
+"Notification"	 : false,
+"RemoteConfig"	 : false,
+"Storage"	 : false,
 
-"Auth"		 : {
+"AuthConf"		 : {
 			"Google" : true,
 
 			"Facebook" : true,
