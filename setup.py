@@ -148,7 +148,7 @@ def main():
 		if not data[d]:
 			regex_list.append(\
 			[re.compile(r'([\#]{2}'+d+'[\+]{2})'),
-				re.compile(r'([\#]{2}'+d+'[\--]{2})')]);
+				re.compile(r'([\#]{2}'+d+'[\-]{2})')]);
 
 	# Original config.py BackUp
 	out_file = open("config.py", 'w')
