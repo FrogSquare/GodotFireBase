@@ -82,7 +82,7 @@ func _ready():
 	if OS.get_name() == "Android":
 		firebase.initWithFile("res://godot-firebase-config.json", get_instance_id());
 
-func _recive_message(from, key, data):
+func _receive_message(from, key, data):
 	from == "FireBase":
 		print("Key: " + key, " Data: ", data)
 

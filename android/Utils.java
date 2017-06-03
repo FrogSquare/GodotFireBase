@@ -210,7 +210,7 @@ public class Utils {
 	}
 
 	public static void callScriptFunc(int script_id, String key, String value) {
-		GodotLib.calldeferred(script_id, "_recive_message",
+		GodotLib.calldeferred(script_id, "_receive_message",
 		new Object[] { Config.TAG, key, value });
 	}
 
@@ -220,7 +220,7 @@ public class Utils {
 			return;
 		}
 
-		GodotLib.calldeferred(script_instanceID, "_recive_message",
+		GodotLib.calldeferred(script_instanceID, "_receive_message",
 		new Object[] { Config.TAG, key, value });
 	}
 
