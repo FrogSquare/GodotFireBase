@@ -28,6 +28,8 @@ env.android_add_default_config("applicationId 'com.your.appid'")
 ```
 replay `com.your.appid` with you android application id.
 
+For customizing the module go [here](https://github.com/FrogSquare/GodotFireBase/wiki/Customize-GodotFireBase)
+
 # Initialize FireBase
 Edit engine.cfg and add
 ```
