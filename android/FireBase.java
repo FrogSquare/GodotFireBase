@@ -56,7 +56,7 @@ public class FireBase extends Godot.SingletonBase {
 			"ask_facebook_read_permission", "ask_facebook_publish_permission",
 			"get_google_user", "get_facebook_user", "google_revoke_access",
 			"facebook_revoke_access", "authConfig", "show_banner_ad",
-			"show_interstitial_ad", "show_rewarded_video", "download", "upload"
+			"show_interstitial_ad", "show_rewarded_video", "request_rewarded_video_status", "download", "upload"
 		});
 
 		activity = p_activity;
@@ -490,6 +490,14 @@ public class FireBase extends Godot.SingletonBase {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				AdMob.getInstance(activity).show_interstitial_ad();
+			}
+		});
+	}
+
+	public void request_rewarded_video_status() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				AdMob.getInstance(activity).requestRewardedVideoStatus();
 			}
 		});
 	}
