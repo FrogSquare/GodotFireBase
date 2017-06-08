@@ -160,6 +160,10 @@ public class AdMob {
 		requestNewInterstitial();
 	}
 
+	public void emitRewardedVideoStatus() {
+		Utils.callScriptFunc("AdMobVideoStatus", mrv.isLoaded() ? "loaded" : "not_loaded");
+	}
+
 	public void createRewardedVideo() {
 		mrv = MobileAds.getRewardedVideoAdInstance(activity);
 		mrv.setRewardedVideoAdListener(new RewardedVideoAdListener() {
@@ -167,6 +171,7 @@ public class AdMob {
 			@Override
 			public void onRewardedVideoAdLoaded() {
 				Utils.d("AdMob:Video:Loaded");
+				emitRewardedVideoStatus();
 			}
 
 			@Override
@@ -213,6 +218,10 @@ public class AdMob {
 		});
 
 		requestNewRewardedVideo();
+	}
+
+	public void requestRewardedVideoStatus() {
+		emitRewardedVideoStatus();
 	}
 
 	public void show_rewarded_video() {
