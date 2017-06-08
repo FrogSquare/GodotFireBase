@@ -206,14 +206,19 @@ firebase.show_banner_ad(false)	// Hide Banner Ad
 firebase.show_interstitial_ad() // Show Interstitial Ad
 
 firebase.show_rewarded_video()	// Show Rewarded Video Ad
+
+firebase.request_rewarded_video_status() // Request the rewarded video status
 ```
 
 Recive message from java
 
 ```
-func _recive_message(from, key, data):
-	from == "FireBase":
-		if key == "AdMobReward": print("json data with [RewardType & RewardAmount]: ", data);
+func _receive_message(from, key, data):
+	if from == "FireBase":
+		if key == "AdMobReward":
+			print("json data with [RewardType & RewardAmount]: ", data)
+		elif key == "AdMobVideoStatus":
+			print("AdMob rewarded video status is ", data)
 ```
 
 # Log Event
