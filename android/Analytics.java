@@ -28,7 +28,7 @@ public class Analytics {
 
 	public static Analytics getInstance(Activity p_activity) {
 		if (mInstance == null) {
-                        synchronized (Analytics.class) {
+			synchronized (Analytics.class) {
 				mInstance = new Analytics(p_activity);
 			}
 		}
@@ -47,7 +47,7 @@ public class Analytics {
 		Utils.d("Firebase Analytics initialized..!");
 	}
 
-        public void set_screen_name(final String s_name) {
+	public void set_screen_name(final String s_name) {
 		Bundle bundle = new Bundle();
 		bundle.putString("screen_name", s_name);
 
@@ -57,7 +57,7 @@ public class Analytics {
 		Utils.d("Setting current screen to: " + s_name);
 	}
 
-        public void send_achievement(final String id) {
+	public void send_achievement(final String id) {
 		Bundle bundle = new Bundle();
 		bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, id);
 
@@ -169,7 +169,27 @@ public class Analytics {
 		Utils.d("Sending:Tutorial:Complete");
 	}
 
-        public void send_custom(final String key, final String value) {
+	public void send_events(String eventName, Dictionary keyValues) {
+
+		// Generate bundle out of keyValues
+		Bundle bundle = new Bundle();
+		String[] keys = keyValues.get_keys();
+
+		for(int i=0; i < keys.length; i++) {
+			String key = keys[i];
+			Object value = keyValues.get(key);
+
+			bundle.putString(key, value.toString());
+		}
+
+		// Dispatch event
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
+		mFirebaseAnalytics.logEvent(eventName, bundle);
+
+		Utils.d("Sending:App:Event:[" + eventName + "]:" + bundle.toString() + "");
+	}
+
+	public void send_custom(final String key, final String value) {
 		Bundle bundle = new Bundle();
 		bundle.putString(key, value);
 

@@ -35,6 +35,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.godotengine.godot.auth.Auth;
+import org.godotengine.godot.Dictionary;
 import org.godotengine.godot.storage.Storage;
 
 public class FireBase extends Godot.SingletonBase {
@@ -45,7 +46,8 @@ public class FireBase extends Godot.SingletonBase {
 
 	public FireBase(Activity p_activity) {
 		registerClass ("FireBase", new String[] {
-			"init", "initWithFile", "setScreenName", "sendAchievement", "sendCustom",
+			"init", "initWithFile", "setScreenName", "sendAchievement", "send_custom",
+			"send_events",
 			"join_group", "level_up", "post_score", "content_select", "earn_currency",
 			"spend_currency", "tutorial_begin", "tutorial_complete",
 			"notifyInMins", "subscribeToTopic", "getToken", "invite",
@@ -248,7 +250,20 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
-	public void sendCustom(final String key, final String value) {
+	public void send_events(final String key, final Dictionary data) {
+		if (key.length() <= 0 || data.size() <= 0) {
+			Utils.d("Key or Data is null.");
+			return;
+		}
+
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Analytics.getInstance(activity).send_events(key, data);
+			}
+		});
+	}
+
+	public void send_custom(final String key, final String value) {
 		if (key.length() <= 0 || value.length() <= 0) {
 			Utils.d("Key or Value is null.");
 			return;
