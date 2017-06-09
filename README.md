@@ -89,7 +89,8 @@ func _receive_message(from, key, data):
 ```
 # Using FireBase Analytics
 ```
-firebase.sendCustom("TestKey", "SomeValue");
+firebase.send_events("EventName", Dictionary);
+firebase.send_custom("TestKey", "SomeValue");
 
 firebase.setScreenName("Screen_name")
 firebase.sendAchievement("someAchievementId")		# unlock achievement
