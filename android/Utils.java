@@ -228,5 +228,36 @@ public class Utils {
 		return true;
 	}
 
+	public static void putAllInDict(Bundle bundle, Dictionary keyValues) {
+		String[] keys = keyValues.get_keys();
+		for(int i=0; i < keys.length; i++) {
+			String key = keys[i];
+			Utils.putGodotValue(bundle, key, keyValues.get(key));
+		}
+	}
+
+	public static void putGodotValue(Bundle bundle, String key, Object value) {
+
+		if (value instanceof Boolean) {
+			bundle.putBoolean(key, (Boolean) value);
+
+		} else if (value instanceof Integer) {
+			bundle.putInt(key, (Integer) value);
+
+		} else if (value instanceof Double) {
+			bundle.putDouble(key, (Double) value);
+
+		} else if (value instanceof String) {
+			bundle.putString(key, (String) value);
+
+		} else {
+
+			if (value != null) {
+				bundle.putString(key, value.toString());
+			}
+
+		}
+	}
+
 	public static int script_instanceID = -1;
 }
