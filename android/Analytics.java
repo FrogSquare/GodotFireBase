@@ -173,14 +173,7 @@ public class Analytics {
 
 		// Generate bundle out of keyValues
 		Bundle bundle = new Bundle();
-		String[] keys = keyValues.get_keys();
-
-		for(int i=0; i < keys.length; i++) {
-			String key = keys[i];
-			Object value = keyValues.get(key);
-
-			bundle.putString(key, value.toString());
-		}
+		Utils.putAllInDict(bundle, keyValues);
 
 		// Dispatch event
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
