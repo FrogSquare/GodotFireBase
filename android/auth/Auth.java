@@ -36,6 +36,9 @@ public class Auth {
 
 	public static final int GOOGLE_AUTH 	= 0x0003;
 	public static final int FACEBOOK_AUTH	= 0x0004;
+	public static final int TWITTER_AUTH	= 0x0005;
+	public static final int EMAIL_AUTH	= 0x0006;
+	public static final int ANONYMOUS_AUTH	= 0x0007;
 
 	public static Auth getInstance (Activity p_activity) {
 		if (mInstance == null) {
@@ -73,15 +76,19 @@ public class Auth {
 
 		switch (type_id) {
 			case GOOGLE_AUTH:
-				Utils.d("Auth google sign in");
+				Utils.d("Auth:Google:SignIn");
 				GoogleSignIn.getInstance(activity).signIn();
 				break;
 			case FACEBOOK_AUTH:
-				Utils.d("Auth facebook sign in");
+				Utils.d("Auth:Facebook:SignIn");
 				FacebookSignIn.getInstance(activity).signIn();
 				break;
+			case ANONYMOUS_AUTH:
+				Utils.d("Auth:Anonymous:SignIn");
+				AnonymousAuth.getInstance(activity).signIn();
+				break;
 			default:
-				Utils.d("Auth type not available.");
+				Utils.d("Auth:Type:NotAvailable");
 				break;
 		}
 	}
@@ -93,15 +100,19 @@ public class Auth {
 
 		switch (type_id) {
 			case GOOGLE_AUTH:
-				Utils.d("Auth google sign out");
+				Utils.d("Auth:Google:SignOut");
 				GoogleSignIn.getInstance(activity).signOut();
 				break;
 			case FACEBOOK_AUTH:
-				Utils.d("Auth facebook sign out");
+				Utils.d("Auth:Facebook:SignOut");
 				FacebookSignIn.getInstance(activity).signOut();
 				break;
+			case ANONYMOUS_AUTH:
+				Utils.d("Auth:Anonymous:SignOut");
+				AnonymousAuth.getInstance(activity).signOut();
+				break;
 			default:
-				Utils.d("Auth type not available.");
+				Utils.d("Auth:Type:NotAvailable.");
 				break;
 		}
 	}
@@ -120,11 +131,24 @@ public class Auth {
 				Utils.d("FB:Revoke:Facebook");
 				FacebookSignIn.getInstance(activity).revokeAccess();
 				break;
+			case ANONYMOUS_AUTH:
+				Utils.d("FB:Revoke:Anonymous");
+				break;
 			default:
 				Utils.d("FB:Auth:Type:NotFound");
 		}
 
 	}
+
+	public void signUp(final int type_id) {
+		if (!isInitialized()) { return; }
+
+		Utils.d("Auth:Linking:" + type_id);
+/**
+		TODO: Signup/LinkAccount from Anonymous account.
+**/
+	}
+
 
 	@Nullable
 	public FirebaseUser getCurrentUser() {
@@ -181,12 +205,19 @@ public class Auth {
 	public boolean isConnected(final int type_id) {
 		Utils.d("Auth:Getting:Status");
 
-		if (type_id == GOOGLE_AUTH) {
-			Utils.d("Auth:Status:Google:True");
-			return GoogleSignIn.getInstance(activity).isConnected();
-		} else if (type_id == FACEBOOK_AUTH) {
-			Utils.d("Auth:Status:Facebook:True");
-			return FacebookSignIn.getInstance(activity).isConnected();
+		switch (type_id) {
+			case GOOGLE_AUTH:
+				Utils.d("Auth:Status:Google:True");
+				return GoogleSignIn.getInstance(activity).isConnected();
+			case FACEBOOK_AUTH:
+				Utils.d("Auth:Status:Facebook:True");
+				return FacebookSignIn.getInstance(activity).isConnected();
+			case ANONYMOUS_AUTH:
+				Utils.d("Auth:Status:Anonymous:True");
+				return AnonymousAuth.getInstance(activity).isConnected();
+			default:
+				Utils.d("Auth:Type:NotAvailable");
+				break;
 		}
 
 		Utils.d("Auth:Status:False");

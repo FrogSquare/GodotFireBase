@@ -60,22 +60,82 @@ public class AnonymousAuth {
 	public void init() {
 		// Initialize listener.
 		// ...
+
+		mAuth = FirebaseAuth.getInstance();
+		mAuthListener = new FirebaseAuth.AuthStateListener() {
+			@Override
+			public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+				FirebaseUser user = firebaseAuth.getCurrentUser();
+
+				if (user != null) {
+					// User is signed in
+					Utils.d(
+					"Anonymous:onAuthStateChanged:signed_in:" + user.getUid());
+
+					successSignIn(user);
+				} else {
+					// User is signed out
+					Utils.d("Anonymous:onAuthStateChanged:signed_out");
+					successSignOut();
+				}
+
+				// update firebase auth dets.
+			}
+		};
+
+		onStart();
 	}
 
 	public void signIn() {
+		mAuth.signInAnonymously()
+		.addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+			@Override
+			public void onComplete(@NonNull Task<AuthResult> task) {
+				if (task.isSuccessful()) {
+					//Sign in success, update with the signed-in user's information
+					Utils.d("Anonymous:SignIn:Success");
+				}
+			}
 
+		});
+	}
+
+	public void signUp (final int authType) {
+/**
+		AuthCredential credential = GoogleAuthProvider.getCredential(googleIdToken, null);
+		AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+		AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+
+		mAuth.getCurrentUser().linkWithCredential(credential)
+		.addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+			@Override
+			public void onComplete(@NonNull Task<AuthResult> task) {
+				if (task.isSuccessful()) {
+
+				} else {
+
+				}
+
+				// ...
+			}
+		});
+**/
 	}
 
 	public void signOut() {
-
+		mAuth.signOut();
 	}
 
-	protected void successSignIn () {
-
+	protected void successSignIn (FirebaseUser user) {
+		isAnonymousConnected = true;
 	}
 
 	protected void successSignOut () {
+		isAnonymousConnected =false;
+	}
 
+	public boolean isConnected () {
+		return isAnonymousConnected;
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -83,23 +143,23 @@ public class AnonymousAuth {
 	}
 
 	public void onStart () {
+		FirebaseUser user = mAuth.getCurrentUser();
+		if (user != null) { successSignIn(user); }
 
-	}
-
-	public void onPause () {
-
-	}
-
-	public void onResume () {
-
+		mAuth.addAuthStateListener(mAuthListener);
 	}
 
 	public void onStop () {
+		if (mAuthListener != null) { mAuth.removeAuthStateListener(mAuthListener); }
 
+		isAnonymousConnected = false;
+		activity = null;
 	}
 
 	private static Activity activity = null;
 	private static AnonymousAuth mInstance = null;
+
+	private static boolean isAnonymousConnected = false;
 
 	private FirebaseAuth mAuth;
 	private FirebaseAuth.AuthStateListener mAuthListener;

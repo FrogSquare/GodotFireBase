@@ -119,9 +119,11 @@ firebase.authConfig("'Google':true,'Facebook':true") // Configure Auth service
 
 firebase.google_sign_in() // Firebase connect to google.
 firebase.facebook_sign_in() // Firebase connect to facebook.
+firebase.anonymous_sign_in() // Firebase connect anonymously.
 
 firebase.google_sign_out() // Firebase disconnect from google.
 firebase.facebook_sign_out() // Firebase disconnect from facebook.
+firebase.anonymous_sign_out() // Firebase disconnect anonymously.
 
 var gUserDetails = firebase.get_google_user() // returns name, email_id, photo_uri
 var fbUserDetails = firebase.get_facebook_user() // returns name, email_id, photo_uri
@@ -129,8 +131,9 @@ var fbUserDetails = firebase.get_facebook_user() // returns name, email_id, phot
 firebase.google_revoke_access();
 firebase.facebook_revoke_access();
 
-firebase.is_google_connected() // bool check for google authentication
-firebase.is_facebook_connected() // bool check for facebook authentication
+firebase.is_google_connected() // bool check for google authentication (google)
+firebase.is_facebook_connected() // bool check for facebook authentication (facebook)
+firebase.is_anonymous_connected() // bool check for facebook authentication (anonymous)
 ```
 
 More for facebook permissions

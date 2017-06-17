@@ -52,13 +52,16 @@ public class FireBase extends Godot.SingletonBase {
 			"spend_currency", "tutorial_begin", "tutorial_complete",
 			"notifyInMins", "subscribeToTopic", "getToken", "invite",
 			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile", "alert",
-			"google_sign_in", "facebook_sign_in","google_sign_out", "facebook_sign_out",
-			"is_google_connected", "is_facebook_connected", "get_facebook_permissions",
+			"google_sign_in", "facebook_sign_in",  "anonymous_sign_in",
+			"google_sign_out", "facebook_sign_out", "anonymous_sign_out",
+			"is_google_connected", "is_facebook_connected", "is_anonymous_connected",
+			"get_facebook_permissions",
 			"facebook_has_permission", "revoke_facebook_permission",
 			"ask_facebook_read_permission", "ask_facebook_publish_permission",
 			"get_google_user", "get_facebook_user", "google_revoke_access",
 			"facebook_revoke_access", "authConfig", "show_banner_ad",
-			"show_interstitial_ad", "show_rewarded_video", "request_rewarded_video_status", "download", "upload"
+			"show_interstitial_ad", "show_rewarded_video",
+			"request_rewarded_video_status", "download", "upload"
 		});
 
 		activity = p_activity;
@@ -421,6 +424,23 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+
+	public void anonymous_sign_in() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).sign_in(Auth.ANONYMOUS_AUTH);
+			}
+		});
+	}
+
+	public void anonymous_sign_out() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).sign_out(Auth.ANONYMOUS_AUTH);
+			}
+		});
+	}
+
 	public void revoke_google_access() {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -443,6 +463,10 @@ public class FireBase extends Godot.SingletonBase {
 
 	public boolean is_facebook_connected() {
 		return Auth.getInstance(activity).isConnected(Auth.FACEBOOK_AUTH);
+	}
+
+	public boolean is_anonymous_connected() {
+		return Auth.getInstance(activity).isConnected(Auth.ANONYMOUS_AUTH);
 	}
 
 	public String get_google_user() {
