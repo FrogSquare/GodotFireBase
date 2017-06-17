@@ -1,5 +1,6 @@
 
 def can_build(plat):
+	#False;
 	return (plat == "android")
 
 def configure(env):

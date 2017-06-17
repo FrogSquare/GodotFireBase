@@ -183,13 +183,13 @@ firebase.setRemoteDefaultsFile("res://path/to/jsonfile.json")
 ```
 
 # Firebase Storage
-``
+```
 Upload Files from sdcard
 firebase.upload("images/file", "destFolder") // uploads file from sdcard to firebase
 
 Download Files from Firebase
 firebase.download("file", "images"); // Saves file from firebase to sdcard
-``
+```
 
 # Firebase Invites
 ```
@@ -217,10 +217,28 @@ Recive message from java
 func _receive_message(from, key, data):
 	if from == "FireBase":
 		if key == "AdMobReward":
-			print("json data with [RewardType & RewardAmount]: ", data)
-		elif key == "AdMobVideoStatus":
-			print("AdMob rewarded video status is ", data)
+			# when rewared video play complete
+			print("json data with [RewardType & RewardAmount]: ", data);
+
+		elif key == "AdMob_Video":
+			# when rewarded video loaded
+			# data will be `loaded` or `load_failed and `loaded` or `not_loaded` with `firebase.request_rewarded_video_status()`
+			print("AdMob rewarded video status is ", data);
+
+		elif key == "AdMob_Banner":
+			# when banner loaded
+			# data will be `loaded` or `load_failed`
+			print("Banner Status: ", data);
+
+		elif key == "AdMob_Interstitial" and data == "loaded":
+			# when Interstitial loaded
+			# data will be `loaded` or `load_failed`
+			print("Interstitial Status: ", data);
 ```
+
+# Note
+While exporting, don't forget to add `*.json` under Resources tab,
+![alt text](http://preview.ibb.co/fTwC8Q/Screenshot_from_2017_06_17_18_44_25.png)
 
 # Log Event
 ```
