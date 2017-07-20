@@ -41,7 +41,7 @@ RemoteConfigs default parameters `.xml` file is at `[GODOT-ROOT]/modules/FireBas
 ```
 var firebase = Globals.get_singleton("FireBase");
 ```
-For Analytics only `firebase.init("", get_instance_id());` or to user RemoteConfig or Notifications (subscribing to topic)
+For Analytics only `firebase.init("", get_instance_ID());` or to user RemoteConfig or Notifications (subscribing to topic)
 
 # GodotFireBase: copy `godot-firebase-config.json` to your projects root directord.
 GodotFireBase config file, By default every feature is disabled.
@@ -59,19 +59,19 @@ GodotFireBase config file, By default every feature is disabled.
 			"Google" : true,
 
 			"Facebook" : true,
-			"FacebookAppID" : "1234566789875"
+			"FacebookAppId" : "1234566789875"
 		   },
 
 "Ads"		 : {
 			"BannerAd" : true,
 			"BannerGravity" : "BOTTOM",
-			"BannerAdID" : "",
+			"BannerAdId" : "",
 
 			"InterstitialAd" : true,
-			"InterstitialAdID" : "",
+			"InterstitialAdId" : "",
 
 			"RewardedVideoAd" : true,
-			"RewardedVideoAdID" : ""
+			"RewardedVideoAdId" : ""
 		   }
 
 }
@@ -80,7 +80,7 @@ And  initialize firebase with file path
 ```
 func _ready():
 	if OS.get_name() == "Android":
-		firebase.initWithFile("res://godot-firebase-config.json", get_instance_id());
+		firebase.initWithFile("res://godot-firebase-config.json", get_instance_ID());
 
 func _receive_message(from, key, data):
 	from == "FireBase":
