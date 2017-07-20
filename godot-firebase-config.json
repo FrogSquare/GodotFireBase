@@ -17,13 +17,13 @@
 "Ads"		 : {
 			"BannerAd" : true,
 			"BannerGravity" : "BOTTOM",
-			"BannerAdID" : "",
+			"BannerAdId" : "",
 
 			"InterstitialAd" : true,
-			"InterstitialAdID" : "",
+			"InterstitialAdId" : "",
 
 			"RewardedVideoAd" : true,
-			"RewardedVideoAdID" : ""
+			"RewardedVideoAdId" : ""
 		   }
 
 }
