@@ -1,29 +1,28 @@
 {
+	"AdMob" : true,
+	"Authentication" : true,
+	"Invites" : true,
+	"RemoteConfig" : true,
+	"Notification" : true,
+	"Storage" : true,
 
-"AdMob"		 : true,
-"Authentication" : true,
-"Invites"	 : true,
-"RemoteConfig"	 : true,
-"Notification"	 : true,
-"Storage"	 : true,
+	"Auth" : 
+	{
+		"Google" : true,
+		"Facebook" : true,
+		"FacebookAppId" : "1234566789875"
+	},
 
-"Auth"		 : {
-			"Google" : true,
+	"Ads" : 
+	{
+		"BannerAd" : true,
+		"BannerGravity" : "BOTTOM",
+		"BannerAdId" : "",
 
-			"Facebook" : true,
-			"FacebookAppID" : "1234566789875"
-		   },
+		"InterstitialAd" : true,
+		"InterstitialAdId" : "",
 
-"Ads"		 : {
-			"BannerAd" : true,
-			"BannerGravity" : "BOTTOM",
-			"BannerAdId" : "",
-
-			"InterstitialAd" : true,
-			"InterstitialAdId" : "",
-
-			"RewardedVideoAd" : true,
-			"RewardedVideoAdId" : ""
-		   }
-
+		"RewardedVideoAd" : true,
+		"RewardedVideoAdId" : ""
+	}
 }

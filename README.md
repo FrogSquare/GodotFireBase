@@ -41,46 +41,46 @@ RemoteConfigs default parameters `.xml` file is at `[GODOT-ROOT]/modules/FireBas
 ```
 var firebase = Globals.get_singleton("FireBase");
 ```
-For Analytics only `firebase.init("", get_instance_id());` or to user RemoteConfig or Notifications (subscribing to topic)
+For Analytics only `firebase.init("", get_instance_ID());` or to user RemoteConfig or Notifications (subscribing to topic)
 
 # GodotFireBase: copy `godot-firebase-config.json` to your projects root directord.
 GodotFireBase config file, By default every feature is disabled.
 ```
 {
+	"AdMob" : true,
+	"Authentication" : true,
+	"Invites" : true,
+	"RemoteConfig" : true,
+	"Notification" : true,
+	"Storage" : true,
 
-"AdMob"		 : true,
-"Authentication" : true,
-"Invites"	 : true,
-"RemoteConfig"	 : true,
-"Notification"	 : true,
-"Storage"	 : true,
+	"Auth" : 
+	{
+		"Google" : true,
+		"Facebook" : true,
+		"FacebookAppId" : "1234566789875"
+	},
 
-"Auth"		 : {
-			"Google" : true,
+	"Ads" : 
+	{
+		"BannerAd" : true,
+		"BannerGravity" : "BOTTOM",
+		"BannerAdId" : "",
 
-			"Facebook" : true,
-			"FacebookAppID" : "1234566789875"
-		   },
+		"InterstitialAd" : true,
+		"InterstitialAdId" : "",
 
-"Ads"		 : {
-			"BannerAd" : true,
-			"BannerGravity" : "BOTTOM",
-			"BannerAdID" : "",
-
-			"InterstitialAd" : true,
-			"InterstitialAdID" : "",
-
-			"RewardedVideoAd" : true,
-			"RewardedVideoAdID" : ""
-		   }
-
+		"RewardedVideoAd" : true,
+		"RewardedVideoAdId" : ""
+	}
 }
+
 ```
 And  initialize firebase with file path
 ```
 func _ready():
 	if OS.get_name() == "Android":
-		firebase.initWithFile("res://godot-firebase-config.json", get_instance_id());
+		firebase.initWithFile("res://godot-firebase-config.json", get_instance_ID());
 
 func _receive_message(from, key, data):
 	from == "FireBase":

@@ -48,11 +48,8 @@ public class Analytics {
 	}
 
 	public void set_screen_name(final String s_name) {
-		Bundle bundle = new Bundle();
-		bundle.putString("screen_name", s_name);
-
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
-		mFirebaseAnalytics.logEvent("current_screen", bundle);
+		mFirebaseAnalytics.setCurrentScreen(activity, s_name, null);
 
 		Utils.d("Setting current screen to: " + s_name);
 	}
