@@ -44,37 +44,37 @@ var firebase = Globals.get_singleton("FireBase");
 For Analytics only `firebase.init("", get_instance_ID());` or to user RemoteConfig or Notifications (subscribing to topic)
 
 # GodotFireBase: copy `godot-firebase-config.json` to your projects root directord.
-GodotFireBase config file, By default every feature is disabled.
+GodotFireBase config file, By default every feature is enabled.
 ```
 {
+	"AdMob" : true,
+	"Authentication" : true,
+	"Invites" : true,
+	"RemoteConfig" : true,
+	"Notification" : true,
+	"Storage" : true,
 
-"AdMob"		 : true,
-"Authentication" : true,
-"Invites"	 : true,
-"RemoteConfig"	 : true,
-"Notification"	 : true,
-"Storage"	 : true,
+	"Auth" : 
+	{
+		"Google" : true,
+		"Facebook" : true,
+		"FacebookAppId" : "1234566789875"
+	},
 
-"Auth"		 : {
-			"Google" : true,
+	"Ads" : 
+	{
+		"BannerAd" : true,
+		"BannerGravity" : "BOTTOM",
+		"BannerAdId" : "",
 
-			"Facebook" : true,
-			"FacebookAppId" : "1234566789875"
-		   },
+		"InterstitialAd" : true,
+		"InterstitialAdId" : "",
 
-"Ads"		 : {
-			"BannerAd" : true,
-			"BannerGravity" : "BOTTOM",
-			"BannerAdId" : "",
-
-			"InterstitialAd" : true,
-			"InterstitialAdId" : "",
-
-			"RewardedVideoAd" : true,
-			"RewardedVideoAdId" : ""
-		   }
-
+		"RewardedVideoAd" : true,
+		"RewardedVideoAdId" : ""
+	}
 }
+
 ```
 And  initialize firebase with file path
 ```
