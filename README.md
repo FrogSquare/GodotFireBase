@@ -44,7 +44,7 @@ var firebase = Globals.get_singleton("FireBase");
 For Analytics only `firebase.init("", get_instance_ID());` or to user RemoteConfig or Notifications (subscribing to topic)
 
 # GodotFireBase: copy `godot-firebase-config.json` to your projects root directord.
-GodotFireBase config file, By default every feature is enabled.
+GodotFireBase config file, By default every feature is disabled.
 ```
 {
 	"AdMob" : true,
