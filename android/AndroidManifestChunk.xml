@@ -1,4 +1,5 @@
 
+	<!-- Notification -->
 	<service android:name="org.godotengine.godot.MessagingService">
 		<intent-filter>
 			<action android:name="com.google.firebase.MESSAGING_EVENT"/>
@@ -17,13 +18,17 @@
 		</intent-filter>
 
 	</service>
+	<!-- Notification -->
 
+	<!-- Storage -->
 	<service android:name="org.godotengine.godot.storage.DownloadService"
 	android:exported="false"/>
 
 	<service android:name="org.godotengine.godot.storage.UploadService"
 	android:exported="false"/>
+	<!-- Storage -->
 
+	<!-- Auth -->
 	<!-- Set facebook Application ID -->
 	<meta-data android:name="com.facebook.sdk.ApplicationId"
 	android:value="@string/facebook_app_id"/>
@@ -32,7 +37,9 @@
 	<activity android:name="com.facebook.FacebookActivity"
 	android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
 	android:label="@string/godot_project_name_string" />
+	<!-- Auth -->
 
+	<!-- Notification -->
 	<!-- Set custom default icon.
 	This is used when no icon is set for incoming notification messages.
 	See README(https://goo.gl/l4GJaQ) for more. -->
@@ -48,4 +55,5 @@
 	<meta-data
 	android:name="com.google.firebase.messaging.default_notification_color"
 	android:resource="@color/colorAccent" />
+	<!-- Notification -->
 

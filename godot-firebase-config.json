@@ -1,4 +1,5 @@
 {
+	"Analytics": true,
 	"AdMob" : true,
 	"Authentication" : true,
 	"Invites" : true,
@@ -6,7 +7,7 @@
 	"Notification" : true,
 	"Storage" : true,
 
-	"Auth" : 
+	"AuthConf" : 
 	{
 		"Google" : true,
 		"Facebook" : true,

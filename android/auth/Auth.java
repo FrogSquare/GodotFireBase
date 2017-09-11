@@ -67,6 +67,10 @@ public class Auth {
 		if (config.optBoolean("Facebook", false)) {
 			FacebookSignIn.getInstance(activity).init();
 		}
+
+		if (config.optBoolean("Twitter", false)) {
+			TwitterSignIn.getInstance(activity).init();
+		}
 	}
 
 	public void sign_in (final int type_id) {
@@ -86,6 +90,9 @@ public class Auth {
 			case ANONYMOUS_AUTH:
 				Utils.d("Auth:Anonymous:SignIn");
 				AnonymousAuth.getInstance(activity).signIn();
+			case TWITTER_AUTH:
+				Utils.d("Auth twitter sign in");
+				TwitterSignIn.getInstance(activity).signIn();
 				break;
 			default:
 				Utils.d("Auth:Type:NotAvailable");
@@ -110,6 +117,9 @@ public class Auth {
 			case ANONYMOUS_AUTH:
 				Utils.d("Auth:Anonymous:SignOut");
 				AnonymousAuth.getInstance(activity).signOut();
+			case TWITTER_AUTH:
+				Utils.d("Auth twitter sign out");
+				TwitterSignIn.getInstance(activity).signOut();
 				break;
 			default:
 				Utils.d("Auth:Type:NotAvailable.");
@@ -250,6 +260,11 @@ public class Auth {
 			FacebookSignIn.getInstance(activity)
 			.onActivityResult(requestCode, resultCode, data);
 		}
+
+		if (config.optBoolean("Twitter", false)) {
+			TwitterSignIn.getInstance(activity)
+			.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 
 	public void onStart() {
@@ -261,6 +276,10 @@ public class Auth {
 
 		if (config.optBoolean("Facebook", false)) {
 			FacebookSignIn.getInstance(activity).onStart();
+		}
+
+		if (config.optBoolean("Twitter", false)) {
+			TwitterSignIn.getInstance(activity).onStart();
 		}
 
 	}
@@ -282,6 +301,10 @@ public class Auth {
 
 		if (config.optBoolean("Facebook", false)) {
 			FacebookSignIn.getInstance(activity).onStop();
+		}
+
+		if (config.optBoolean("Twitter", false)) {
+			TwitterSignIn.getInstance(activity).onStop();
 		}
 	}
 

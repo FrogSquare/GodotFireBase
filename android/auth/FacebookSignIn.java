@@ -51,6 +51,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 import com.godot.game.R;
 
@@ -93,8 +94,13 @@ public class FacebookSignIn {
 			public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 				FirebaseUser user = firebaseAuth.getCurrentUser();
 				if (user != null) {
-					Utils.d("FB:onAuthStateChanged:signed_in:" + user.getUid());
-					successLogin(user);
+					for (UserInfo usr : user.getProviderData()) {
+						if (usr.getProviderId().equals("facebook.com")) {
+							Utils.d("FB:AuthStateChanged:signed_in:"+
+							user.getUid());
+							successLogin(user);
+						}
+					}
 				} else {
 					// User is signed out
 					Utils.d("FB:onAuthStateChanged:signed_out");

@@ -11,7 +11,7 @@ Godot_FireBase is a firebase integration for godot android;
 
 > Analytics
 
-> Authentication [W.I.P] Google, Facebook
+> Authentication [W.I.P] Google, Facebook, Twitter
 
 > Firebase Notification
 
@@ -27,6 +27,8 @@ copy your `google-services.json` file to `[GODOT-ROOT]/platform/android/java/` a
 env.android_add_default_config("applicationId 'com.your.appid'")
 ```
 replay `com.your.appid` with you android application id.
+
+For customizing the module go [here](https://github.com/FrogSquare/GodotFireBase/wiki/Customize-GodotFireBase)
 
 # Initialize FireBase
 Edit engine.cfg and add
@@ -54,9 +56,10 @@ GodotFireBase config file, By default every feature is disabled.
 	"Notification" : true,
 	"Storage" : true,
 
-	"Auth" : 
+	"AuthConf" : 
 	{
 		"Google" : true,
+		"Twitter" : true,
 		"Facebook" : true,
 		"FacebookAppId" : "1234566789875"
 	},
@@ -119,10 +122,12 @@ firebase.authConfig("'Google':true,'Facebook':true") // Configure Auth service
 
 firebase.google_sign_in() // Firebase connect to google.
 firebase.facebook_sign_in() // Firebase connect to facebook.
+firebase.twitter_sign_in() // Firebase connect to twitter.
 firebase.anonymous_sign_in() // Firebase connect anonymously.
 
 firebase.google_sign_out() // Firebase disconnect from google.
 firebase.facebook_sign_out() // Firebase disconnect from facebook.
+firebase.twitter_sign_out() // Firebase disconnect from twitter.
 firebase.anonymous_sign_out() // Firebase disconnect anonymously.
 
 var gUserDetails = firebase.get_google_user() // returns name, email_id, photo_uri

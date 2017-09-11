@@ -38,6 +38,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 
 import com.godot.game.R;
 
@@ -95,16 +96,14 @@ public class GoogleSignIn
 				FirebaseUser user = firebaseAuth.getCurrentUser();
 
 				if (user != null) {
-					// User is signed in
-					Utils.d(
-					"Google:onAuthStateChanged:signed_in:" + user.getUid());
+					for (UserInfo usr : user.getProviderData()) {
+						if (usr.getProviderId().equals("google.com")) {
+							Utils.d("Google:AuthStateChanged:signed_in:"+
+							user.getUid());
 
-					if (!mGoogleApiClient.isConnected() &&
-					!mGoogleApiClient.isConnecting()) {
-						mGoogleApiClient.connect();
+							successSignIn(user);
+						}
 					}
-
-					successSignIn(user);
 				} else {
 					// User is signed out
 					Utils.d("Google:onAuthStateChanged:signed_out");

@@ -32,11 +32,16 @@ import org.json.JSONException;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
+//Auth++
 import org.godotengine.godot.auth.Auth;
-import org.godotengine.godot.Dictionary;
+//Auth--
+
+//Storage++
 import org.godotengine.godot.storage.Storage;
+//Storage--
+
+import org.godotengine.godot.Dictionary;
 
 public class FireBase extends Godot.SingletonBase {
 
@@ -46,22 +51,47 @@ public class FireBase extends Godot.SingletonBase {
 
 	public FireBase(Activity p_activity) {
 		registerClass ("FireBase", new String[] {
-			"init", "initWithFile", "setScreenName", "sendAchievement", "send_custom",
-			"send_events",
-			"join_group", "level_up", "post_score", "content_select", "earn_currency",
+			"init", "initWithFile", "alert",
+
+			//Analytics++
+			"setScreenName", "sendAchievement", "sendCustom", "join_group", "level_up",
+			"post_score", "content_select", "earn_currency",
 			"spend_currency", "tutorial_begin", "tutorial_complete",
-			"notifyInMins", "subscribeToTopic", "getToken", "invite",
-			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile", "alert",
-			"google_sign_in", "facebook_sign_in",  "anonymous_sign_in",
-			"google_sign_out", "facebook_sign_out", "anonymous_sign_out",
-			"is_google_connected", "is_facebook_connected", "is_anonymous_connected",
+			//Analytics--
+
+			//AdMob++
+			"show_banner_ad", "show_interstitial_ad", "show_rewarded_video",
+			"request_rewarded_video_status",
+			//AdMob--
+
+			//Auth++
+			"google_sign_in", "facebook_sign_in", "twitter_sign_in", "anonymous_sign_in",
+			"google_sign_out", "facebook_sign_out", "twitter_sign_out",
+			"anonymous_sign_out",
+			"is_google_connected", "is_facebook_connected", "is_twitter_connected",
+			"is_anonymous_connected",
 			"get_facebook_permissions",
 			"facebook_has_permission", "revoke_facebook_permission",
 			"ask_facebook_read_permission", "ask_facebook_publish_permission",
 			"get_google_user", "get_facebook_user", "google_revoke_access",
-			"facebook_revoke_access", "authConfig", "show_banner_ad",
-			"show_interstitial_ad", "show_rewarded_video",
-			"request_rewarded_video_status", "download", "upload"
+			"facebook_revoke_access", "authConfig",
+			//Auth--
+
+			//Notification++
+			"notifyInMins", "subscribeToTopic", "getToken",
+			//Notification--
+
+			//Invites++
+			"invite",
+			//Invites--
+
+			//RemoteConfig++
+			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile",
+			//RemoteConfig--
+
+			//Storage++
+			"download", "upload"
+			//Storage--
 		});
 
 		activity = p_activity;
@@ -73,48 +103,69 @@ public class FireBase extends Godot.SingletonBase {
 		JSONObject config = null;
 		mFirebaseApp = FirebaseApp.initializeApp(activity);
 
-		Analytics.getInstance(activity).init(mFirebaseApp);
-
 		if (data.length() <= 0) {
 			Utils.d("FireBase initialized.");
 			return;
 		}
 
-		try { config = new JSONObject(data); }
-		catch (JSONException e) { Utils.d("JSON Parse error: " + e.toString()); }
+		try { 
+			config = new JSONObject(data);
+			firebaseConfig = config;
+		} catch (JSONException e) { Utils.d("JSON Parse error: " + e.toString()); }
 
-		firebaseConfig = config;
-
-		if (config.optBoolean("Notification", false)) {
-			Utils.d("Initializing Firebase Notification.");
-				Notification.getInstance(activity).init(mFirebaseApp);
+		//Analytics++
+		if (config.optBoolean("Analytics", true)) {
+			Utils.d("Initializing Firebase Analytics.");
+			Analytics.getInstance(activity).init(mFirebaseApp);
 		}
+		//Analytics--
 
-		if (config.optBoolean("RemoteConfig", false)) {
-			Utils.d("Initializing Firebase RemoteConfig.");
-			RemoteConfig.getInstance(activity).init(mFirebaseApp);
-		}
-
-		if (config.optBoolean("Invites", false)) {
-			Utils.d("Initializing Firebase Invites.");
-			Invites.getInstance(activity).init(mFirebaseApp);
-		}
-
-		if (config.optBoolean("Authentication", false)) {
-			Utils.d("Initializing Firebase Authentication.");
-			Auth.getInstance(activity).init(mFirebaseApp);
-			Auth.getInstance(activity).configure(config.optString("Auth"));
-		}
-
+		//AdMob++
 		if (config.optBoolean("AdMob", false)) {
 			Utils.d("Initializing Firebase AdMob.");
 			AdMob.getInstance(activity).init(mFirebaseApp);
 		}
+		//AdMob--
 
+		//Auth++
+		if (config.optBoolean("Authentication", false)) {
+			Utils.d("Initializing Firebase Authentication.");
+			Auth.getInstance(activity).init(mFirebaseApp);
+			Auth.getInstance(activity).configure(config.optString("AuthConf"));
+		}
+		//Auth--
+
+		//Notification++
+		if (config.optBoolean("Notification", false)) {
+			Utils.d("Initializing Firebase Notification.");
+			Notification.getInstance(activity).init(mFirebaseApp);
+		}
+		//Notification--
+
+		//Invites++
+		if (config.optBoolean("Invites", false)) {
+			Utils.d("Initializing Firebase Invites.");
+			Invites.getInstance(activity).init(mFirebaseApp);
+		}
+		//Invites--
+
+		//RemoteConfig++
+		if (config.optBoolean("RemoteConfig", false)) {
+			Utils.d("Initializing Firebase RemoteConfig.");
+			RemoteConfig.getInstance(activity).init(mFirebaseApp);
+		}
+		//RemoteConfig--
+
+		//Storage++
 		if (config.optBoolean("Storage", false)) {
+			if (!config.optBoolean("Authentication", false)) {
+				Utils.d("Firebase Storage needs Authentication.");
+			}
+
 			Utils.d("Initializing Firebase Storage.");
 			Storage.getInstance(activity).init(mFirebaseApp);
 		}
+		//Storage--
 
 		Utils.d("FireBase initialized.");
 	}
@@ -132,11 +183,6 @@ public class FireBase extends Godot.SingletonBase {
 		bld.setMessage(message);
 		bld.setNeutralButton("OK", null);
 		bld.create().show();
-	}
-
-	public void initMessaging() {
-		Notification.getInstance(activity).init(mFirebaseApp);
-		Utils.d("Cloud Messaging initialized..!");
 	}
 
 	public void init(final String data, final int script_id) {
@@ -160,8 +206,7 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
-	/** Analytics **/
-
+	//Analytics++
 	public void setScreenName (final String screen_name) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -278,112 +323,43 @@ public class FireBase extends Godot.SingletonBase {
 			}
 		});
 	}
+	//Analytics--
 
-	/** Extra **/
-
-	public void alert(final String message) {
-		if (message.length() <= 0) {
-			Utils.d("Message is empty.");
-			return;
-		}
-
+	//AdMob++
+	public void show_banner_ad(final boolean show) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				alertMsg(message);
+				AdMob.getInstance(activity).show_banner_ad(show);
 			}
 		});
 	}
 
-	/** Notification **/
-
-	public void notifyInMins (final String message, final int mins) {
+	public void show_interstitial_ad() {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				Notification.getInstance(activity).notifyInMins(message, mins);
+				AdMob.getInstance(activity).show_interstitial_ad();
 			}
 		});
 	}
 
-	public void subscribeToTopic (final String topic) {
-		if (topic.length() <= 0) {
-			Utils.d("Topic id not provided.");
-			return;
-		}
-
+	public void request_rewarded_video_status() {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				Notification.getInstance(activity).subscribe(topic);
+				AdMob.getInstance(activity).requestRewardedVideoStatus();
 			}
 		});
 	}
 
-	public String getToken () {
-		return Notification.getInstance(activity).getFirebaseMessagingToken();
-	}
-
-	public void sendTokenToServer () {
+	public void show_rewarded_video() {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-
+				AdMob.getInstance(activity).show_rewarded_video();
 			}
 		});
 	}
+	//AdMob--
 
-	/** RemoteConfig **/
-
-	public String getRemoteValue (final String key) {
-		if (key.length() <= 0) {
-			Utils.d("getting remote config: key not provided, returning null");
-			return "NULL";
-		}
-
-		return RemoteConfig.getInstance(activity).getValue(key);
-	}
-
-	public void setRemoteDefaultsFile (final String path) {
-		if (path.length() <= 0) {
-			Utils.d("File not provided for remote config");
-			return;
-		}
-
-		activity.runOnUiThread(new Runnable() {
-			public void run() {
-				RemoteConfig.getInstance(activity).setDefaultsFile(path);
-			}
-		});
-	}
-
-	public void setRemoteDefaults (final String jsonData) {
-		if (jsonData.length() <= 0) {
-			Utils.d("No defaults were provided.");
-			return;
-		}
-
-		activity.runOnUiThread(new Runnable() {
-			public void run() {
-				RemoteConfig.getInstance(activity).setDefaults(jsonData);
-			}
-		});
-	}
-
-	/** Invites **/
-
-	public void invite (final String message, final String deepLink) {
-		activity.runOnUiThread(new Runnable() {
-			public void run() {
-				if (deepLink.length() <= 0) {
-					Utils.d("DeepLink not provided falling back simple share");
-					Invites.getInstance(activity).invite(message);
-				} else {
-					Utils.d("Using Firebase DeepLink");
-					Invites.getInstance(activity).invite(message, deepLink);
-				}
-			}
-		});
-	}
-
-	/** FireBase Authentication **/
-
+	//Auth++
 	public void authConfig(final String conf) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -408,6 +384,22 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+	public void twitter_sign_in () {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).sign_in(Auth.TWITTER_AUTH);
+			}
+		});
+	}
+
+	public void twitter_sign_out() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).sign_out(Auth.TWITTER_AUTH);
+			}
+		});
+	}
+
 	public void facebook_sign_in() {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -423,7 +415,6 @@ public class FireBase extends Godot.SingletonBase {
 			}
 		});
 	}
-
 
 	public void anonymous_sign_in() {
 		activity.runOnUiThread(new Runnable() {
@@ -514,41 +505,112 @@ public class FireBase extends Godot.SingletonBase {
 			}
 		});
 	}
+	//Auth--
 
-	/** AdMob **/
+	/** Extra **/
+	public void alert(final String message) {
+		if (message.length() <= 0) {
+			Utils.d("Message is empty.");
+			return;
+		}
 
-	public void show_banner_ad(final boolean show) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				AdMob.getInstance(activity).show_banner_ad(show);
+				alertMsg(message);
+			}
+		});
+	}
+	/** Extra **/
+
+	//Notification++
+	public void notifyInMins (final String message, final int mins) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Notification.getInstance(activity).notifyInMins(message, mins);
 			}
 		});
 	}
 
-	public void show_interstitial_ad() {
+	public void subscribeToTopic (final String topic) {
+		if (topic.length() <= 0) {
+			Utils.d("Topic id not provided.");
+			return;
+		}
+
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				AdMob.getInstance(activity).show_interstitial_ad();
+				Notification.getInstance(activity).subscribe(topic);
 			}
 		});
 	}
 
-	public void request_rewarded_video_status() {
+	public String getToken () {
+		return Notification.getInstance(activity).getFirebaseMessagingToken();
+	}
+
+	public void sendTokenToServer () {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				AdMob.getInstance(activity).requestRewardedVideoStatus();
+
+			}
+		});
+	}
+	//Notification--
+
+	//Invites++
+	public void invite (final String message, final String deepLink) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				if (deepLink.length() <= 0) {
+					Utils.d("DeepLink not provided fall back to simple share");
+					Invites.getInstance(activity).invite(message);
+				} else {
+					Utils.d("Using Firebase DeepLink");
+					Invites.getInstance(activity).invite(message, deepLink);
+				}
+			}
+		});
+	}
+	//Invites--
+
+	//RemoteConfig++
+	public String getRemoteValue (final String key) {
+		if (key.length() <= 0) {
+			Utils.d("getting remote config: key not provided, returning null");
+			return "NULL";
+		}
+
+		return RemoteConfig.getInstance(activity).getValue(key);
+	}
+
+	public void setRemoteDefaultsFile (final String path) {
+		if (path.length() <= 0) {
+			Utils.d("File not provided for remote config");
+			return;
+		}
+
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				RemoteConfig.getInstance(activity).setDefaultsFile(path);
 			}
 		});
 	}
 
-	public void show_rewarded_video() {
+	public void setRemoteDefaults (final String jsonData) {
+		if (jsonData.length() <= 0) {
+			Utils.d("No defaults were provided.");
+			return;
+		}
+
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				AdMob.getInstance(activity).show_rewarded_video();
+				RemoteConfig.getInstance(activity).setDefaults(jsonData);
 			}
 		});
 	}
+	//RemoteConfig--
 
+	//Storage++
 	public void download(final String file, final String path) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -564,42 +626,85 @@ public class FireBase extends Godot.SingletonBase {
 			}
 		});
 	}
+	//Storage--
 
 	/** Main Funcs **/
-
 	public static JSONObject getConfig() {
 		return firebaseConfig;
 	}
 
 	protected void onMainActivityResult (int requestCode, int resultCode, Intent data) {
+		//Analytics++
 		// Analytics.getInstance(activity).onActivityResult(requestCode, resultCode, data);
+		//Analytics--
+
+		//Invites++
 		Invites.getInstance(activity).onActivityResult(requestCode, resultCode, data);
+		//Invites--
+
+		//Auth++
 		Auth.getInstance(activity).onActivityResult(requestCode, resultCode, data);
+		//Auth--
 	}
 
 	protected void onMainPause () {
+		//Analytics++
 		// Analytics.getInstance(activity).onPause();
-		// RemoteConfig.getInstance(activity).onPause();
+		//Analytics--
 
+		//RemoteConfig++
+		// RemoteConfig.getInstance(activity).onPause();
+		//RemoteConfig--
+
+		//Auth++
 		Auth.getInstance(activity).onPause();
+		//Auth--
+
+	
+		//AdMob++
 		AdMob.getInstance(activity).onPause();
+		//AdMob--
 	}
 
 	protected void onMainResume () {
+		//Analytics++
 		// Analytics.getInstance(activity).onResume();
-		// RemoteConfig.getInstance(activity).onResume();
+		//Analytics--
 
+		//RemoteConfig++
+		// RemoteConfig.getInstance(activity).onResume();
+		//RemoteConfig++
+
+		//Auth++
 		Auth.getInstance(activity).onResume();
+		//Auth--
+
+
+		//AdMob++
 		AdMob.getInstance(activity).onResume();
+		//AdMob--
 	}
 
 	protected void onMainDestroy () {
+		//Analytics++
 		// Analytics.getInstance(activity).onStop();
-		// RemoteConfig.getInstance(activity).onStop();
+		//Analytics--
 
+		//RemoteConfig++
+		// RemoteConfig.getInstance(activity).onStop();
+		//RemoteConfig--
+
+		//Auth++
 		Auth.getInstance(activity).onStop();
+		//Auth--
+
+		//AdMob++
 		AdMob.getInstance(activity).onStop();
+		//AdMob--
+
+		//Storage++
 		Storage.getInstance(activity).onStop();
+		//Storage--
 	}
 
 	private static Context context = null;
