@@ -2,7 +2,7 @@
 Godot_FireBase is a firebase integration for godot android;
 
 # Depends on
-> Godot game engine (2.1/2.2-legacy): `git clone https://github.com/godotengine/godot`
+> Godot game engine (2.1.x/2.2-legacy): `git clone https://github.com/godotengine/godot`
 
 > GodotSQL: `git clone https://github.com/FrogSquare/GodotSQL`
 
@@ -34,7 +34,7 @@ For customizing the module go [here](https://github.com/FrogSquare/GodotFireBase
 Edit engine.cfg and add
 ```
 [android]
-modules="org/godotengine/godot/FireBase"
+modules="org/godotengine/godot/FireBase,org/godotengine/godot/SQLBridge"
 ```
 
 RemoteConfigs default parameters `.xml` file is at `[GODOT-ROOT]/modules/FireBase/res/xml/remote_config_defaults.xml`
