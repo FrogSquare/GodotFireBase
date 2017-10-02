@@ -30,6 +30,10 @@ replay `com.your.appid` with you android application id.
 
 For customizing the module go [here](https://github.com/FrogSquare/GodotFireBase/wiki/Customize-GodotFireBase)
 
+# FAQ
+**Should I rename the android_new folder after customization?**
+> No, After customization the folder used by the module will be `android_new`, And `android` folder will be a backup for future customization.
+
 # Initialize FireBase
 Edit engine.cfg and add
 ```
