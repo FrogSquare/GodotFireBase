@@ -53,4 +53,4 @@ def configure(env):
 		env.android_add_to_permissions("android/AndroidPermissionsChunk.xml");
 		env.android_add_default_config("minSdkVersion 15")
 		env.android_add_default_config("applicationId 'com.froglogics.dotsndots'")
-		env.disable_module()
+		#env.disable_module()

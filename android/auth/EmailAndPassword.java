@@ -111,12 +111,12 @@ public class EmailAndPassword {
 			currentEPUser.put("photo_uri", user.getPhotoUrl());
 		} catch(JSONException e) { Utils.d("E&P:JSON:Parse:Error"); }
 
-		// Utils.callScriptFunc("login", "true");
+		// Utils.callScriptFunc("Auth", "login", "true");
 	}
 
 	private void successSignOut() {
 
-		// Utils.callScriptFunc("login", "false");
+		// Utils.callScriptFunc("Auth", "login", "false");
 	}
 
 	private void sendEmailVerification() {

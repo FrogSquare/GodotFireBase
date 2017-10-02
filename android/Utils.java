@@ -209,19 +209,19 @@ public class Utils {
 		script_instanceID = instanceID;
 	}
 
-	public static void callScriptFunc(int script_id, String key, String value) {
+	public static void callScriptFunc(int script_id, String from, Object key, Object value) {
 		GodotLib.calldeferred(script_id, "_receive_message",
-		new Object[] { Config.TAG, key, value });
+		new Object[] { Config.TAG, from, key, value });
 	}
 
-	public static void callScriptFunc(String key, String value) {
+	public static void callScriptFunc(String from, Object key, Object value) {
 		if (script_instanceID == -1) {
-			// Utils.d("Script instance not set");
+			Utils.d("Script::Instance::NotSset");
 			return;
 		}
 
 		GodotLib.calldeferred(script_instanceID, "_receive_message",
-		new Object[] { Config.TAG, key, value });
+		new Object[] { Config.TAG, from, key, value });
 	}
 
 	public static boolean checkGooglePlayService(Activity activity) {

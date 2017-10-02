@@ -113,13 +113,13 @@ public class AdMob {
 			@Override
 			public void onAdLoaded() {
 				Utils.d("AdMob:Banner:OnAdLoaded");	
-				Utils.callScriptFunc("AdMob_Banner", "loaded");
+				Utils.callScriptFunc("AdMob", "AdMob_Banner", "loaded");
 			}
 
 			@Override
 			public void onAdFailedToLoad(int errorCode) {
 				Utils.w("AdMob:Banner:onAdFailedToLoad:" + errorCode);
-				Utils.callScriptFunc("AdMob_Banner", "load_failed");
+				Utils.callScriptFunc("AdMob", "AdMob_Banner", "load_failed");
 			}
 		});
 
@@ -145,13 +145,13 @@ public class AdMob {
 			@Override
 			public void onAdLoaded() {
 				Utils.d("AdMob:Interstitial:OnAdLoaded");
-				Utils.callScriptFunc("AdMob_Interstitial", "loaded");
+				Utils.callScriptFunc("AdMob", "AdMob_Interstitial", "loaded");
 			}
 
 			@Override
 			public void onAdFailedToLoad(int errorCode) {
 				Utils.w("AdMob:Interstitial:onAdFailedToLoad:" + errorCode);
-				Utils.callScriptFunc("AdMob_Interstitial", "load_failed");
+				Utils.callScriptFunc("AdMob", "AdMob_Interstitial", "load_failed");
 			}
 
 			@Override
@@ -165,7 +165,7 @@ public class AdMob {
 	}
 
 	public void emitRewardedVideoStatus() {
-		Utils.callScriptFunc("AdMob_Video", mrv.isLoaded() ? "loaded" : "not_loaded");
+		Utils.callScriptFunc("AdMob", "AdMob_Video", mrv.isLoaded() ? "loaded" : "not_loaded");
 	}
 
 	public void createRewardedVideo() {
@@ -192,13 +192,13 @@ public class AdMob {
 					Utils.d("AdMob:Reward:Error:" + e.toString());
 				}
 
-				Utils.callScriptFunc("AdMobReward", ret.toString());
+				Utils.callScriptFunc("AdMob", "AdMobReward", ret.toString());
 			}
 
 			@Override
 			public void onRewardedVideoAdFailedToLoad(int errorCode) {
 				Utils.d("AdMob:VideoLoad:Failed");
-				Utils.callScriptFunc("AdMob_Video", "load_failed");
+				Utils.callScriptFunc("AdMob", "AdMob_Video", "load_failed");
 			}
 
 			@Override

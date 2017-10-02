@@ -140,7 +140,7 @@ public class TwitterSignIn {
 			currentTwitterUser.put("photo_uri", user.getPhotoUrl());
 		} catch (JSONException e) { Utils.d("Twitter:JSON:Error:" + e.toString()); }
 
-		Utils.callScriptFunc("TwitterLogin", "true");
+		Utils.callScriptFunc("Auth", "TwitterLogin", "true");
 	}
 
 	protected void successSignOut() {
@@ -151,7 +151,7 @@ public class TwitterSignIn {
 		currentTwitterUser = null;
 		currentTwitterUser = new JSONObject();
 
-		Utils.callScriptFunc("TwitterLogin", "false");
+		Utils.callScriptFunc("Auth", "TwitterLogin", "false");
 	}
 
 	private void handleTwitterSession(TwitterSession session) {

@@ -181,7 +181,7 @@ public class GoogleSignIn
 			currentGoogleUser.put("photo_uri", user.getPhotoUrl());
 		} catch (JSONException e) { Utils.d("Google:JSON:Error:" + e.toString()); }
 
-		Utils.callScriptFunc("GoogleLogin", "true");
+		Utils.callScriptFunc("Auth", "GoogleLogin", "true");
 	}
 
 	protected void successSignOut() {
@@ -192,7 +192,7 @@ public class GoogleSignIn
 		currentGoogleUser = null;
 		currentGoogleUser = new JSONObject();
 
-		Utils.callScriptFunc("GoogleLogin", "false");
+		Utils.callScriptFunc("Auth", "GoogleLogin", "false");
 	}
 
 	private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {

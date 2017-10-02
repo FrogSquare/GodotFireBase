@@ -85,9 +85,9 @@ func _ready():
 	if OS.get_name() == "Android":
 		firebase.initWithFile("res://godot-firebase-config.json", get_instance_ID());
 
-func _receive_message(from, key, data):
-	from == "FireBase":
-		print("Key: " + key, " Data: ", data)
+func _receive_message(tag, from, key, data):
+	if tag == "FireBase":
+		print("From: ", from, " Key: ", key, " Data: ", data)
 
 ```
 # Using FireBase Analytics
@@ -157,10 +157,11 @@ firbase.get_facebook_permissions() // getting available permissions
 Recive message from java
 
 ```
-func _recive_message(from, key, data):
-	from == "FireBase":
-		if key == "GoogleLogin" && data == "true": print("User Signed in.");
-		if key == "FacebookLogin" && data == "true": print("User Signed in.");
+func _recive_message(tag, from, key, data):
+	tag == "FireBase":
+		if from == "Auth":
+			if key == "GoogleLogin" && data == "true": print("User Signed in.");
+			if key == "FacebookLogin" && data == "true": print("User Signed in.");
 ```
 
 # Firebase Notification API
@@ -222,8 +223,8 @@ firebase.request_rewarded_video_status() // Request the rewarded video status
 Recive message from java
 
 ```
-func _receive_message(from, key, data):
-	if from == "FireBase":
+func _receive_message(tag, from, key, data):
+	if tag == "FireBase" and from == "AdMob":
 		if key == "AdMobReward":
 			# when rewared video play complete
 			print("json data with [RewardType & RewardAmount]: ", data);

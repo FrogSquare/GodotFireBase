@@ -392,7 +392,7 @@ public class FacebookSignIn {
 		getPermissions();
 
 		// call Script
-		Utils.callScriptFunc("FacebookLogin", "true");
+		Utils.callScriptFunc("Auth", "FacebookLogin", "true");
 	}
 
 	protected void successLogOut () {
@@ -402,7 +402,7 @@ public class FacebookSignIn {
 		currentFBUser = new JSONObject();
 
 		// call script.
-		Utils.callScriptFunc("FacebookLogin", "false");
+		Utils.callScriptFunc("Auth", "FacebookLogin", "false");
 	}
 
 	public String getUserDetails() {
