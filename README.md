@@ -1,6 +1,11 @@
 ## GodotFireBase
 Godot_FireBase is a firebase integration for godot android;
 
+[![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://github.com/FrogSquare/GodotFireBase)
+[![GodotEngine](https://img.shields.io/badge/Godot_Engine-2.X%20/%203.X-blue.svg)](https://github.com/godotengine/godot)
+[![LICENCE](https://img.shields.io/badge/License-Apache_V2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![PATREON](https://img.shields.io/badge/Patreon-donate-yellow.svg)](https://www.patreon.com/bePatron?u=5130479)
+
 # Depends on
 > Godot game engine (2.1.x/2.2-legacy): `git clone https://github.com/godotengine/godot`
 
@@ -20,6 +25,8 @@ Godot_FireBase is a firebase integration for godot android;
 > Storage
 
 > Invites (Email & SMS)
+
+> Firestore (W.I.P)
 
 # Build/Compile module
 copy your `google-services.json` file to `[GODOT-ROOT]/platform/android/java/` and edit file modules/FireBase/config.py at line 17
@@ -59,6 +66,7 @@ GodotFireBase config file, By default every feature is disabled.
 	"RemoteConfig" : true,
 	"Notification" : true,
 	"Storage" : true,
+	"FireStore" : true,
 
 	"AuthConf" : 
 	{
@@ -224,8 +232,16 @@ firebase.show_rewarded_video()	// Show Rewarded Video Ad
 firebase.request_rewarded_video_status() // Request the rewarded video status
 ```
 
-Recive message from java
+# Firebase Firestore
+```
+firebase.add_document("collection_name", dict) // Auto created new Document under collection_name
+firebase.set_document("collection_name", "document_name", data) // Set document data, Data's are merged by default
+firebase.load_document("collection_name") // load or retrive from the server,
 
+Note: documents will be sent to the `_receive_message` function as json
+```
+
+Recive message from java
 ```
 func _receive_message(tag, from, key, data):
 	if tag == "FireBase" and from == "AdMob":

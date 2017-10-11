@@ -65,16 +65,25 @@ public class FireBase extends Godot.SingletonBase {
 			//AdMob--
 
 			//Auth++
-			"google_sign_in", "facebook_sign_in", "twitter_sign_in", "anonymous_sign_in",
-			"google_sign_out", "facebook_sign_out", "twitter_sign_out",
-			"anonymous_sign_out",
-			"is_google_connected", "is_facebook_connected", "is_twitter_connected",
-			"is_anonymous_connected",
-			"get_facebook_permissions",
-			"facebook_has_permission", "revoke_facebook_permission",
+			//AuthGoogle++
+			"google_sign_in", "google_sign_out",
+			"is_google_connected", "get_google_user",  "google_revoke_access",
+			//AuthGoogle--
+
+			//AuthFacebook++
+			"facebook_sign_out", "facebook_sign_in", "is_facebook_connected",
+			"get_facebook_permissions", "facebook_has_permission",
+			"revoke_facebook_permission", "facebook_revoke_access",
 			"ask_facebook_read_permission", "ask_facebook_publish_permission",
-			"get_google_user", "get_facebook_user", "google_revoke_access",
-			"facebook_revoke_access", "authConfig",
+			"get_facebook_user",
+			//AuthFacebook--
+
+			//AuthTwitter++
+			"twitter_sign_in", "twitter_sign_out", "is_twitter_connected",
+			//AuthTwitter--
+
+			"anonymous_sign_in", "anonymous_sign_out", "is_anonymous_connected",
+			"authConfig",
 			//Auth--
 
 			//Notification++
@@ -90,8 +99,12 @@ public class FireBase extends Godot.SingletonBase {
 			//RemoteConfig--
 
 			//Storage++
-			"download", "upload"
+			"download", "upload",
 			//Storage--
+
+			//Firestore++
+			"load_document", "set_document", "add_document"
+			//Firestore--
 		});
 
 		activity = p_activity;
@@ -166,6 +179,13 @@ public class FireBase extends Godot.SingletonBase {
 			Storage.getInstance(activity).init(mFirebaseApp);
 		}
 		//Storage--
+
+		//Firestore++
+		if (config.optBoolean("Firestore", false)) {
+			Utils.d("Initializing Firestore.");
+			Firestore.getInstance(activity).init(mFirebaseApp);
+		}
+		//Firestore--
 
 		Utils.d("FireBase initialized.");
 	}
@@ -368,6 +388,7 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+	//AuthGoogle++
 	public void google_sign_in () {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -384,6 +405,24 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+	public void revoke_google_access() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).revoke(Auth.GOOGLE_AUTH);
+			}
+		});
+	}
+
+	public boolean is_google_connected() {
+		return Auth.getInstance(activity).isConnected(Auth.GOOGLE_AUTH);
+	}
+
+	public String get_google_user() {
+		return Auth.getInstance(activity).getUserDetails(Auth.GOOGLE_AUTH);
+	}
+	//AuthGoogle--
+
+	//AuthTwitter++
 	public void twitter_sign_in () {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -399,7 +438,9 @@ public class FireBase extends Godot.SingletonBase {
 			}
 		});
 	}
+	//AuthTwitter--
 
+	//AuthFacebook++
 	public void facebook_sign_in() {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -416,30 +457,6 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
-	public void anonymous_sign_in() {
-		activity.runOnUiThread(new Runnable() {
-			public void run() {
-				Auth.getInstance(activity).sign_in(Auth.ANONYMOUS_AUTH);
-			}
-		});
-	}
-
-	public void anonymous_sign_out() {
-		activity.runOnUiThread(new Runnable() {
-			public void run() {
-				Auth.getInstance(activity).sign_out(Auth.ANONYMOUS_AUTH);
-			}
-		});
-	}
-
-	public void revoke_google_access() {
-		activity.runOnUiThread(new Runnable() {
-			public void run() {
-				Auth.getInstance(activity).revoke(Auth.GOOGLE_AUTH);
-			}
-		});
-	}
-
 	public void revoke_facebook_access() {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -448,20 +465,8 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
-	public boolean is_google_connected() {
-		return Auth.getInstance(activity).isConnected(Auth.GOOGLE_AUTH);
-	}
-
 	public boolean is_facebook_connected() {
 		return Auth.getInstance(activity).isConnected(Auth.FACEBOOK_AUTH);
-	}
-
-	public boolean is_anonymous_connected() {
-		return Auth.getInstance(activity).isConnected(Auth.ANONYMOUS_AUTH);
-	}
-
-	public String get_google_user() {
-		return Auth.getInstance(activity).getUserDetails(Auth.GOOGLE_AUTH);
 	}
 
 	public String get_facebook_user() {
@@ -504,6 +509,27 @@ public class FireBase extends Godot.SingletonBase {
 				.askForPermission(title, message, permission, false);
 			}
 		});
+	}
+	//AuthFacebook--
+
+	public void anonymous_sign_in() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).sign_in(Auth.ANONYMOUS_AUTH);
+			}
+		});
+	}
+
+	public void anonymous_sign_out() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).sign_out(Auth.ANONYMOUS_AUTH);
+			}
+		});
+	}
+
+	public boolean is_anonymous_connected() {
+		return Auth.getInstance(activity).isConnected(Auth.ANONYMOUS_AUTH);
 	}
 	//Auth--
 
@@ -627,6 +653,32 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 	//Storage--
+
+	//Firestore++
+	public void set_document(final String p_col_name, final String p_doc_name, final Dictionary p_dict) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Firestore.getInstance(activity).setData(p_col_name, p_doc_name, p_dict);
+			}
+		});
+	}
+
+	public void add_document(final String p_name, final Dictionary p_data) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Firestore.getInstance(activity).addDocument(p_name, p_data);
+			}
+		});
+	}
+
+	public void load_document(final String p_name) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Firestore.getInstance(activity).loadDocuments(p_name);
+			}
+		});
+	}
+	//Firestore--
 
 	/** Main Funcs **/
 	public static JSONObject getConfig() {

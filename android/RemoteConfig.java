@@ -32,9 +32,6 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.godot.game.BuildConfig;
 import com.godot.game.R;
 
-import org.json.JSONObject;
-import org.json.JSONException;
-
 import java.util.Map;
 
 public class RemoteConfig {

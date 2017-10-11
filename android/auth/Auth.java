@@ -60,17 +60,23 @@ public class Auth {
 		try { config = new JSONObject(configData); }
 		catch (JSONException e) { Utils.d("JSONException, parse error: " + e.toString()); }
 
+		//AuthGoogle++
 		if (config.optBoolean("Google", false)) {
 			GoogleSignIn.getInstance(activity).init();
 		}
+		//AuthGoogle--
 
+		//AuthFacebook++
 		if (config.optBoolean("Facebook", false)) {
 			FacebookSignIn.getInstance(activity).init();
 		}
+		//AuthFacebook--
 
+		//AuthTwitter++
 		if (config.optBoolean("Twitter", false)) {
 			TwitterSignIn.getInstance(activity).init();
 		}
+		//AuthTwitter--
 	}
 
 	public void sign_in (final int type_id) {
@@ -79,20 +85,27 @@ public class Auth {
 		Utils.d("Auth:SignIn:TAG:" + type_id);
 
 		switch (type_id) {
+			//AuthGoogle++
 			case GOOGLE_AUTH:
 				Utils.d("Auth:Google:SignIn");
 				GoogleSignIn.getInstance(activity).signIn();
 				break;
+			//AuthGoogle--
+			//AuthFacebook++
 			case FACEBOOK_AUTH:
 				Utils.d("Auth:Facebook:SignIn");
 				FacebookSignIn.getInstance(activity).signIn();
 				break;
-			case ANONYMOUS_AUTH:
-				Utils.d("Auth:Anonymous:SignIn");
-				AnonymousAuth.getInstance(activity).signIn();
+			//AuthFacebook--
+			//AuthTwitter++
 			case TWITTER_AUTH:
 				Utils.d("Auth twitter sign in");
 				TwitterSignIn.getInstance(activity).signIn();
+				break;
+			//AuthTwitter--
+			case ANONYMOUS_AUTH:
+				Utils.d("Auth:Anonymous:SignIn");
+				AnonymousAuth.getInstance(activity).signIn();
 				break;
 			default:
 				Utils.d("Auth:Type:NotAvailable");
@@ -106,20 +119,27 @@ public class Auth {
 		Utils.d("Auth:SignOut:TAG:" + type_id);
 
 		switch (type_id) {
+			//AuthGoogle++
 			case GOOGLE_AUTH:
 				Utils.d("Auth:Google:SignOut");
 				GoogleSignIn.getInstance(activity).signOut();
 				break;
+			//AuthGoogle--
+			//AuthFacebook++
 			case FACEBOOK_AUTH:
 				Utils.d("Auth:Facebook:SignOut");
 				FacebookSignIn.getInstance(activity).signOut();
 				break;
-			case ANONYMOUS_AUTH:
-				Utils.d("Auth:Anonymous:SignOut");
-				AnonymousAuth.getInstance(activity).signOut();
+			//AuthFacebook--
+			//AuthTwitter++
 			case TWITTER_AUTH:
 				Utils.d("Auth twitter sign out");
 				TwitterSignIn.getInstance(activity).signOut();
+				break;
+			//AuthTwitter--
+			case ANONYMOUS_AUTH:
+				Utils.d("Auth:Anonymous:SignOut");
+				AnonymousAuth.getInstance(activity).signOut();
 				break;
 			default:
 				Utils.d("Auth:Type:NotAvailable.");
@@ -130,17 +150,21 @@ public class Auth {
 	public void revoke(final int type_id) {
 		if (!isInitialized()) { return; }
 
-		Utils.d("FB:Auth:!evoke:" + type_id);
+		Utils.d("FB:Auth:Revoke:" + type_id);
 
 		switch (type_id) {
+			//AuthGoogle++
 			case GOOGLE_AUTH:
 				Utils.d("FB:Revoke:Google");
 				GoogleSignIn.getInstance(activity).revokeAccess();
 				break;
+			//AuthGoogle--
+			//AuthFacebook++
 			case FACEBOOK_AUTH:
 				Utils.d("FB:Revoke:Facebook");
 				FacebookSignIn.getInstance(activity).revokeAccess();
 				break;
+			//AuthFacebook--
 			case ANONYMOUS_AUTH:
 				Utils.d("FB:Revoke:Anonymous");
 				break;
@@ -175,19 +199,24 @@ public class Auth {
 
 		Utils.d("UserDetails:TAG:" + type_id);
 
+		//AuthGoogle++
 		if (type_id == GOOGLE_AUTH && GoogleSignIn.getInstance(activity).isConnected()) {
 			Utils.d("Getting Google user details");
 			return GoogleSignIn.getInstance(activity).getUserDetails();
 		}
+		//AuthGoogle--
 
+		//AuthFacebook++
 		if (type_id == FACEBOOK_AUTH && FacebookSignIn.getInstance(activity).isConnected()) {
 			Utils.d("Getting Facebook user details");
 			return FacebookSignIn.getInstance(activity).getUserDetails();
 		}
+		//AuthFacebook--
 
 		return "NULL";
 	}
 
+	//AuthFacebook++
 	public String getFacebookPermissions() {
 		return FacebookSignIn.getInstance(activity).getUserPermissions();
 	}
@@ -211,17 +240,22 @@ public class Auth {
 		FacebookSignIn.getInstance(activity)
 		.askForPermission(title, message, permission, read);
 	}
+	//AuthFacebook--
 
 	public boolean isConnected(final int type_id) {
 		Utils.d("Auth:Getting:Status");
 
 		switch (type_id) {
+			//AuthGoogle++
 			case GOOGLE_AUTH:
 				Utils.d("Auth:Status:Google:True");
 				return GoogleSignIn.getInstance(activity).isConnected();
+			//AuthGoogle--
+			//AuthFacebook++
 			case FACEBOOK_AUTH:
 				Utils.d("Auth:Status:Facebook:True");
 				return FacebookSignIn.getInstance(activity).isConnected();
+			//AuthFacebook--
 			case ANONYMOUS_AUTH:
 				Utils.d("Auth:Status:Anonymous:True");
 				return AnonymousAuth.getInstance(activity).isConnected();
@@ -251,36 +285,48 @@ public class Auth {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (!isInitialized()) { return; }
 
+		//AuthGoogle++
 		if (config.optBoolean("Google", false)) {
 			GoogleSignIn.getInstance(activity)
 			.onActivityResult(requestCode, resultCode, data);
 		}
+		//AuthGoogle--
 
+		//AuthFacebook++
 		if (config.optBoolean("Facebook", false)) {
 			FacebookSignIn.getInstance(activity)
 			.onActivityResult(requestCode, resultCode, data);
 		}
+		//AuthFacebook--
 
+		//AuthTwitter++
 		if (config.optBoolean("Twitter", false)) {
 			TwitterSignIn.getInstance(activity)
 			.onActivityResult(requestCode, resultCode, data);
 		}
+		//AuthTwitter--
 	}
 
 	public void onStart() {
 		if (!isInitialized()) { return; }
 
+		//AuthGoogle++
 		if (config.optBoolean("Google", false)) {
 			GoogleSignIn.getInstance(activity).onStart();
 		}
+		//AuthGoogle--
 
+		//AuthFacebook++
 		if (config.optBoolean("Facebook", false)) {
 			FacebookSignIn.getInstance(activity).onStart();
 		}
+		//AuthFacebook--
 
+		//AuthTwitter++
 		if (config.optBoolean("Twitter", false)) {
 			TwitterSignIn.getInstance(activity).onStart();
 		}
+		//AuthTwitter--
 
 	}
 
@@ -295,17 +341,23 @@ public class Auth {
 	public void onStop() {
 		if (!isInitialized()) { return; }
 
+		//AuthGoogle++
 		if (config.optBoolean("Google", false)) {
 			GoogleSignIn.getInstance(activity).onStop();
 		}
+		//AuthGoogle--
 
+		//AuthFacebook++
 		if (config.optBoolean("Facebook", false)) {
 			FacebookSignIn.getInstance(activity).onStop();
 		}
+		//AuthFacebook--
 
+		//AuthTwitter++
 		if (config.optBoolean("Twitter", false)) {
 			TwitterSignIn.getInstance(activity).onStop();
 		}
+		//AuthTwitter--
 	}
 
 	private static Activity activity = null;

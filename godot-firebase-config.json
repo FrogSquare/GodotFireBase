@@ -1,29 +1,14 @@
 {
 	"Analytics": true,
 	"AdMob" : true,
-	"Authentication" : true,
 	"Invites" : true,
 	"RemoteConfig" : true,
 	"Notification" : true,
 	"Storage" : true,
+	"Firestore" : true,
 
-	"AuthConf" : 
-	{
-		"Google" : true,
-		"Facebook" : true,
-		"FacebookAppId" : "1234566789875"
-	},
-
-	"Ads" : 
-	{
-		"BannerAd" : true,
-		"BannerGravity" : "BOTTOM",
-		"BannerAdId" : "",
-
-		"InterstitialAd" : true,
-		"InterstitialAdId" : "",
-
-		"RewardedVideoAd" : true,
-		"RewardedVideoAdId" : ""
-	}
+	"Authentication" : true,
+	"AuthGoogle" : true,
+	"AuthFacebook" : true,
+	"AuthTwitter" : true
 }
