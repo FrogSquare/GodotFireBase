@@ -41,7 +41,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import com.google.android.gms.tasks.*;
 
-import org.godotengine.godot.auth.Auth;
 import org.godotengine.godot.Dictionary;
 
 public class Firestore {

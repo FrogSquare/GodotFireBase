@@ -4,7 +4,7 @@ Godot_FireBase is a firebase integration for godot android;
 [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://github.com/FrogSquare/GodotFireBase)
 [![GodotEngine](https://img.shields.io/badge/Godot_Engine-2.X%20/%203.X-blue.svg)](https://github.com/godotengine/godot)
 [![LICENCE](https://img.shields.io/badge/License-Apache_V2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![PATREON](https://img.shields.io/badge/Patreon-donate-yellow.svg)](https://www.patreon.com/bePatron?u=5130479)
+[![PATREON](https://img.shields.io/badge/Patreon-support-yellow.svg)](https://www.patreon.com/bePatron?u=5130479)
 
 # Depends on
 > Godot game engine (2.1.x/2.2-legacy): `git clone https://github.com/godotengine/godot`
@@ -38,8 +38,8 @@ replay `com.your.appid` with you android application id.
 For customizing the module go [here](https://github.com/FrogSquare/GodotFireBase/wiki/Customize-GodotFireBase)
 
 # FAQ
-**Should I rename the android_new folder after customization?**
-> No, After customization the folder used by the module will be `android_new`, And `android` folder will be a backup for future customization.
+**Should I rename the android_src folder after customization?**
+> No, After customization the folder used by the module will be `android`, And `android_src` folder will be a backup for future customization.
 
 # Initialize FireBase
 Edit engine.cfg and add
