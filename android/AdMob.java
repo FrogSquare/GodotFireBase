@@ -193,6 +193,7 @@ public class AdMob {
 				}
 
 				Utils.callScriptFunc("AdMob", "AdMobReward", ret.toString());
+				requestNewRewardedVideo();
 			}
 
 			@Override
@@ -204,6 +205,7 @@ public class AdMob {
 			@Override
 			public void onRewardedVideoAdClosed() {
 				Utils.d("AdMob:VideoAd:Closed");
+				requestNewRewardedVideo();
 			}
 
 			@Override
