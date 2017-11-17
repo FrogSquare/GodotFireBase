@@ -51,8 +51,15 @@ modules="org/godotengine/godot/FireBase,org/godotengine/godot/SQLBridge"
 RemoteConfigs default parameters `.xml` file is at `[GODOT-ROOT]/modules/FireBase/res/xml/remote_config_defaults.xml`
 
 # GDScript - getting module singleton and initializing;
+
+### On 2.X
 ```
 var firebase = Globals.get_singleton("FireBase");
+```
+
+### On 3.X (latest from git)
+```
+var firebase = Engine.get_singleton("FireBase");
 ```
 For Analytics only `firebase.init("", get_instance_ID());` or to user RemoteConfig or Notifications (subscribing to topic)
 
@@ -94,12 +101,12 @@ GodotFireBase config file, By default every feature is disabled.
 And  initialize firebase with file path
 ```
 func _ready():
-	if OS.get_name() == "Android":
-		firebase.initWithFile("res://godot-firebase-config.json", get_instance_ID());
+    if OS.get_name() == "Android":
+        firebase.initWithFile("res://godot-firebase-config.json", get_instance_ID());
 
 func _receive_message(tag, from, key, data):
-	if tag == "FireBase":
-		print("From: ", from, " Key: ", key, " Data: ", data)
+    if tag == "FireBase":
+        print("From: ", from, " Key: ", key, " Data: ", data)
 
 ```
 # Using FireBase Analytics
@@ -169,11 +176,11 @@ firbase.get_facebook_permissions() // getting available permissions
 Recive message from java
 
 ```
-func _recive_message(tag, from, key, data):
-	tag == "FireBase":
-		if from == "Auth":
-			if key == "GoogleLogin" && data == "true": print("User Signed in.");
-			if key == "FacebookLogin" && data == "true": print("User Signed in.");
+func _receive_message(tag, from, key, data):
+    if tag == "FireBase":
+        if from == "Auth":
+            if key == "GoogleLogin" && data == "true": print("User Signed in.")
+            if key == "FacebookLogin" && data == "true": print("User Signed in.")
 ```
 
 # Firebase Notification API
@@ -226,10 +233,33 @@ firebase.show_banner_ad(true)	// Show Banner Ad
 firebase.show_banner_ad(false)	// Hide Banner Ad
 
 firebase.show_interstitial_ad() // Show Interstitial Ad
-
 firebase.show_rewarded_video()	// Show Rewarded Video Ad
 
 firebase.request_rewarded_video_status() // Request the rewarded video status
+```
+
+AdMob Recive message from java
+```
+func _receive_message(tag, from, key, data):
+    if tag == "FireBase" and from == "AdMob":
+        if key == "AdMobReward":
+            # when rewared video play complete
+            print("json data with [RewardType & RewardAmount]: ", data);
+
+        elif key == "AdMob_Video":
+            # when rewarded video loaded
+            # data will be `loaded` or `load_failed and `loaded` or `not_loaded` with `firebase.request_rewarded_video_status()`
+            print("AdMob rewarded video status is ", data);
+
+        elif key == "AdMob_Banner":
+            # when banner loaded
+            # data will be `loaded` or `load_failed`
+            print("Banner Status: ", data);
+
+        elif key == "AdMob_Interstitial" and data == "loaded":
+            # when Interstitial loaded
+            # data will be `loaded` or `load_failed`
+            print("Interstitial Status: ", data);
 ```
 
 # Firebase Firestore
@@ -239,30 +269,6 @@ firebase.set_document("collection_name", "document_name", data) // Set document 
 firebase.load_document("collection_name") // load or retrive from the server,
 
 Note: documents will be sent to the `_receive_message` function as json
-```
-
-Recive message from java
-```
-func _receive_message(tag, from, key, data):
-	if tag == "FireBase" and from == "AdMob":
-		if key == "AdMobReward":
-			# when rewared video play complete
-			print("json data with [RewardType & RewardAmount]: ", data);
-
-		elif key == "AdMob_Video":
-			# when rewarded video loaded
-			# data will be `loaded` or `load_failed and `loaded` or `not_loaded` with `firebase.request_rewarded_video_status()`
-			print("AdMob rewarded video status is ", data);
-
-		elif key == "AdMob_Banner":
-			# when banner loaded
-			# data will be `loaded` or `load_failed`
-			print("Banner Status: ", data);
-
-		elif key == "AdMob_Interstitial" and data == "loaded":
-			# when Interstitial loaded
-			# data will be `loaded` or `load_failed`
-			print("Interstitial Status: ", data);
 ```
 
 # Note
