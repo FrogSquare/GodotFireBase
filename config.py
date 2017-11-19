@@ -6,18 +6,18 @@ import shutil
 
 # Update this to customize the module
 _config = {
-"Analytics": True,
-"AdMob" : True,
-"Invites" : True,
-"RemoteConfig" : True,
-"Notification" : True,
-"Storage" : True,
-"Firestore" : False,
+"Analytics"      : True,
+"AdMob"          : True,
+"Invites"        : True,
+"RemoteConfig"   : True,
+"Notification"   : True,
+"Storage"        : True,
+"Firestore"      : False,
 
 "Authentication" : True,
-"AuthGoogle" : True,
-"AuthFacebook" : True,
-"AuthTwitter" : True
+"AuthGoogle"     : True,
+"AuthFacebook"   : True,
+"AuthTwitter"    : True
 }
 
 FILES_LIST		= \
@@ -28,18 +28,21 @@ FILES_LIST		= \
 "Base"		: ["Config.java", "FireBase.java", "Utils.java", "AndroidPermissionsChunk.xml"],
 "Invites"	: ["Invites.java"],
 "Notification"	: ["MessagingService.java", "Notification.java", \
-			"NotifyInTime.java", "InstanceIDService.java"],
+                   "NotifyInTime.java", "InstanceIDService.java"],
 "RemoteConfig"	: ["RemoteConfig.java"],
 "Storage"	: ["storage/"],
 "Firestore"	: ["Firestore.java"],
 
-"AuthGoogle" : ["GoogleSignIn.java"],
-"AuthFacebook" : ["FacebookSignIn.java"],
-"AuthTwitter" : ["TwitterSignIn.java"],
+"AuthGoogle"    : ["GoogleSignIn.java"],
+"AuthFacebook"  : ["FacebookSignIn.java"],
+"AuthTwitter"   : ["TwitterSignIn.java"],
 }
 
 directory = "android"
 empty_line = re.compile(r'^\s*$')
+
+def can_build(plat):
+    return update_module() if plat == "android" else False
 
 def copytree(src, dst, symlinks=False, ignore=None):
     for item in os.listdir(src):
@@ -172,9 +175,6 @@ def update_module():
     out_file.close()
 
     return True
-
-def can_build(plat):
-    return update_module() if plat == "android" else False
 
 def configure(env):
     if env["platform"] == "android":

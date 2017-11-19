@@ -175,7 +175,7 @@ public class AdMob {
 			@Override
 			public void onRewardedVideoAdLoaded() {
 				Utils.d("AdMob:Video:Loaded");
-				emitRewardedVideoStatus();
+				Utils.callScriptFunc("AdMob", "AdMob_Video", "loaded");
 			}
 
 			@Override
@@ -215,7 +215,7 @@ public class AdMob {
 
 			@Override
 			public void onRewardedVideoAdOpened() {
-				Utils.d("AdMon:VideoAd:Opended");
+				Utils.d("AdMob:VideoAd:Opended");
 			}
 
 			@Override
