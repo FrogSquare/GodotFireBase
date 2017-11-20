@@ -92,6 +92,13 @@ public class MessagingService extends FirebaseMessagingService {
 		Uri defaultSoundUri =
 		RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+		/**
+		int resID = context.getResources().getIdentifier("filename.png", "drawable",  context.getPackageName());
+
+		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
+		.setSmallIcon(resID)
+		**/
+
 		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
 		.setSmallIcon(R.drawable.ic_stat_ic_notification)
 		.setContentTitle("FCM Message")

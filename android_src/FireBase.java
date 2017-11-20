@@ -87,7 +87,8 @@ public class FireBase extends Godot.SingletonBase {
 			//Auth--
 
 			//Notification++
-			"notifyInMins", "subscribeToTopic", "getToken",
+			"notifyInMins", "notifyInSecs", "subscribeToTopic", "getToken",
+			"notifyOnComplete",
 			//Notification--
 
 			//Invites++

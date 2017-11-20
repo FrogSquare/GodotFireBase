@@ -78,9 +78,8 @@ public class Notification {
 		FirebaseMessaging.getInstance().subscribeToTopic(topic);
 	}
 
-	public void notifyInMins (final String message, final int mins) {
-		int seconds = mins * 60;
 
+	public void notifyInSecs(final String message, final int seconds) {
 		Utils.d("Setting new Job with message: " + message);
 
 		Bundle bundle = new Bundle();
@@ -95,6 +94,11 @@ public class Notification {
 		.build();
 
 		dispatcher.mustSchedule(myJob);
+	}
+
+	public void notifyInMins (final String message, final int mins) {
+		int seconds = mins * 60;
+		notifyInSecs(message, seconds)l;
 	}
 
 	public void sendMessage (final String data) {
