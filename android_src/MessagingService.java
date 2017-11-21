@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -80,6 +81,31 @@ public class MessagingService extends FirebaseMessagingService {
 		if (jobject.length() > 0) {
 			KeyValueStorage.setValue("firebase_notification_data", jobject.toString());
 		}
+	}
+
+	public static void sendNotification(Bundle bundle, Context context) {
+		Intent intent = new Intent(context, org.godotengine.godot.Godot.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+		PendingIntent pendingIntent = PendingIntent.getActivity(
+		context, Utils.FIREBASE_NOTIFICATION_REQUEST, intent, PendingIntent.FLAG_ONE_SHOT);
+
+		Uri defaultSoundUri =
+		RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
+		.setSmallIcon(R.drawable.ic_stat_ic_notification)
+		.setContentTitle(bundle.getString("title"))
+		.setStyle(new NotificationCompat.BigPictureStyle()
+				.bigPicture(Utils.getBitmapFromAsset(context, bundle.getString("image"))))
+		.setAutoCancel(true)
+		.setSound(defaultSoundUri)
+		.setContentIntent(pendingIntent);
+
+		NotificationManager notificationManager =
+		(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+		notificationManager.notify(7002, nBuilder.build());
 	}
 
 	public static void sendNotification(String messageBody, Context context) {

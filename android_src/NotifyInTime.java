@@ -36,7 +36,8 @@ public class NotifyInTime extends JobService {
 		Bundle bundle = job.getExtras();
 		Utils.d("Message: " + bundle.getString("message"));
 
-		MessagingService.sendNotification(bundle.getString("message"), this);
+		MessagingService.sendNotification(bundle, this);
+
 		return true; // Answers the question: "Is there still work going on?"
 	}
 

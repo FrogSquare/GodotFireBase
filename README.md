@@ -98,7 +98,7 @@ GodotFireBase config file, By default every feature is disabled.
 }
 
 ```
-And  initialize firebase with file path
+And  initialize firebase with file path, `RewardedVideoAdId` is a string array i.e `"string1,string2"`
 ```
 func _ready():
     if OS.get_name() == "Android":
@@ -231,9 +231,11 @@ firebase.invite("message", "");  // Fallback to use default android share eg: Wh
 ```
 firebase.show_banner_ad(true)	// Show Banner Ad
 firebase.show_banner_ad(false)	// Hide Banner Ad
+firebase.set_banner_unitid("unit_id") // Change current Ad unit ID
 
 firebase.show_interstitial_ad() // Show Interstitial Ad
 firebase.show_rewarded_video()	// Show Rewarded Video Ad
+firebase.show_rvideo("unit_id") // Show Rewarded Video Ad
 
 firebase.request_rewarded_video_status() // Request the rewarded video status
 ```

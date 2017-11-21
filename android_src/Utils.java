@@ -18,6 +18,9 @@ package org.godotengine.godot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
@@ -31,6 +34,7 @@ import org.json.JSONException;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.BufferedReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -94,6 +98,24 @@ public class Utils {
 		}
 
 		return retMap;
+	}
+
+	public static Bitmap getBitmapFromAsset(Context context, String filePath) {
+		if (filePath.startsWith("res://")) { filePath = filePath.replaceFirst("res://", ""); }
+
+		AssetManager assetManager = context.getAssets();
+
+		InputStream istr;
+		Bitmap bitmap = null;
+
+		try {
+			istr = assetManager.open(filePath);
+			bitmap = BitmapFactory.decodeStream(istr);
+		} catch (IOException e) {
+			// handle exception
+		}
+
+		return bitmap;
 	}
 
 	public static String readFromFile(String fPath, Context context) {

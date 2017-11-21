@@ -78,13 +78,16 @@ public class Notification {
 		FirebaseMessaging.getInstance().subscribeToTopic(topic);
 	}
 
-	public void notifyInMins (final String message, final int mins) {
-		int seconds = mins * 60;
-
-		Utils.d("Setting new Job with message: " + message);
+	public void notifyOnComplete(Dictionary data) {
+		Utils.d("Setting new Job with message: " + data.toString());
 
 		Bundle bundle = new Bundle();
-		bundle.putString("message", message);
+		bundle.putString("message", (String) data.get("message"));
+		bundle.putString("image_url", (String) data.get("image"));
+		bundle.putString("title", (String) data.get("title"));
+		bundle.putString("type", "image");
+
+		int seconds = (int) data.get("secs");
 
 		Job myJob = dispatcher.newJobBuilder()
 		.setService(NotifyInTime.class)	// the JobService that will be called
@@ -95,6 +98,30 @@ public class Notification {
 		.build();
 
 		dispatcher.mustSchedule(myJob);
+	}
+
+	public void notifyInSecs(final String message, final int seconds) {
+		Utils.d("Setting new Job with message: " + message);
+
+		Bundle bundle = new Bundle();
+		bundle.putString("message", message);
+		bundle.putString("title", "FB Title");
+		bundle.putString("type", "text");
+
+		Job myJob = dispatcher.newJobBuilder()
+		.setService(NotifyInTime.class)	// the JobService that will be called
+		.setTrigger(Trigger.executionWindow(seconds, seconds+60))
+		.setTag("firebase-notify-in-time-UID") // uniquely identifies the job
+		.setReplaceCurrent(true)
+		.setExtras(bundle)
+		.build();
+
+		dispatcher.mustSchedule(myJob);
+	}
+
+	public void notifyInMins (final String message, final int mins) {
+		int seconds = mins * 60;
+		notifyInSecs(message, seconds);
 	}
 
 	public void sendMessage (final String data) {
