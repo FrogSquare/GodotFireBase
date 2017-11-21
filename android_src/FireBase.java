@@ -61,7 +61,8 @@ public class FireBase extends Godot.SingletonBase {
 
 			//AdMob++
 			"show_banner_ad", "show_interstitial_ad", "show_rewarded_video",
-			"request_rewarded_video_status",
+			"request_rewarded_video_status", "set_banner_unitid", "show_rvideo",
+			"request_rewarded_video_status_of",
 			//AdMob--
 
 			//Auth++
@@ -346,6 +347,14 @@ public class FireBase extends Godot.SingletonBase {
 	//Analytics--
 
 	//AdMob++
+	public void set_banner_unitid(final String unit_id) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				AdMob.getInstance(activity).setBannerUnitId(unit_id);
+			}
+		});
+	}
+
 	public void show_banner_ad(final boolean show) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -358,6 +367,22 @@ public class FireBase extends Godot.SingletonBase {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				AdMob.getInstance(activity).show_interstitial_ad();
+			}
+		});
+	}
+
+	public void show_rvideo(final String unit_id) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				AdMob.getInstance(activity).show_rewarded_video(unit_id);
+			}
+		});
+	}
+
+	public void request_rewarded_video_status_of(final String unit_id) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				AdMob.getInstance(activity).requestRewardedVideoStatus(unit_id);
 			}
 		});
 	}
