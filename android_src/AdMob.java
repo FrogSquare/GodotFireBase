@@ -73,6 +73,7 @@ public class AdMob {
 		mFirebaseApp = firebaseApp;
 
 		AdMobConfig = FireBase.getConfig().optJSONObject("Ads");
+		MobileAds.initialize(activity, AdMobConfig.optString("AppId"));
 
 		if (AdMobConfig.optBoolean("BannerAd", false)) { createBanner(); }
 		if (AdMobConfig.optBoolean("InterstitialAd", false)) { createInterstitial(); }
@@ -233,20 +234,14 @@ public class AdMob {
 
 			@Override
 			public void onRewarded(RewardItem rewardItem) {
-				Utils.d("AdMob:Rewarded");
-				//rewardItem.getType()
-				//rewardItem.getAmount()
+				Utils.d("AdMob:Rewarded:Success");
 
-				JSONObject ret = new JSONObject();
-				try {
-					ret.put("RewardType", rewardItem.getType());
-					ret.put("RewardAmount", rewardItem.getAmount());
-					ret.put("unit_id", unitid);
-				} catch (JSONException e) {
-					Utils.d("AdMob:Reward:Error:" + e.toString());
-				}
+				Dictionary ret = new Dictionary();
+				ret.put("RewardType", rewardItem.getType());
+				ret.put("RewardAmount", rewardItem.getAmount());
+				ret.put("unit_id", unitid);
 
-				Utils.callScriptFunc("AdMob", "AdMobReward", ret.toString());
+				Utils.callScriptFunc("AdMob", "AdMobReward", ret);
 				reloadRewardedVideo(unitid);
 			}
 
@@ -272,13 +267,13 @@ public class AdMob {
 			@Override
 			public void onRewardedVideoAdOpened() {
 				Utils.d("AdMob:VideoAd:Opended");
-				Utils.callScriptFunc("AdMob", "AdMob_Video", buildStatus(unitid, "opened"));
+				//Utils.callScriptFunc("AdMob", "AdMob_Video", buildStatus(unitid, "opened"));
 			}
 
 			@Override
 			public void onRewardedVideoStarted() {
 				Utils.d("Reward:VideoAd:Started");
-				Utils.callScriptFunc("AdMob", "AdMob_Video", buildStatus(unitid, "started"));
+				//Utils.callScriptFunc("AdMob", "AdMob_Video", buildStatus(unitid, "started"));
 			}
 		});
 

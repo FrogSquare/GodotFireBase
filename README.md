@@ -85,6 +85,7 @@ GodotFireBase config file, By default every feature is disabled.
 
 	"Ads" : 
 	{
+		"AppId": "YOUR_APP_ID_HERE",
 		"BannerAd" : true,
 		"BannerGravity" : "BOTTOM",
 		"BannerAdId" : "",

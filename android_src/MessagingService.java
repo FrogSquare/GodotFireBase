@@ -120,7 +120,7 @@ public class MessagingService extends FirebaseMessagingService {
 
 		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
 		.setSmallIcon(R.drawable.ic_stat_ic_notification)
-		.setContentTitle("FCM Message")
+		.setContentTitle(context.getString(R.string.godot_project_name_string))
 		.setContentText(messageBody)
 		.setAutoCancel(true)
 		.setSound(defaultSoundUri)
