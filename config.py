@@ -187,12 +187,12 @@ def configure(env):
         env.android_add_gradle_plugin("com.google.gms.google-services")
 
         env.android_add_dependency("compile 'com.android.support:support-annotations:25.0.1'")
-        env.android_add_dependency("compile 'com.google.firebase:firebase-core:11.4.2'")
+        env.android_add_dependency("compile 'com.google.firebase:firebase-core:11.6.0'")
 
         if _config["Auth"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-auth:11.4.2'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-auth:11.6.0'")
             if _config["AuthGoogle"]:
-                env.android_add_dependency("compile 'com.google.android.gms:play-services-auth:11.4.2'")
+                env.android_add_dependency("compile 'com.google.android.gms:play-services-auth:11.6.0'")
 
             if _config["AuthFacebook"]:
                 env.android_add_dependency("compile 'com.facebook.android:facebook-android-sdk:4.18.0'")
@@ -204,23 +204,23 @@ def configure(env):
                 "compile('com.twitter.sdk.android:twitter:1.13.1@aar') { transitive = true }")
 
         if _config["AdMob"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-ads:11.4.2'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-ads:11.6.0'")
 
         if _config["RemoteConfig"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-config:11.4.2'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-config:11.6.0'")
 
         if _config["Notification"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-messaging:11.4.2'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-messaging:11.6.0'")
             env.android_add_dependency("compile 'com.firebase:firebase-jobdispatcher:0.5.2'")
 
         if _config["Invites"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-invites:11.4.2'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-invites:11.6.0'")
 
         if _config["Storage"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-storage:11.4.2'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-storage:11.6.0'")
 
         if _config["Firestore"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-firestore:11.4.2'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-firestore:11.6.0'")
 
         env.android_add_dependency("compile 'commons-codec:commons-codec:1.10'")
 

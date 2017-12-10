@@ -231,6 +231,16 @@ public class Utils {
 		script_instanceID = instanceID;
 	}
 
+	public static void callScriptCallback(String function, String from, Object key, Object value) {
+		if (script_instanceID == -1) {
+			Utils.d("Script::Instance::NotSset");
+			return;
+		}
+
+		GodotLib.calldeferred(script_instanceID, function,
+		new Object[] { Config.TAG, from, key, value });
+	}
+
 	public static void callScriptFunc(int script_id, String from, Object key, Object value) {
 		GodotLib.calldeferred(script_id, "_receive_message",
 		new Object[] { Config.TAG, from, key, value });

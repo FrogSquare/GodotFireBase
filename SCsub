@@ -7,3 +7,4 @@ module_env.add_source_files(env.modules_sources, "*.cpp")
 module_env.add_source_files(env.modules_sources, "src/*.cpp")
 module_env.Append(CXXFLAGS=['-O2', '-std=c++11'])
 module_env.Append(CPPPATH=['#', '.', 'src'])
+

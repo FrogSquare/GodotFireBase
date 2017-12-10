@@ -381,31 +381,37 @@ public class AdMob {
 	public void onPause() {
 		if (mAdView != null) { mAdView.pause(); }
 
-		for (Map.Entry<String, RewardedVideoAd> entry : reward_ads.entrySet()) {
-			entry.getValue().pause(activity);
+		if (reward_ads != null) {
+			for (Map.Entry<String, RewardedVideoAd> entry : reward_ads.entrySet()) {
+				entry.getValue().pause(activity);
+			}
 		}
 	}
 
 	public void onResume() {
 		if (mAdView != null) { mAdView.resume(); }
 
-		for (Map.Entry<String, RewardedVideoAd> entry : reward_ads.entrySet()) {
-			entry.getValue().resume(activity);
+		if (reward_ads != null) {
+			for (Map.Entry<String, RewardedVideoAd> entry : reward_ads.entrySet()) {
+				entry.getValue().resume(activity);
+			}
 		}
 	}
 
 	public void onStop() {
 		if (mAdView != null) { mAdView.destroy(); }
 
-		for (Map.Entry<String, RewardedVideoAd> entry : reward_ads.entrySet()) {
-			entry.getValue().destroy(activity);
+		if (reward_ads != null) {
+			for (Map.Entry<String, RewardedVideoAd> entry : reward_ads.entrySet()) {
+				entry.getValue().destroy(activity);
+			}
 		}
 	}
 
 	private static Activity activity = null;
 	private static AdMob mInstance = null;
 
-	private Map<String, RewardedVideoAd> reward_ads;
+	private Map<String, RewardedVideoAd> reward_ads = null;
 
 	private AdView mAdView = null;
 	private InterstitialAd mInterstitialAd = null;

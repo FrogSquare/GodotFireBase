@@ -27,6 +27,9 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import org.json.JSONObject;
+import org.json.JSONException;
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -44,6 +47,8 @@ import com.firebase.jobdispatcher.Trigger;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Notification {
 
@@ -70,6 +75,35 @@ public class Notification {
 		dispatcher.cancel("firebase-notify-in-time-UID");
 
 		Utils.d("Firebase Cloud messaging token: " + token);
+
+		// Perform task here..!
+		if (KeyValueStorage.getValue("notification_complete_task") != "0") {
+			try {
+				JSONObject obj =
+				new JSONObject(KeyValueStorage.getValue("notification_task_data"));
+
+				Dictionary data = new Dictionary();
+				Iterator<String> iterator = obj.keys();
+
+				while (iterator.hasNext()) {
+					String key = iterator.next();
+					Object value = obj.opt(key);
+
+					if (value != null) {
+						data.put(key, value);
+					}
+				}
+
+				Utils.callScriptCallback(
+				KeyValueStorage.getValue("notification_complete_task"),
+				"Notification", "TaskComplete", data);
+
+			} catch (JSONException e) {
+
+			}
+
+			KeyValueStorage.setValue("notification_complete_task", "0");
+		}
 	}
 
 	public void subscribe(final String topic) {
