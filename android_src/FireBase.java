@@ -62,7 +62,7 @@ public class FireBase extends Godot.SingletonBase {
 			//AdMob++
 			"show_banner_ad", "show_interstitial_ad", "show_rewarded_video",
 			"request_rewarded_video_status", "set_banner_unitid", "show_rvideo",
-			"request_rewarded_video_status_of",
+			"request_rewarded_video_status_of", "get_banner_size",
 			//AdMob--
 
 			//Auth++
@@ -362,6 +362,10 @@ public class FireBase extends Godot.SingletonBase {
 				AdMob.getInstance(activity).show_banner_ad(show);
 			}
 		});
+	}
+
+	public Dictionary get_banner_size() {
+		return AdMob.getInstance(activity).getBannerSize();
 	}
 
 	public void show_interstitial_ad() {

@@ -88,7 +88,8 @@ public class AdMob {
 				ad_units.add(activity.getString(R.string.rewarded_video_ad_unit_id));
 			} else {
 				ad_units = Arrays.asList(ad_unit_id.split(","));
-				Utils.d("AdMob:RewardedVideo:"+ String.valueOf(ad_units.size()) +":UnitIdS:Found");
+				Utils.d("AdMob:RewardedVideo:" +
+				String.valueOf(ad_units.size()) +":UnitIdS:Found");
 			}
 
 			for (String id : ad_units) {
@@ -98,6 +99,18 @@ public class AdMob {
 				reward_ads.put(id, mrv);
 			}
 		}
+
+		mAdSize = new Dictionary();
+		mAdSize.put("width", 0);
+		mAdSize.put("height", 0);
+	}
+
+	public Dictionary getBannerSize() {
+		if ((int)mAdSize.get("width") == 0 || (int)mAdSize.get("height") == 0) {
+			Utils.d("AdView::Not::Loaded::Yet");
+		}
+
+		return mAdSize;
 	}
 
 	public void setBannerUnitId(final String id) {
@@ -148,6 +161,11 @@ public class AdMob {
 			@Override
 			public void onAdLoaded() {
 				Utils.d("AdMob:Banner:OnAdLoaded");	
+				AdSize adSize = mAdView.getAdSize();
+
+				mAdSize.put("width", adSize.getWidthInPixels(activity));
+				mAdSize.put("height", adSize.getHeightInPixels(activity));
+
 				Utils.callScriptFunc("AdMob", "AdMob_Banner", "loaded");
 			}
 
@@ -415,6 +433,7 @@ public class AdMob {
 
 	private AdView mAdView = null;
 	private InterstitialAd mInterstitialAd = null;
+	private Dictionary mAdSize = null;
 
 	private FirebaseApp mFirebaseApp = null;
 
