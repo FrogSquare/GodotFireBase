@@ -732,6 +732,8 @@ public class FireBase extends Godot.SingletonBase {
 	}
 
 	protected void onMainActivityResult (int requestCode, int resultCode, Intent data) {
+		//Utils.d("onActivityResult: reqCode=" + requestCode + ", resCode=" + resultCode);
+
 		//Analytics++
 		// Analytics.getInstance(activity).onActivityResult(requestCode, resultCode, data);
 		//Analytics--

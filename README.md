@@ -94,7 +94,9 @@ GodotFireBase config file, By default every feature is disabled.
 		"InterstitialAdId" : "",
 
 		"RewardedVideoAd" : true,
-		"RewardedVideoAdId" : ""
+		"RewardedVideoAdId" : "",
+
+        "TestAds" : false
 	}
 }
 

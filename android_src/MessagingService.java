@@ -40,7 +40,7 @@ import org.godotengine.godot.KeyValueStorage;
 
 public class MessagingService extends FirebaseMessagingService {
 
-	private static int NOTIFICATION_REQUEST_ID	= 9003;
+	private static int NOTIFICATION_REQUEST_ID	= 8001;
 
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {

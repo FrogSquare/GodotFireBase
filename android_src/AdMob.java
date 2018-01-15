@@ -145,7 +145,7 @@ public class AdMob {
 		AdRequest.Builder adRequestB = new AdRequest.Builder();
 		adRequestB.tagForChildDirectedTreatment(true);
 
-		if (BuildConfig.DEBUG) {
+		if (BuildConfig.DEBUG || AdMobConfig.optBoolean("TestAds", false)) {
 			adRequestB.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 			adRequestB.addTestDevice(Utils.getDeviceId(activity));
 		}
