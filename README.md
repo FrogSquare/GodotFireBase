@@ -194,6 +194,14 @@ firebase.getToken() // Get current client TokenID
 If recived notifiction has a payload, it will be saved inside SQL Database under key: "firebase_notification_data"
 
 firebase.notifyInMins("message", 60) // Shedule notification in 60 min
+firebase.notifyInSecs("message", 3200) // Shedule notification in 60 min
+
+var dict = {}
+dict["title"] = "Notification title"
+dict["message"] = "This is a text message"
+dict["type"] = "text"
+
+firebase.notifyOnComplete(dict)
 ```
 
 # RemoteConfig API

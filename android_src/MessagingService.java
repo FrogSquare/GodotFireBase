@@ -20,6 +20,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -93,11 +95,19 @@ public class MessagingService extends FirebaseMessagingService {
 		Uri defaultSoundUri =
 		RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+        Bitmap large_icon;
+        if (bundle.get("larget_icon") != null) {
+			large_icon = Utils.getBitmapFromAsset(context, bundle.getString("image_uri"));
+        } else {
+            large_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
+        }
+
 		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
-		.setSmallIcon(R.drawable.ic_stat_ic_notification)
+        .setLargeIcon(large_icon)
+		.setSmallIcon(R.drawable.notification_small_icon)
 		.setContentTitle(bundle.getString("title"))
 		.setStyle(new NotificationCompat.BigPictureStyle()
-				.bigPicture(Utils.getBitmapFromAsset(context, bundle.getString("image"))))
+				.bigPicture(Utils.getBitmapFromAsset(context, bundle.getString("image_uri"))))
 		.setAutoCancel(true)
 		.setSound(defaultSoundUri)
 		.setContentIntent(pendingIntent);
@@ -119,7 +129,8 @@ public class MessagingService extends FirebaseMessagingService {
 		RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
 		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
-		.setSmallIcon(R.drawable.ic_stat_ic_notification)
+        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
+		.setSmallIcon(R.drawable.notification_small_icon)
 		.setContentTitle(context.getString(R.string.godot_project_name_string))
 		.setContentText(messageBody)
 		.setAutoCancel(true)

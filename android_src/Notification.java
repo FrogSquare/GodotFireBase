@@ -117,9 +117,16 @@ public class Notification {
 
 		Bundle bundle = new Bundle();
 		bundle.putString("message", (String) data.get("message"));
-		bundle.putString("image_url", (String) data.get("image"));
-		bundle.putString("title", (String) data.get("title"));
-		bundle.putString("type", "image");
+
+        String title = (String) data.get("title");
+        if (title == null) {
+            title = activity.getString(R.string.godot_project_name_string);
+        }
+
+		bundle.putString("title", title);
+
+		bundle.putString("image_uri", (String) data.get("image")); // Image uri of the 
+		bundle.putString("type", (String) data.get("type")); // text or image
 
 		int seconds = (int) data.get("secs");
 
@@ -138,8 +145,8 @@ public class Notification {
 		Utils.d("Setting new Job with message: " + message);
 
 		Bundle bundle = new Bundle();
+		bundle.putString("title", activity.getString(R.string.godot_project_name_string));
 		bundle.putString("message", message);
-		bundle.putString("title", "FB Title");
 		bundle.putString("type", "text");
 
 		Job myJob = dispatcher.newJobBuilder()
