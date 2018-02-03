@@ -53,6 +53,24 @@ public class Utils {
 	public static final int FIREBASE_TWITTER_SIGN_IN	= 8006;
 	// public static final int FIREBASE_ = ;
 
+    public static boolean get_db_bool(final String p_key) {
+        String val = get_db_value(p_key);
+
+        if (val.equals("0") || val.equals("false")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static String get_db_value(final String p_key) {
+        return KeyValueStorage.getValue(p_key);
+    }
+
+    public static void set_db_value(final String p_key, final String p_value) {
+        KeyValueStorage.setValue(p_key, p_value);
+    }
+
 	public static void d(final String message) {
 		if (Config.DEBUG) {
 			Log.d(Config.TAG, message);

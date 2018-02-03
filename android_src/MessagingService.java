@@ -86,6 +86,10 @@ public class MessagingService extends FirebaseMessagingService {
 	}
 
 	public static void sendNotification(Bundle bundle, Context context) {
+        if (bundle.getString("image_uri") == null) {
+            sendNotification(bundle.getString("message"), context);
+        }
+
 		Intent intent = new Intent(context, org.godotengine.godot.Godot.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -97,7 +101,7 @@ public class MessagingService extends FirebaseMessagingService {
 
         Bitmap large_icon;
         if (bundle.get("larget_icon") != null) {
-			large_icon = Utils.getBitmapFromAsset(context, bundle.getString("image_uri"));
+			large_icon = Utils.getBitmapFromAsset(context, bundle.getString("large_icon"));
         } else {
             large_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
         }

@@ -49,6 +49,6 @@ public class NotifyInTime extends JobService {
 	public boolean onStopJob(JobParameters job) {
 		Utils.d("Job Stopped.");
 
-		return true; // Answers the question: "Should this job be retried?"
+		return false; // Answers the question: "Should this job be retried?"
 	}
 }

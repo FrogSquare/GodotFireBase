@@ -89,7 +89,7 @@ public class FireBase extends Godot.SingletonBase {
 
 			//Notification++
 			"notifyInMins", "notifyInSecs", "subscribeToTopic", "getToken",
-			"notifyOnComplete",
+			"notifyOnComplete", "repeatNotification",
 			//Notification--
 
 			//Invites++
@@ -579,10 +579,18 @@ public class FireBase extends Godot.SingletonBase {
 	/** Extra **/
 
 	//Notification++
-	public void notifyOnComplete(final Dictionary data) {
+    public void repeatNotification(final Dictionary data, final int seconds) {
+    	activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Notification.getInstance(activity).shedule(data, seconds);
+			}
+		});
+    }
+    
+	public void notifyOnComplete(final Dictionary data, final int seconds) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				Notification.getInstance(activity).notifyOnComplete(data);
+				Notification.getInstance(activity).notifyOnComplete(data, seconds);
 			}
 		});
 	}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-	<string name="send_to">Invite Friends!</string>
+    <string name="send_to">Invite Friends!</string>
+    <string name="godot_firebase_default_tag">gd-firebase-notify-in-time-UID</string>
 </resources>

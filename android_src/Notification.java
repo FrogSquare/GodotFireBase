@@ -43,6 +43,8 @@ import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Trigger;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -72,39 +74,55 @@ public class Notification {
 
 		dispatcher =
 		new FirebaseJobDispatcher(new GooglePlayDriver(activity.getApplicationContext()));
-		dispatcher.cancel("firebase-notify-in-time-UID");
+        dispatcher.cancelAll();
+
+        /**
+		cancel_notification(activity.getString(R.string.godot_firebase_default_tag));
+
+        if (!Utils.get_db_value("shedule_tag").equals("0")) {
+            cancel_notification(Utils.get_db_value("shedule_tag"));
+            Utils.set_db_value("shedule_tag", "0");
+        }
+        **/
 
 		Utils.d("Firebase Cloud messaging token: " + token);
 
 		// Perform task here..!
-		if (KeyValueStorage.getValue("notification_complete_task") != "0") {
+		if (Utils.get_db_value("notification_complete_task") != "0") {
 			try {
-				JSONObject obj =
-				new JSONObject(KeyValueStorage.getValue("notification_task_data"));
 
-				Dictionary data = new Dictionary();
-				Iterator<String> iterator = obj.keys();
+		        Dictionary data = new Dictionary();
+                if (!Utils.get_db_value("notification_task_data").equals("0")) {
 
-				while (iterator.hasNext()) {
-					String key = iterator.next();
-					Object value = obj.opt(key);
+    				JSONObject obj =
+	    			new JSONObject(Utils.get_db_value("notification_task_data"));
 
-					if (value != null) {
-						data.put(key, value);
-					}
-				}
+			    	Iterator<String> iterator = obj.keys();
+     				while (iterator.hasNext()) {
+	       	    		String key = iterator.next();
+		    			Object value = obj.opt(key);
+
+				    	if (value != null) {
+					    	data.put(key, value);
+    					}
+	    			}
+                }
 
 				Utils.callScriptCallback(
-				KeyValueStorage.getValue("notification_complete_task"),
-				"Notification", "TaskComplete", data);
+			    Utils.get_db_value("notification_complete_task"), "Notification", "TaskComplete", data);
 
 			} catch (JSONException e) {
 
 			}
 
 			KeyValueStorage.setValue("notification_complete_task", "0");
+			KeyValueStorage.setValue("notification_task_data", "0");
 		}
 	}
+
+    public void cancel_notification(final String tag) {
+        dispatcher.cancel(tag);
+    }
 
 	public void subscribe(final String topic) {
 		if (!isInitialized()) { return; }
@@ -112,53 +130,78 @@ public class Notification {
 		FirebaseMessaging.getInstance().subscribeToTopic(topic);
 	}
 
-	public void notifyOnComplete(Dictionary data) {
-		Utils.d("Setting new Job with message: " + data.toString());
+    public Bundle get_bundle(Dictionary data) {
+        JSONObject dict = new JSONObject(data);
 
 		Bundle bundle = new Bundle();
 		bundle.putString("message", (String) data.get("message"));
+		bundle.putString("image_uri", (String) data.get("image_uri"));
 
-        String title = (String) data.get("title");
-        if (title == null) {
-            title = activity.getString(R.string.godot_project_name_string);
-        }
+		bundle.putString("type", dict.optString("type", "text"));
+        bundle.putString("title", 
+                dict.optString("title", activity.getString(R.string.godot_project_name_string)));
+        bundle.putString("tag", 
+                dict.optString("tag", activity.getString(R.string.godot_firebase_default_tag)));
 
-		bundle.putString("title", title);
+        return bundle;
+    }
 
-		bundle.putString("image_uri", (String) data.get("image")); // Image uri of the 
-		bundle.putString("type", (String) data.get("type")); // text or image
-
-		int seconds = (int) data.get("secs");
+    public void shedule(Dictionary data, int seconds) {
+		Bundle bundle = get_bundle(data);
+		Utils.d(
+        "Setting new Notification: " + bundle.toString() + ", Seconds: " + String.valueOf(seconds));
 
 		Job myJob = dispatcher.newJobBuilder()
 		.setService(NotifyInTime.class)	// the JobService that will be called
+		.setTag(bundle.getString("tag")) // uniquely identifies the job
+        .setRecurring(true)
+        .setLifetime(Lifetime.FOREVER)
 		.setTrigger(Trigger.executionWindow(seconds, seconds+60))
-		.setTag("firebase-notify-in-time-UID") // uniquely identifies the job
 		.setReplaceCurrent(true)
+        .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
 		.setExtras(bundle)
 		.build();
 
 		dispatcher.mustSchedule(myJob);
+    }
+
+	public void notifyOnComplete(Dictionary data, int seconds) {
+        if (data.get("image_uri") == null && data.get("type") == "image") {
+            Utils.d(
+            "Notification: using Image in content need `image_uri` (i.e, \"res://image.png\")");
+
+            return;
+        }
+
+        dispatch_single_job(get_bundle(data), seconds);
 	}
 
 	public void notifyInSecs(final String message, final int seconds) {
-		Utils.d("Setting new Job with message: " + message);
-
 		Bundle bundle = new Bundle();
+		bundle.putString("tag", activity.getString(R.string.godot_firebase_default_tag));
 		bundle.putString("title", activity.getString(R.string.godot_project_name_string));
 		bundle.putString("message", message);
 		bundle.putString("type", "text");
 
+        dispatch_single_job(bundle, seconds);
+	}
+
+    private void dispatch_single_job(Bundle bundle, int seconds) {
+		Utils.d(
+        "Setting new Notification: " + bundle.toString() + ", Seconds: " + String.valueOf(seconds));
+
 		Job myJob = dispatcher.newJobBuilder()
 		.setService(NotifyInTime.class)	// the JobService that will be called
+		.setTag(bundle.getString("tag")) // uniquely identifies the job
+        .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
 		.setTrigger(Trigger.executionWindow(seconds, seconds+60))
-		.setTag("firebase-notify-in-time-UID") // uniquely identifies the job
 		.setReplaceCurrent(true)
+        .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
 		.setExtras(bundle)
 		.build();
 
 		dispatcher.mustSchedule(myJob);
-	}
+    }
 
 	public void notifyInMins (final String message, final int mins) {
 		int seconds = mins * 60;
