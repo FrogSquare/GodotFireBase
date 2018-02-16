@@ -160,7 +160,7 @@ public class AdMob {
 		mAdView.setAdListener(new AdListener() {
 			@Override
 			public void onAdLoaded() {
-				Utils.d("AdMob:Banner:OnAdLoaded");	
+				Utils.d("AdMob:Banner:OnAdLoaded");
 				AdSize adSize = mAdView.getAdSize();
 
 				mAdSize.put("width", adSize.getWidthInPixels(activity));
@@ -362,7 +362,7 @@ public class AdMob {
 		Utils.d("AdMob:Loading:RewardedAd:For: "+unitid);
 		AdRequest.Builder adRB = new AdRequest.Builder();
 
-		if (BuildConfig.DEBUG) {
+		if (BuildConfig.DEBUG || AdMobConfig.optBoolean("TestAds", false)) {
 			adRB.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 			adRB.addTestDevice(Utils.getDeviceId(activity));
 		}
@@ -373,7 +373,7 @@ public class AdMob {
 	private void requestNewInterstitial() {
 		AdRequest.Builder adRB = new AdRequest.Builder();
 
-		if (BuildConfig.DEBUG) {
+		if (BuildConfig.DEBUG || AdMobConfig.optBoolean("TestAds", false)) {
 			adRB.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 			adRB.addTestDevice(Utils.getDeviceId(activity));
 		}
