@@ -376,6 +376,14 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
+    public void reload_rewarded_video(final String unit_id) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				AdMob.getInstance(activity).reloadRewardedVideo(unit_id);
+			}
+		});
+    }
+
 	public void show_rvideo(final String unit_id) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {

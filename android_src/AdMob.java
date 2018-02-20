@@ -88,8 +88,9 @@ public class AdMob {
 				ad_units.add(activity.getString(R.string.rewarded_video_ad_unit_id));
 			} else {
 				ad_units = Arrays.asList(ad_unit_id.split(","));
-				Utils.d("AdMob:RewardedVideo:" +
-				String.valueOf(ad_units.size()) +":UnitIdS:Found");
+
+				Utils.d("AdMob:RewardedVideo:" + String.valueOf(ad_units.size()) +":UnitIdS:Found");
+                Utils.d("AdMob:MultipleAdUnits:NotSupported_By_AdMob [AdMob SDK provided only single instance for rewarded_ads]");
 			}
 
 			for (String id : ad_units) {
@@ -160,7 +161,7 @@ public class AdMob {
 		mAdView.setAdListener(new AdListener() {
 			@Override
 			public void onAdLoaded() {
-				Utils.d("AdMob:Banner:OnAdLoaded");	
+				Utils.d("AdMob:Banner:OnAdLoaded");
 				AdSize adSize = mAdView.getAdSize();
 
 				mAdSize.put("width", adSize.getWidthInPixels(activity));
@@ -365,7 +366,7 @@ public class AdMob {
 		else { Utils.d("AdMob:Interstitial:NotLoaded"); }
 	}
 
-	private void reloadRewardedVideo(final String unitid) {
+	public void reloadRewardedVideo(final String unitid) {
         if (reward_ads.containsKey(unitid)) {
             Utils.d("AdMob:RewardedVideo:Reloading_RewardedVideo_Request");
 
@@ -385,7 +386,7 @@ public class AdMob {
 		Utils.d("AdMob:Loading:RewardedAd:For: "+unitid);
 		AdRequest.Builder adRB = new AdRequest.Builder();
 
-		if (BuildConfig.DEBUG) {
+		if (BuildConfig.DEBUG || AdMobConfig.optBoolean("TestAds", false)) {
 			adRB.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 			adRB.addTestDevice(Utils.getDeviceId(activity));
 		}
@@ -396,7 +397,7 @@ public class AdMob {
 	private void requestNewInterstitial() {
 		AdRequest.Builder adRB = new AdRequest.Builder();
 
-		if (BuildConfig.DEBUG) {
+		if (BuildConfig.DEBUG || AdMobConfig.optBoolean("TestAds", false)) {
 			adRB.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 			adRB.addTestDevice(Utils.getDeviceId(activity));
 		}
