@@ -219,9 +219,13 @@ public class AdMob {
 	}
 
 	public void emitRewardedVideoStatus(final String unitid) {
-		RewardedVideoAd mrv = reward_ads.get(unitid);
-		Utils.callScriptFunc("AdMob", "AdMob_Video",
-		buildStatus(unitid, mrv.isLoaded() ? "loaded" : "not_loaded"));
+        if (reward_ads.containsKey(unitid)) {
+    		RewardedVideoAd mrv = reward_ads.get(unitid);
+    		Utils.callScriptFunc("AdMob", "AdMob_Video",
+    		buildStatus(unitid, mrv.isLoaded() ? "loaded" : "not_loaded"));
+        } else {
+            Utils.d("AdMob:RewardedVideo:UnitId_NotConfigured");
+        }
 	}
 
 	public Dictionary buildStatus(String unitid, String status) {
@@ -308,6 +312,10 @@ public class AdMob {
 
 	public void show_rewarded_video(final String id) {
 		if (!isInitialized() || reward_ads.size() <= 0) { return; }
+        if (reward_ads.isEmpty() || !reward_ads.containsKey(id)) {
+            Utils.d("AdMob:RewardedVideo:ID_NotConfigured");
+            return;
+        }
 
 		RewardedVideoAd mrv = (RewardedVideoAd) reward_ads.get(id);
 
@@ -317,6 +325,10 @@ public class AdMob {
 
 	public void show_rewarded_video() {
 		if (!isInitialized() || reward_ads.size() <= 0) { return; }
+        if (reward_ads.isEmpty()) {
+            Utils.d("AdMob:RewardedVideo:NotConfigured[ reward_ads instance is empty ]");
+            return;
+        }
 
 		RewardedVideoAd mrv = (RewardedVideoAd) reward_ads.values().toArray()[0];
 
@@ -354,8 +366,19 @@ public class AdMob {
 	}
 
 	private void reloadRewardedVideo(final String unitid) {
-		RewardedVideoAd mrv = reward_ads.get(unitid);
-		requestNewRewardedVideo(mrv, unitid);
+        if (reward_ads.containsKey(unitid)) {
+            Utils.d("AdMob:RewardedVideo:Reloading_RewardedVideo_Request");
+
+    		RewardedVideoAd mrv = reward_ads.get(unitid);
+    		requestNewRewardedVideo(mrv, unitid);
+        } else {
+            Utils.d("AdMob:RewardedVideo:Creating_New_RewardedVideo_Request");
+
+    	    RewardedVideoAd mrv = createRewardedVideo(unitid);
+    		requestNewRewardedVideo(mrv, unitid);
+
+	    	reward_ads.put(unitid, mrv);
+        }
 	}
 
 	private void requestNewRewardedVideo(RewardedVideoAd mrv, String unitid) {
