@@ -20,5 +20,5 @@ public class Config {
 
 	static final String TAG = "FireBase";
 
-	static final boolean DEBUG = true;
+	static boolean DEBUG = true;
 }

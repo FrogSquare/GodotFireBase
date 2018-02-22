@@ -133,7 +133,8 @@ Reference: https://support.google.com/firebase/answer/6317494?hl=en
 
 # AlertDialog aditional
 ```
-firebase.alert("Message goes here..!");
+firebase.alert("Message goes here..!") // Show a simple AlertDialog
+firebase.set_debug(true) // Enable/Disable `GodotFireBase` debug messages
 ```
 
 # Authentication
