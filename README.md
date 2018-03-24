@@ -7,7 +7,7 @@ Godot_FireBase is a firebase integration for godot android;
 [![PATREON](https://img.shields.io/badge/Patreon-support-yellow.svg)](https://www.patreon.com/bePatron?u=5130479)
 
 # Depends on
-> Godot game engine (2.1.x/2.2-legacy): `git clone https://github.com/godotengine/godot`
+> Godot game engine: `git clone https://github.com/godotengine/godot`
 
 > GodotSQL: `git clone https://github.com/FrogSquare/GodotSQL`
 
