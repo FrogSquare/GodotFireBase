@@ -137,6 +137,7 @@ public class Utils {
 	}
 
 	public static String readFromFile(String fPath, Context context) {
+        d("Reading File: " + fPath);
 		StringBuilder returnString = new StringBuilder();
 
 		String fileName = fPath;
@@ -160,7 +161,9 @@ public class Utils {
 			}
 
 		}
-		catch (Exception e) { e.getMessage(); }
+		catch (Exception e) {
+            d("FileRead Failed: " + e.getMessage());
+        }
 		finally {
 			try {
 				if (isr != null) { isr.close(); }
