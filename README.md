@@ -242,6 +242,9 @@ firebase.invite("message", "");  // Fallback to use default android share eg: Wh
 
 # Firebase AdMob
 ```
+firebase.is_banner_loaded()     // Returns `true` if banner is loaded
+firebase.is_interstitial_loaded() // Returns `true` if interstitial is loaded
+
 firebase.show_banner_ad(true)	// Show Banner Ad
 firebase.show_banner_ad(false)	// Hide Banner Ad
 firebase.set_banner_unitid("unit_id") // Change current Ad unit ID

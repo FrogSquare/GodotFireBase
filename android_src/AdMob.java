@@ -132,6 +132,8 @@ public class AdMob {
 	}
 
 	public void createBanner(final String ad_unit_id) {
+        mAdViewLoaded = false;
+
 		FrameLayout layout = ((Godot)activity).layout; // Getting Godots framelayout
 		FrameLayout.LayoutParams AdParams = new FrameLayout.LayoutParams(
 							FrameLayout.LayoutParams.MATCH_PARENT,
@@ -163,6 +165,7 @@ public class AdMob {
 			public void onAdLoaded() {
 				Utils.d("AdMob:Banner:OnAdLoaded");
 				AdSize adSize = mAdView.getAdSize();
+                mAdViewLoaded = true;
 
 				mAdSize.put("width", adSize.getWidthInPixels(activity));
 				mAdSize.put("height", adSize.getHeightInPixels(activity));
@@ -302,6 +305,14 @@ public class AdMob {
 
 		return mrv;
 	}
+
+    public boolean isBannerLoaded() {
+        return mAdViewLoaded;
+    }
+
+    public boolean isInterstitialLoaded() {
+        return mInterstitialAd.isLoaded();
+    }
 
 	public void requestRewardedVideoStatus() {
 		emitRewardedVideoStatus();
@@ -453,6 +464,7 @@ public class AdMob {
 	private static Activity activity = null;
 	private static AdMob mInstance = null;
 
+    private boolean mAdViewLoaded = false;
 	private Map<String, RewardedVideoAd> reward_ads = null;
 
 	private AdView mAdView = null;
