@@ -141,7 +141,7 @@ public class AdMob {
 
 		if(mAdView != null) { layout.removeView(mAdView); }
 
-		if (AdMobConfig.optString("BannetGravity", "BOTTOM").equals("BOTTOM")) {
+		if (AdMobConfig.optString("BannerGravity", "BOTTOM").equals("BOTTOM")) {
 			AdParams.gravity = Gravity.BOTTOM;
 		} else { AdParams.gravity = Gravity.TOP; }
 
