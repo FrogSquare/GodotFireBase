@@ -252,6 +252,12 @@ public class Utils {
 		script_instanceID = instanceID;
 	}
 
+	public static void callScriptCallback(
+            int script_id, String function, String from, Object key, Object value) {
+
+		GodotLib.calldeferred(script_id, function, new Object[] { Config.TAG, from, key, value });
+	}
+
 	public static void callScriptCallback(String function, String from, Object key, Object value) {
 		if (script_instanceID == -1) {
 			Utils.d("Script::Instance::NotSset");

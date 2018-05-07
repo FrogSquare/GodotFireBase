@@ -67,7 +67,7 @@ public class Firestore {
 		Utils.d("Firestore::Initialized");
 	}
 
-	public void loadDocuments (final String p_name) {
+	public void loadDocuments (final String p_name, final int callback_id) {
 		Utils.d("Firestore::LoadData");
 
 		db.collection(p_name).get()
@@ -78,17 +78,29 @@ public class Firestore {
 					JSONObject jobject = new JSONObject();
 
 					try {
+	    				JSONObject jobject_1 = new JSONObject();
+
 						for (DocumentSnapshot document : task.getResult()) {
-							jobject.put(
+							jobject_1.put(
 							document.getId(), document.getData());
 						}
 
-						Utils.d("Data: " + jobject.toString());
-						Utils.callScriptFunc(
-						"Firestore", "Documents", jobject.toString());
+                        jobject.put(p_name, jobject_1);
 					} catch (JSONException e) {
 						Utils.d("JSON Exception: " + e.toString());
 					}
+
+                    
+			    	Utils.d("Data: " + jobject.toString());
+
+                    if (callback_id == -1) {
+    					Utils.callScriptFunc(
+                                "Firestore", "Documents", jobject.toString());
+                    } else {
+  						Utils.callScriptFunc(
+                                callback_id, "Firestore", "Documents", jobject.toString());
+                    }
+
 				} else {
 					Utils.w("Error getting documents: " + task.getException());
 				}
@@ -139,6 +151,8 @@ public class Firestore {
 	private FirebaseFirestore db = null;
 	private static Activity activity = null;
 	private static Firestore mInstance = null;
+
+    private int script_callback_id = -1;
 
 	private FirebaseApp mFirebaseApp = null;
 }

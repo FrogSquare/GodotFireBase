@@ -31,7 +31,7 @@ Godot_FireBase is a firebase integration for godot android;
 # Build/Compile module
 copy your `google-services.json` file to `[GODOT-ROOT]/platform/android/java/` and edit file modules/FireBase/config.py at line 17
 ```
-env.android_add_default_config("applicationId 'com.your.appid'")
+p_app_id = "com.your.appid"     # config.py L:11
 ```
 replay `com.your.appid` with you android application id.
 
@@ -73,7 +73,7 @@ GodotFireBase config file, By default every feature is disabled.
 	"RemoteConfig" : true,
 	"Notification" : true,
 	"Storage" : true,
-	"FireStore" : true,
+	"Firestore" : true,
 
 	"AuthConf" : 
 	{

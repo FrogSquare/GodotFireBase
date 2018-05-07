@@ -1,8 +1,14 @@
 
+import sys
 import json
 import os
 import re
 import shutil
+
+from colors import *
+
+# Set your Android app ID
+p_app_id = "com.your.appid"
 
 # Update this to customize the module
 _config = {
@@ -117,7 +123,10 @@ def update_module():
     _config["Auth"] = _config["Authentication"]
 
     if (_config["Storage"] or _config["Firestore"]) and not _config["Auth"]:
+        sys.stdout.write(RED)
         print("Storage/Firestore needs FireBase Authentication, Skipping `GodotFireBase` module")
+        sys.stdout.write(RESET)
+
         return False
 
     data_to_check = \
@@ -133,11 +142,14 @@ def update_module():
         _config["AuthFacebook"] = False
         _config["AuthTwitter"] = False
 
+    dbg_msg = ""
     for d in data_to_check:
         if not _config[d]:
             regex_list.append(\
             [re.compile(r'([\/]+'+d+'[\+]+)'), re.compile(r'([\/]+'+d+'[\-]+)')])
         else:
+            dbg_msg += " %s," % d
+
             if d != "Storage":
                 if d == "Auth":
                     if not os.path.exists(target_dir+"auth/"): os.makedirs(target_dir+"auth/")
@@ -146,6 +158,8 @@ def update_module():
                         shutil.copyfile(src_dir+"auth/"+files, target_dir+"auth/"+files)
                     else: shutil.copyfile(src_dir+files, target_dir+files)
             else: copytree(src_dir+d.lower(), target_dir+d.lower())
+
+    print(GREEN + "FireBase: " + RESET + " [" + dbg_msg[1:-1] + "]")
 
     # Copy FireBase.java file into memory
     parse_java_file(src_dir+"FireBase.java", target_dir+"FireBase.java", regex_list)
@@ -229,4 +243,4 @@ def configure(env):
         env.android_add_to_manifest("android/AndroidManifestChunk.xml");
         env.android_add_to_permissions("android/AndroidPermissionsChunk.xml");
         env.android_add_default_config("minSdkVersion 15")
-        env.android_add_default_config("applicationId 'com.froglogics.dotsndots'")
+        env.android_add_default_config("applicationId '"+ p_app_id +"'")

@@ -106,7 +106,7 @@ public class FireBase extends Godot.SingletonBase {
 			//Storage--
 
 			//Firestore++
-			"load_document", "set_document", "add_document"
+			"load_document", "load_document_to", "set_document", "add_document"
 			//Firestore--
 		});
 
@@ -750,7 +750,15 @@ public class FireBase extends Godot.SingletonBase {
 	public void load_document(final String p_name) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				Firestore.getInstance(activity).loadDocuments(p_name);
+				Firestore.getInstance(activity).loadDocuments(p_name, -1);
+			}
+		});
+	}
+
+	public void load_document_to(final String p_name, final int callback_instance_id) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Firestore.getInstance(activity).loadDocuments(p_name, callback_instance_id);
 			}
 		});
 	}
