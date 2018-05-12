@@ -17,13 +17,13 @@ _config = {
 "Invites"        : True,
 "RemoteConfig"   : True,
 "Notification"   : True,
-"Storage"        : True,
-"Firestore"      : False,
+"Storage"        : False,
+"Firestore"      : True,
 
 "Authentication" : True,
 "AuthGoogle"     : True,
-"AuthFacebook"   : True,
-"AuthTwitter"    : True
+"AuthFacebook"   : False,
+"AuthTwitter"    : False
 }
 
 FILES_LIST		= \
@@ -159,7 +159,7 @@ def update_module():
                     else: shutil.copyfile(src_dir+files, target_dir+files)
             else: copytree(src_dir+d.lower(), target_dir+d.lower())
 
-    print(GREEN + "FireBase: " + RESET + " [" + dbg_msg[1:-1] + "]")
+    print(GREEN + "FireBase: " + RESET + "[" + dbg_msg[1:-1] + "]")
 
     # Copy FireBase.java file into memory
     parse_java_file(src_dir+"FireBase.java", target_dir+"FireBase.java", regex_list)
