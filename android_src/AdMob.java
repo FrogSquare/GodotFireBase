@@ -104,6 +104,8 @@ public class AdMob {
 		mAdSize = new Dictionary();
 		mAdSize.put("width", 0);
 		mAdSize.put("height", 0);
+
+        onStart();
 	}
 
 	public Dictionary getBannerSize() {
@@ -255,6 +257,8 @@ public class AdMob {
 			@Override
 			public void onRewardedVideoAdLoaded() {
 				Utils.d("AdMob:Video:Loaded");
+                
+                mAdRewardLoaded = true;
 				Utils.callScriptFunc("AdMob", "AdMob_Video", buildStatus(unitid, "loaded"));
 			}
 
@@ -312,6 +316,15 @@ public class AdMob {
 
     public boolean isInterstitialLoaded() {
         return mInterstitialAd.isLoaded();
+    }
+
+    public boolean isRewardedAdLoaded() {
+		if (!isInitialized() || reward_ads.size() <= 0) {
+            return false;
+        }
+
+		RewardedVideoAd mrv = (RewardedVideoAd) reward_ads.values().toArray()[0];
+        return mrv.isLoaded();
     }
 
 	public void requestRewardedVideoStatus() {
@@ -378,11 +391,13 @@ public class AdMob {
 	}
 
 	public void reloadRewardedVideo(final String unitid) {
-        if (reward_ads.containsKey(unitid)) {
+        if (reward_ads.containsKey(unitid) && reload_count <= 3) {
             Utils.d("AdMob:RewardedVideo:Reloading_RewardedVideo_Request");
 
     		RewardedVideoAd mrv = reward_ads.get(unitid);
     		requestNewRewardedVideo(mrv, unitid);
+
+            reload_count += 1;
         } else {
             Utils.d("AdMob:RewardedVideo:Creating_New_RewardedVideo_Request");
 
@@ -394,7 +409,9 @@ public class AdMob {
 	}
 
 	private void requestNewRewardedVideo(RewardedVideoAd mrv, String unitid) {
-		Utils.d("AdMob:Loading:RewardedAd:For: "+unitid);
+		Utils.d("AdMob:Loading:RewardedAd:For: " + unitid);
+
+        mAdRewardLoaded = false;
 		AdRequest.Builder adRB = new AdRequest.Builder();
 
 		if (BuildConfig.DEBUG || AdMobConfig.optBoolean("TestAds", false)) {
@@ -428,7 +445,7 @@ public class AdMob {
 	}
 
 	public void onStart() {
-
+        reload_count = 0;
 	}
 
 	public void onPause() {
@@ -452,6 +469,8 @@ public class AdMob {
 	}
 
 	public void onStop() {
+        reload_count = 0;
+
 		if (mAdView != null) { mAdView.destroy(); }
 
 		if (reward_ads != null) {
@@ -461,9 +480,12 @@ public class AdMob {
 		}
 	}
 
+    private int reload_count = 0;
+
 	private static Activity activity = null;
 	private static AdMob mInstance = null;
 
+    private boolean mAdRewardLoaded = false;
     private boolean mAdViewLoaded = false;
 	private Map<String, RewardedVideoAd> reward_ads = null;
 

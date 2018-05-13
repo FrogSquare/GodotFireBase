@@ -81,8 +81,7 @@ public class Firestore {
 	    				JSONObject jobject_1 = new JSONObject();
 
 						for (DocumentSnapshot document : task.getResult()) {
-							jobject_1.put(
-							document.getId(), document.getData());
+							jobject_1.put(document.getId(), new JSONObject(document.getData()));
 						}
 
                         jobject.put(p_name, jobject_1);
