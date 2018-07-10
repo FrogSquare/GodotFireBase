@@ -34,7 +34,7 @@ Godot_FireBase is a firebase integration for godot android;
 # Build/Compile module
 
 * Copy your `google-services.json` file to `[GODOT-ROOT]/platform/android/java/`
-* Edit file modules/FireBase/config.py at line 232
+* Edit file modules/FireBase/config.py at line 11
 
 ```
 p_app_id = "com.your.appid"     # config.py L:11
@@ -116,7 +116,7 @@ GodotFireBase config file, By default every feature is disabled.
 }
 ```
 
-And  initialize firebase with file path, `RewardedVideoAdId` is a string array i.e `"string1,string2"`
+And initialize firebase with file path, `RewardedVideoAdId` is a string array i.e `"string1,string2"`
 
 ```
 func _ready():

@@ -176,6 +176,7 @@ public class GoogleSignIn
 		isRequestingSignIn = false;
 
 		try {
+			currentGoogleUser.put("uid", user.getUid());
 			currentGoogleUser.put("name", user.getDisplayName());
 			currentGoogleUser.put("email_id", user.getEmail());
 			currentGoogleUser.put("photo_uri", user.getPhotoUrl());

@@ -135,6 +135,7 @@ public class TwitterSignIn {
 		isTwitterConnected = true;
 
 		try {
+			currentTwitterUser.put("uid", user.getUid());
 			currentTwitterUser.put("name", user.getDisplayName());
 			currentTwitterUser.put("email_id", user.getEmail());
 			currentTwitterUser.put("photo_uri", user.getPhotoUrl());

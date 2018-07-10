@@ -382,6 +382,7 @@ public class FacebookSignIn {
 		accessToken = AccessToken.getCurrentAccessToken();
 
 		try {
+			currentFBUser.put("uid", user.getUid());
 			currentFBUser.put("name", user.getDisplayName());
 			currentFBUser.put("email_id", user.getEmail());
 			currentFBUser.put("photo_uri", user.getPhotoUrl());
