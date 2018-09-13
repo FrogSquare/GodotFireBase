@@ -254,6 +254,11 @@ public class AdMob {
 		RewardedVideoAd mrv = MobileAds.getRewardedVideoAdInstance(activity);
 		mrv.setRewardedVideoAdListener(new RewardedVideoAdListener() {
 
+            @Override
+            public void onRewardedVideoCompleted() {
+				Utils.callScriptFunc("AdMob", "RewardedVideoCompleted", new Dictionary());
+            }
+
 			@Override
 			public void onRewardedVideoAdLoaded() {
 				Utils.d("AdMob:Video:Loaded");

@@ -18,9 +18,9 @@ _config = {
 "RemoteConfig"   : True,
 "Notification"   : True,
 "Storage"        : False,
-"Firestore"      : True,
+"Firestore"      : False,
 
-"Authentication" : True,
+"Authentication" : False,
 "AuthGoogle"     : True,
 "AuthFacebook"   : False,
 "AuthTwitter"    : False
@@ -48,7 +48,8 @@ directory = "android"
 empty_line = re.compile(r'^\s*$')
 
 def can_build(plat):
-    return update_module() if plat == "android" else False
+    return update_module() if plat == "android" else True
+    #return False
 
 def copytree(src, dst, symlinks=False, ignore=None):
     for item in os.listdir(src):
@@ -197,16 +198,18 @@ def configure(env):
         env.android_add_maven_repository(\
         "url 'https://oss.sonatype.org/content/repositories/snapshots'")
 
-        env.android_add_gradle_classpath("com.google.gms:google-services:3.1.1")
+        env.android_add_gradle_classpath("com.google.gms:google-services:4.1.0")
         env.android_add_gradle_plugin("com.google.gms.google-services")
 
         env.android_add_dependency("compile 'com.android.support:support-annotations:25.0.1'")
-        env.android_add_dependency("compile 'com.google.firebase:firebase-core:11.6.0'")
+        env.android_add_dependency("compile 'com.google.firebase:firebase-core:16.0.3'")
+        env.android_add_dependency("compile 'com.google.firebase:firebase-analytics:16.0.1'")
+        env.android_add_dependency("compile 'com.google.android.gms:play-services-measurement-base:16.0.0'")
 
         if _config["Auth"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-auth:11.6.0'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-auth:16.0.3'")
             if _config["AuthGoogle"]:
-                env.android_add_dependency("compile 'com.google.android.gms:play-services-auth:11.6.0'")
+                env.android_add_dependency("compile 'com.google.android.gms:play-services-auth:16.0.0'")
 
             if _config["AuthFacebook"]:
                 env.android_add_dependency("compile 'com.facebook.android:facebook-android-sdk:4.18.0'")
@@ -218,23 +221,23 @@ def configure(env):
                 "compile('com.twitter.sdk.android:twitter:1.13.1@aar') { transitive = true }")
 
         if _config["AdMob"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-ads:11.6.0'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-ads:15.0.1'")
 
         if _config["RemoteConfig"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-config:11.6.0'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-config:16.0.0'")
 
         if _config["Notification"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-messaging:11.6.0'")
-            env.android_add_dependency("compile 'com.firebase:firebase-jobdispatcher:0.5.2'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-messaging:17.3.0'")
+            env.android_add_dependency("compile 'com.firebase:firebase-jobdispatcher:0.8.5'")
 
         if _config["Invites"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-invites:11.6.0'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-invites:16.0.3'")
 
         if _config["Storage"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-storage:11.6.0'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-storage:16.0.1'")
 
         if _config["Firestore"]:
-            env.android_add_dependency("compile 'com.google.firebase:firebase-firestore:11.6.0'")
+            env.android_add_dependency("compile 'com.google.firebase:firebase-firestore:17.1.0'")
 
         env.android_add_dependency("compile 'commons-codec:commons-codec:1.10'")
 
