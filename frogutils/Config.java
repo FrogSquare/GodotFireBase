@@ -18,7 +18,7 @@ package org.godotengine.godot;
 
 public class Config {
 
-	static final String TAG = "FireBase";
+	static final String TAG = "FrogSquare";
 
 	static boolean DEBUG = true;
 }

@@ -6,10 +6,9 @@ import re
 import shutil
 
 from colors import *
-from helper import *
 
 # Set your Android app ID
-p_app_id = "com.example.game"
+p_app_id = "games.misu.greatalchemist"
 
 # Update this to customize the module
 _config = {
@@ -27,20 +26,30 @@ _config = {
 "AuthTwitter"    : False
 }
 
-def can_build(env, plat = None):
-    #return False
-    if plat == None:
-        print("`GodotFireBase`"+RED+" master "+RESET+" branch is not compatable with godot 2.X")
-        print("Try using `GodotFireBase` "+GREEN+" 2.X "+RESET+" branch for Godot 2.X")
-        return False
+FILES_LIST		= \
+{
+"AdMob"		: ["AdMob.java"],
+"Analytics"	: ["Analytics.java"],
+"Auth"		: ["AnonymousAuth.java", "Auth.java", "EmailAndPassword.java"],
+"Base"		: ["FireBase.java", "AndroidPermissionsChunk.xml"],
+"Invites"	: ["Invites.java"],
+"Notification"	: ["MessagingService.java", "Notification.java", \
+                   "NotifyInTime.java", "InstanceIDService.java"],
+"RemoteConfig"	: ["RemoteConfig.java"],
+"Storage"	: ["storage/"],
+"Firestore"	: ["Firestore.java"],
 
-    if plat == "android":
-        print("GodotFireBase: " + GREEN + "Enabled" + RESET)
-        return update_module(env)
-    else:
-        print("GodotFireBase: " + RED + "Disabled" + RESET)
-        return False
-    pass   
+"AuthGoogle"    : ["GoogleSignIn.java"],
+"AuthFacebook"  : ["FacebookSignIn.java"],
+"AuthTwitter"   : ["TwitterSignIn.java"],
+}
+
+directory = "android"
+empty_line = re.compile(r'^\s*$')
+
+def can_build(env, plat):
+    return update_module() if plat == "android" else True
+    #return False
 
 def copytree(src, dst, symlinks=False, ignore=None):
     for item in os.listdir(src):
@@ -102,7 +111,7 @@ def parse_java_file(p_file_src, p_file_dst, p_regex_list):
     out_file.close()
     pass
 
-def update_module(env):
+def update_module():
     src_dir = os.path.dirname(os.path.abspath(__file__)) + "/android_src/"
     target_dir = os.path.dirname(os.path.abspath(__file__)) + "/android/"
 
@@ -136,10 +145,6 @@ def update_module(env):
 
     dbg_msg = ""
     for d in data_to_check:
-        if d == "AdMob":
-            if any(elem in env.module_list for elem in ["GodotAds"]):
-                _config[d] = False
-
         if not _config[d]:
             regex_list.append(\
             [re.compile(r'([\/]+'+d+'[\+]+)'), re.compile(r'([\/]+'+d+'[\-]+)')])
@@ -155,7 +160,7 @@ def update_module(env):
                     else: shutil.copyfile(src_dir+files, target_dir+files)
             else: copytree(src_dir+d.lower(), target_dir+d.lower())
 
-    print("GodotFireBase: [" + dbg_msg[1:-1] + "]")
+    print(GREEN + "FireBase: " + RESET + "[" + dbg_msg[1:-1] + "]")
 
     # Copy FireBase.java file into memory
     parse_java_file(src_dir+"FireBase.java", target_dir+"FireBase.java", regex_list)
@@ -243,11 +248,8 @@ def configure(env):
         env.android_add_dependency("implementation 'commons-codec:commons-codec:1.10'")
 
         env.android_add_java_dir("android");
+        env.android_add_java_dir("utils");
         env.android_add_res_dir("res");
-
-        if "frogutils" in [os.path.split(path)[1] for path in env.android_java_dirs]: pass
-        else: env.android_add_java_dir("frogutils");
-
         env.android_add_to_manifest("android/AndroidManifestChunk.xml");
         env.android_add_to_permissions("android/AndroidPermissionsChunk.xml");
         env.android_add_default_config("minSdkVersion 18")
