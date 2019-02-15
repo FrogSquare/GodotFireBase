@@ -67,6 +67,7 @@ public class FireBase extends Godot.SingletonBase {
 			//AdMob--
 
 			//Auth++
+			"get_id_token",
 			//AuthGoogle++
 			"google_sign_in", "google_sign_out",
 			"is_google_connected", "get_google_user",  "google_revoke_access",
@@ -443,6 +444,15 @@ public class FireBase extends Godot.SingletonBase {
 			}
 		});
 	}
+
+	public void get_id_token() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Auth.getInstance(activity).getIdToken();
+			}
+		});
+	}
+
 
 	//AuthGoogle++
 	public void google_sign_in () {

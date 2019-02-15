@@ -162,6 +162,8 @@ For Facebook edit `res/values/ids.xml` and replace facebook_app_id with your Fac
 ```
 firebase.authConfig("'Google':true,'Facebook':true") # Configure Auth service
 
+firebase.get_id_token()
+
 firebase.google_sign_in() # Firebase connect to google.
 firebase.facebook_sign_in() # Firebase connect to facebook.
 firebase.twitter_sign_in() # Firebase connect to twitter.
