@@ -63,7 +63,7 @@ public class RemoteConfig {
 	}
 
 	private void fetchRemoteConfigs () {
-		Utils.d("Loading Remote Configs");
+		Utils.d("GodotFireBase", "Loading Remote Configs");
 
 		long cacheExpiration = 3600;
 
@@ -77,14 +77,14 @@ public class RemoteConfig {
 			@Override
 			public void onComplete(@NonNull Task<Void> task) {
 				if (task.isSuccessful()) {
-					Utils.d("RemoteConfig, Fetch Successed");
+					Utils.d("GodotFireBase", "RemoteConfig, Fetch Successed");
 
 					mFirebaseRemoteConfig.activateFetched();
 				} else {
-					Utils.d("RemoteConfig, Fetch Failed");
+					Utils.d("GodotFireBase", "RemoteConfig, Fetch Failed");
 				}
 
-			// Utils.d("Fetched Value: " + getValue("firebase_remoteconfig_test"));
+			// Utils.d("GodotFireBase", "Fetched Value: " + getValue("firebase_remoteconfig_test"));
 			}
 		});
 	}
@@ -92,7 +92,7 @@ public class RemoteConfig {
 	public void setDefaultsFile (final String filePath) {
 		if (!isInitialized()) { return; }
 
-		Utils.d("Loading Defaults from file:" + filePath);
+		Utils.d("GodotFireBase", "Loading Defaults from file:" + filePath);
 
 		String data = Utils.readFromFile(filePath, activity.getApplicationContext());
 		data = data.replaceAll("\\s+", "");
@@ -104,7 +104,7 @@ public class RemoteConfig {
 		if (!isInitialized()) { return; }
 
 		Map<String, Object> defaultsMap = Utils.jsonToMap(defaults);
-		Utils.d("RemoteConfig: Setting Default values, " + defaultsMap.toString());
+		Utils.d("GodotFireBase", "RemoteConfig: Setting Default values, " + defaultsMap.toString());
 
 		mFirebaseRemoteConfig.setDefaults(defaultsMap);
 	}
@@ -112,20 +112,20 @@ public class RemoteConfig {
 	public String getValue (final String key) {
 		if (!isInitialized()) { return "NULL"; }
 
-		Utils.d("Getting Remote config value for: " + key);
+		Utils.d("GodotFireBase", "Getting Remote config value for: " + key);
 		return mFirebaseRemoteConfig.getValue(key).asString();
 	}
 
 	public String getValue (final String key, final String namespace) {
 		if (!isInitialized()) { return "NULL"; }
 
-		Utils.d("Getting Remote config value for { " + key + " : " + namespace + " }");
+		Utils.d("GodotFireBase", "Getting Remote config value for { " + key + " : " + namespace + " }");
 		return mFirebaseRemoteConfig.getValue(key, namespace).asString();
 	}
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Utils.d("RemoteConfig is not initialized.");
+			Utils.d("GodotFireBase", "RemoteConfig is not initialized.");
 			return false;
 		} else {
 			return true;

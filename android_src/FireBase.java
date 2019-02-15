@@ -114,38 +114,38 @@ public class FireBase extends Godot.SingletonBase {
 	}
 
 	private void initFireBase(final String data) {
-		Utils.d("Data From File: " + data);
+		Utils.d("GodotFireBase", "Data From File: " + data);
 
 		JSONObject config = null;
 		mFirebaseApp = FirebaseApp.initializeApp(activity);
 
 		if (data.length() <= 0) {
-			Utils.d("FireBase initialized.");
+			Utils.d("GodotFireBase", "FireBase initialized.");
 			return;
 		}
 
 		try { 
 			config = new JSONObject(data);
 			firebaseConfig = config;
-		} catch (JSONException e) { Utils.d("JSON Parse error: " + e.toString()); }
+		} catch (JSONException e) { Utils.d("GodotFireBase", "JSON Parse error: " + e.toString()); }
 
 		//Analytics++
 		if (config.optBoolean("Analytics", true)) {
-			Utils.d("Initializing Firebase Analytics.");
+			Utils.d("GodotFireBase", "Initializing Firebase Analytics.");
 			Analytics.getInstance(activity).init(mFirebaseApp);
 		}
 		//Analytics--
 
 		//AdMob++
 		if (config.optBoolean("AdMob", false)) {
-			Utils.d("Initializing Firebase AdMob.");
+			Utils.d("GodotFireBase", "Initializing Firebase AdMob.");
 			AdMob.getInstance(activity).init(mFirebaseApp);
 		}
 		//AdMob--
 
 		//Auth++
 		if (config.optBoolean("Authentication", false)) {
-			Utils.d("Initializing Firebase Authentication.");
+			Utils.d("GodotFireBase", "Initializing Firebase Authentication.");
 			Auth.getInstance(activity).init(mFirebaseApp);
 			Auth.getInstance(activity).configure(config.optString("AuthConf"));
 		}
@@ -153,21 +153,21 @@ public class FireBase extends Godot.SingletonBase {
 
 		//Notification++
 		if (config.optBoolean("Notification", false)) {
-			Utils.d("Initializing Firebase Notification.");
+			Utils.d("GodotFireBase", "Initializing Firebase Notification.");
 			Notification.getInstance(activity).init(mFirebaseApp);
 		}
 		//Notification--
 
 		//Invites++
 		if (config.optBoolean("Invites", false)) {
-			Utils.d("Initializing Firebase Invites.");
+			Utils.d("GodotFireBase", "Initializing Firebase Invites.");
 			Invites.getInstance(activity).init(mFirebaseApp);
 		}
 		//Invites--
 
 		//RemoteConfig++
 		if (config.optBoolean("RemoteConfig", false)) {
-			Utils.d("Initializing Firebase RemoteConfig.");
+			Utils.d("GodotFireBase", "Initializing Firebase RemoteConfig.");
 			RemoteConfig.getInstance(activity).init(mFirebaseApp);
 		}
 		//RemoteConfig--
@@ -175,26 +175,26 @@ public class FireBase extends Godot.SingletonBase {
 		//Storage++
 		if (config.optBoolean("Storage", false)) {
 			if (!config.optBoolean("Authentication", false)) {
-				Utils.d("Firebase Storage needs Authentication.");
+				Utils.d("GodotFireBase", "Firebase Storage needs Authentication.");
 			}
 
-			Utils.d("Initializing Firebase Storage.");
+			Utils.d("GodotFireBase", "Initializing Firebase Storage.");
 			Storage.getInstance(activity).init(mFirebaseApp);
 		}
 		//Storage--
 
 		//Firestore++
 		if (config.optBoolean("Firestore", false)) {
-			Utils.d("Initializing Firestore.");
+			Utils.d("GodotFireBase", "Initializing Firestore.");
 			Firestore.getInstance(activity).init(mFirebaseApp);
 		}
 		//Firestore--
 
-		Utils.d("FireBase initialized.");
+		Utils.d("GodotFireBase", "FireBase initialized.");
 	}
 
     public void set_debug(final boolean p_value) {
-        Config.DEBUG = p_value;
+        Utils.set_debug("GodotFireBase", p_value);
     }
 
 	public void alertMsg(String message) {
@@ -238,7 +238,7 @@ public class FireBase extends Godot.SingletonBase {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				if (screen_name.length() <= 0) {
-					Utils.d("Screen name is empty defaults to main");
+					Utils.d("GodotFireBase", "Screen name is empty defaults to main");
 					Analytics.getInstance(activity).set_screen_name("Main Screen");
 				} else {
 					Analytics.getInstance(activity).set_screen_name(screen_name);
@@ -249,7 +249,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void sendAchievement(final String a_id) {
 		if (a_id.length() <= 0) {
-			Utils.d("Achievement id not provided");
+			Utils.d("GodotFireBase", "Achievement id not provided");
 			return;
 		}
 
@@ -327,7 +327,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void send_events(final String key, final Dictionary data) {
 		if (key.length() <= 0 || data.size() <= 0) {
-			Utils.d("Key or Data is null.");
+			Utils.d("GodotFireBase", "Key or Data is null.");
 			return;
 		}
 
@@ -340,7 +340,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void send_custom(final String key, final String value) {
 		if (key.length() <= 0 || value.length() <= 0) {
-			Utils.d("Key or Value is null.");
+			Utils.d("GodotFireBase", "Key or Value is null.");
 			return;
 		}
 
@@ -592,7 +592,7 @@ public class FireBase extends Godot.SingletonBase {
 	/** Extra **/
 	public void alert(final String message) {
 		if (message.length() <= 0) {
-			Utils.d("Message is empty.");
+			Utils.d("GodotFireBase", "Message is empty.");
 			return;
 		}
 
@@ -639,7 +639,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void subscribeToTopic (final String topic) {
 		if (topic.length() <= 0) {
-			Utils.d("Topic id not provided.");
+			Utils.d("GodotFireBase", "Topic id not provided.");
 			return;
 		}
 
@@ -668,10 +668,10 @@ public class FireBase extends Godot.SingletonBase {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				if (deepLink.length() <= 0) {
-					Utils.d("DeepLink not provided fall back to simple share");
+					Utils.d("GodotFireBase", "DeepLink not provided fall back to simple share");
 					Invites.getInstance(activity).invite(message);
 				} else {
-					Utils.d("Using Firebase DeepLink");
+					Utils.d("GodotFireBase", "Using Firebase DeepLink");
 					Invites.getInstance(activity).invite(message, deepLink);
 				}
 			}
@@ -682,7 +682,7 @@ public class FireBase extends Godot.SingletonBase {
 	//RemoteConfig++
 	public String getRemoteValue (final String key) {
 		if (key.length() <= 0) {
-			Utils.d("getting remote config: key not provided, returning null");
+			Utils.d("GodotFireBase", "getting remote config: key not provided, returning null");
 			return "NULL";
 		}
 
@@ -691,7 +691,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void setRemoteDefaultsFile (final String path) {
 		if (path.length() <= 0) {
-			Utils.d("File not provided for remote config");
+			Utils.d("GodotFireBase", "File not provided for remote config");
 			return;
 		}
 
@@ -704,7 +704,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void setRemoteDefaults (final String jsonData) {
 		if (jsonData.length() <= 0) {
-			Utils.d("No defaults were provided.");
+			Utils.d("GodotFireBase", "No defaults were provided.");
 			return;
 		}
 
@@ -774,7 +774,7 @@ public class FireBase extends Godot.SingletonBase {
 	}
 
 	protected void onMainActivityResult (int requestCode, int resultCode, Intent data) {
-		//Utils.d("onActivityResult: reqCode=" + requestCode + ", resCode=" + resultCode);
+		//Utils.d("GodotFireBase", "onActivityResult: reqCode=" + requestCode + ", resCode=" + resultCode);
 
 		//Analytics++
 		// Analytics.getInstance(activity).onActivityResult(requestCode, resultCode, data);

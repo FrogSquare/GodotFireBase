@@ -16,8 +16,8 @@ _config = {
 "Analytics"      : True,
 "AdMob"          : True,
 "Invites"        : True,
-"RemoteConfig"   : True,
-"Notification"   : True,
+"RemoteConfig"   : False,
+"Notification"   : False,
 "Storage"        : False,
 "Firestore"      : False,
 
@@ -27,16 +27,21 @@ _config = {
 "AuthTwitter"    : False
 }
 
-def can_build(env, plat = None):
+def can_build(env_plat, plat = None):
     #return False
     if plat == None:
-        print("`GodotFireBase`"+RED+" master "+RESET+" branch is not compatable with godot 2.X")
-        print("Try using `GodotFireBase` "+GREEN+" 2.X "+RESET+" branch for Godot 2.X")
-        return False
+        #print("`GodotFireBase`"+RED+" master "+RESET+" branch not compatable with godot 2.X")
+        #print("Try using `GodotFireBase` "+GREEN+" 2.X "+RESET+" branch for Godot 2.X")
+
+        if isinstance(env_plat, basestring):
+            plat = env_plat
+        else:
+            print("GodotFireBase: "+RED+" Platform not set, Disabling GodotFireBase "+RESET)
+            return False
 
     if plat == "android":
         print("GodotFireBase: " + GREEN + "Enabled" + RESET)
-        return update_module(env)
+        return True
     else:
         print("GodotFireBase: " + RED + "Disabled" + RESET)
         return False
@@ -193,6 +198,10 @@ def implement(api, support=True):
 
 def configure(env):
     if env["platform"] == "android":
+        if (not update_module(env)):
+            print("Error updating module.")
+            return
+
         env.android_add_maven_repository("url 'https://maven.fabric.io/public'")
         env.android_add_maven_repository("url 'https://maven.google.com'")
         env.android_add_maven_repository(\

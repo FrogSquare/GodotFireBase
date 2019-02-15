@@ -44,14 +44,14 @@ public class Analytics {
 		mFirebaseApp = fireBaseApp;
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 
-		Utils.d("Firebase Analytics initialized..!");
+		Utils.d("GodotFireBase", "Firebase Analytics initialized..!");
 	}
 
 	public void set_screen_name(final String s_name) {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.setCurrentScreen(activity, s_name, null);
 
-		Utils.d("Setting current screen to: " + s_name);
+		Utils.d("GodotFireBase", "Setting current screen to: " + s_name);
 	}
 
 	public void send_achievement(final String id) {
@@ -61,7 +61,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
 
-		Utils.d("Sending:AchievementUnlocked: " + id);
+		Utils.d("GodotFireBase", "Sending:AchievementUnlocked: " + id);
 	}
 
 	public void send_group(final String groupID) {
@@ -71,7 +71,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.JOIN_GROUP, bundle);
 
-		Utils.d("Sending:JoinGroup: " + groupID);
+		Utils.d("GodotFireBase", "Sending:JoinGroup: " + groupID);
 	}
 
 	public void send_level_up(final String character, final int level) {
@@ -82,7 +82,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle);
 
-		Utils.d("Sending:Character:LevelUp: {" + character + "|" + level + "}");
+		Utils.d("GodotFireBase", "Sending:Character:LevelUp: {" + character + "|" + level + "}");
 	}
 
 	public void send_score(final String character, final int level, final int score) {
@@ -94,7 +94,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle);
 
-		Utils.d("Sending:Level:Score: {" + character + "|" + level + "|" + score + "}");
+		Utils.d("GodotFireBase", "Sending:Level:Score: {" + character + "|" + level + "|" + score + "}");
 	}
 
 	public void send_content(final String content_type, final String item_id) {
@@ -105,7 +105,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-		Utils.d("Sending:Content:Item: {" + content_type + "|" + item_id + "}");
+		Utils.d("GodotFireBase", "Sending:Content:Item: {" + content_type + "|" + item_id + "}");
 	}
 
 	public void send_share() {
@@ -119,7 +119,7 @@ public class Analytics {
 
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
-		Utils.d("Sending Achievement: " + id);
+		Utils.d("GodotFireBase", "Sending Achievement: " + id);
 		**/
 	}
 
@@ -131,7 +131,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.EARN_VIRTUAL_CURRENCY, bundle);
 
-		Utils.d("Sending:Currency:Earn: {" + currency_name + "|" + value + "}");
+		Utils.d("GodotFireBase", "Sending:Currency:Earn: {" + currency_name + "|" + value + "}");
 	}
 
 	public void spend_currency(final String item_name, final String currency_name, final int value) {
@@ -143,7 +143,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SPEND_VIRTUAL_CURRENCY, bundle);
 
-		Utils.d(
+		Utils.d("GodotFireBase", 
 		"Sending:Currency:Spend: {" + item_name + "|" + currency_name + "|" + value + "}");
 	}
 
@@ -154,7 +154,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_BEGIN, bundle);
 
-		Utils.d("Sending:Tutorial:Begin");
+		Utils.d("GodotFireBase", "Sending:Tutorial:Begin");
 	}
 
 	public void send_tutorial_complete() {
@@ -163,7 +163,7 @@ public class Analytics {
 
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, bundle);
-		Utils.d("Sending:Tutorial:Complete");
+		Utils.d("GodotFireBase", "Sending:Tutorial:Complete");
 	}
 
 	public void send_events(String eventName, Dictionary keyValues) {
@@ -176,7 +176,7 @@ public class Analytics {
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent(eventName, bundle);
 
-		Utils.d("Sending:App:Event:[" + eventName + "]:" + bundle.toString() + "");
+		Utils.d("GodotFireBase", "Sending:App:Event:[" + eventName + "]:" + bundle.toString() + "");
 	}
 
 	public void send_custom(final String key, final String value) {
@@ -185,7 +185,7 @@ public class Analytics {
 
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 		mFirebaseAnalytics.logEvent("appEvent", bundle);
-		Utils.d("Sending:App:Event:" + bundle.toString());
+		Utils.d("GodotFireBase", "Sending:App:Event:" + bundle.toString());
 	}
 
 	private static Context context;

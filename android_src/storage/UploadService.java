@@ -70,10 +70,10 @@ public class UploadService extends BaseTaskService {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Utils.d("SD:OnStartCommand: {" + intent + ":" + startId + "}");
+		Utils.d("GodotFireBase", "SD:OnStartCommand: {" + intent + ":" + startId + "}");
 
 		if (ACTION_UPLOAD.equals(intent.getAction())) {
-			Utils.d("Intent here: " + intent.getExtras().toString());
+			Utils.d("GodotFireBase", "Intent here: " + intent.getExtras().toString());
 
 			Uri fileUri = intent.getParcelableExtra(EXTRA_FILE_URI);
 			String child = intent.getStringExtra(EXTRA_FILE_CHILD);
@@ -88,7 +88,7 @@ public class UploadService extends BaseTaskService {
 	}
 
 	private void uploadFromUri(final Uri fileUri, final String folder, final String meta) {
-		Utils.d("SD:UploadFromUri:src:" + fileUri.toString());
+		Utils.d("GodotFireBase", "SD:UploadFromUri:src:" + fileUri.toString());
 
 		taskStarted();
 		showProgressNotification("progress_uploading", 0, 0);
@@ -100,7 +100,7 @@ public class UploadService extends BaseTaskService {
 		else { photoRef = mStorageRef.child(folder).child(fileUri.getLastPathSegment()); }
 
 		// Upload file to Firebase Storage
-		Utils.d("SD:UploadFromUri:dist:" + photoRef.getPath());
+		Utils.d("GodotFireBase", "SD:UploadFromUri:dist:" + photoRef.getPath());
 
 		UploadTask task;
 
@@ -124,7 +124,7 @@ public class UploadService extends BaseTaskService {
 			@Override
 			public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 				// Upload succeeded
-				Utils.d("SD:UploadFromUri:onSuccess");
+				Utils.d("GodotFireBase", "SD:UploadFromUri:onSuccess");
 
 				// Get the public download URL
 				Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
@@ -137,7 +137,7 @@ public class UploadService extends BaseTaskService {
 			@Override
 			public void onFailure(@NonNull Exception exception) {
 				// Upload failed
-				Utils.w("SD:UploadFromUri:onFailure:" + exception.toString());
+				Utils.w("GodotFireBase", "SD:UploadFromUri:onFailure:" + exception.toString());
 
 				broadcastUploadFinished(null, fileUri);
 				showUploadFinishedNotification(null, fileUri);

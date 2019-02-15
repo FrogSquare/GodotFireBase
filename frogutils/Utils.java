@@ -46,6 +46,8 @@ import org.godotengine.godot.Utils;
 
 public class Utils {
 
+    public static final String TAG = "FrogSquare";
+
 	public static final int FIREBASE_INVITE_REQUEST		= 8002;
 	public static final int FIREBASE_NOTIFICATION_REQUEST	= 8003;
 	public static final int FIREBASE_GOOGLE_SIGN_IN		= 8004;
@@ -53,6 +55,31 @@ public class Utils {
 	public static final int FIREBASE_TWITTER_SIGN_IN	= 8006;
 	// public static final int FIREBASE_ = ;
 
+    public static void initDebug(final String from) {
+        if (DebugCfg == null) {
+            DebugCfg = new HashMap< String, Boolean>();
+        }
+
+        DebugCfg.put(from, true);
+    }
+
+    public static void set_debug(final String from, final boolean value) {
+        if (DebugCfg == null) {
+            initDebug(from);
+        }
+
+        DebugCfg.put(from, value);
+    }
+
+    public static boolean get_debug(final String from) {
+        if (DebugCfg == null) {
+            initDebug(from);
+        }
+
+        return DebugCfg.get(from);
+    }
+
+    /** GodotSQL **/
     public static boolean get_db_bool(final String p_key) {
         String val = get_db_value(p_key);
 
@@ -70,28 +97,29 @@ public class Utils {
     public static void set_db_value(final String p_key, final String p_value) {
         KeyValueStorage.setValue(p_key, p_value);
     }
+    /** GodotSQL **/
 
-	public static void d(final String message) {
-		if (Config.DEBUG) {
-			Log.d(Config.TAG, message);
+	public static void d(final String from, final String message) {
+		if (get_debug(from)) {
+			Log.d(TAG, message);
 		}
 	}
 
-	public static void e(final String message) {
-		if (Config.DEBUG) {
-			Log.e(Config.TAG, message);
+	public static void e(final String from, final String message) {
+		if (get_debug(from)) {
+			Log.e(TAG, message);
 		}
 	}
 
-	public static void i(final String message) {
-		if (Config.DEBUG) {
-			Log.i(Config.TAG, message);
+	public static void i(final String from, final String message) {
+		if (get_debug(from)) {
+			Log.i(TAG, message);
 		}
 	}
 
-	public static void w(final String message) {
-		if (Config.DEBUG) {
-			Log.w(Config.TAG, message);
+	public static void w(final String from, final String message) {
+		if (get_debug(from)) {
+			Log.w(TAG, message);
 		}
 	}
 
@@ -99,7 +127,7 @@ public class Utils {
 		JSONObject jobject = null;
 
 		try { jobject = new JSONObject(jsonData); }
-		catch (JSONException e) { Utils.d("JSONObject exception: " + e.toString()); }
+		catch (JSONException e) { Utils.d(TAG, "JSONObject exception: " + e.toString()); }
 
 		Map<String, Object> retMap = new HashMap<String, Object>();
 		Iterator<String> keysItr = jobject.keys();
@@ -111,7 +139,7 @@ public class Utils {
 
 				retMap.put(key, value);
 			} catch (JSONException e) {
-				Utils.d("JSONObject get key error" + e.toString());
+				Utils.d(TAG, "JSONObject get key error" + e.toString());
 			}
 		}
 
@@ -137,7 +165,7 @@ public class Utils {
 	}
 
 	public static String readFromFile(String fPath, Context context) {
-        d("Reading File: " + fPath);
+        Utils.d(TAG, "Reading File: " + fPath);
 		StringBuilder returnString = new StringBuilder();
 
 		String fileName = fPath;
@@ -162,7 +190,7 @@ public class Utils {
 
 		}
 		catch (Exception e) {
-            d("FileRead Failed: " + e.getMessage());
+            Utils.d(TAG, "FileRead Failed: " + e.getMessage());
         }
 		finally {
 			try {
@@ -213,7 +241,7 @@ public class Utils {
 			}
 
 			return hexString.toString();
-		} catch (NoSuchAlgorithmException e) { w("FB:MD5:Algorithm:" + e.toString()); }
+		} catch (NoSuchAlgorithmException e) { Utils.w(TAG, "FB:MD5:Algorithm:" + e.toString()); }
 
 		return "";
 	}
@@ -255,32 +283,32 @@ public class Utils {
 	public static void callScriptCallback(
             int script_id, String function, String from, Object key, Object value) {
 
-		GodotLib.calldeferred(script_id, function, new Object[] { Config.TAG, from, key, value });
+		GodotLib.calldeferred(script_id, function, new Object[] { TAG, from, key, value });
 	}
 
 	public static void callScriptCallback(String function, String from, Object key, Object value) {
 		if (script_instanceID == -1) {
-			Utils.d("Script::Instance::NotSset");
+			Utils.d(TAG, "Script::Instance::NotSset");
 			return;
 		}
 
 		GodotLib.calldeferred(script_instanceID, function,
-		new Object[] { Config.TAG, from, key, value });
+		new Object[] { TAG, from, key, value });
 	}
 
 	public static void callScriptFunc(int script_id, String from, Object key, Object value) {
 		GodotLib.calldeferred(script_id, "_receive_message",
-		new Object[] { Config.TAG, from, key, value });
+		new Object[] { TAG, from, key, value });
 	}
 
 	public static void callScriptFunc(String from, Object key, Object value) {
 		if (script_instanceID == -1) {
-			Utils.d("Script::Instance::NotSset");
+			Utils.d(TAG, "Script::Instance::NotSset");
 			return;
 		}
 
 		GodotLib.calldeferred(script_instanceID, "_receive_message",
-		new Object[] { Config.TAG, from, key, value });
+		new Object[] { TAG, from, key, value });
 	}
 
 	public static boolean checkGooglePlayService(Activity activity) {
@@ -318,5 +346,6 @@ public class Utils {
 		}
 	}
 
+    private static Map< String, Boolean> DebugCfg = null;
 	public static int script_instanceID = -1;
 }

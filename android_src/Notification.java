@@ -85,7 +85,7 @@ public class Notification {
         }
         **/
 
-		Utils.d("Firebase Cloud messaging token: " + token);
+		Utils.d("GodotFireBase", "Firebase Cloud messaging token: " + token);
 
 		// Perform task here..!
 		if (Utils.get_db_value("notification_complete_task") != "0") {
@@ -148,7 +148,7 @@ public class Notification {
 
     public void shedule(Dictionary data, int seconds) {
 		Bundle bundle = get_bundle(data);
-		Utils.d(
+		Utils.d("GodotFireBase", 
         "Setting new Notification: " + bundle.toString() + ", Seconds: " + String.valueOf(seconds));
 
 		Job myJob = dispatcher.newJobBuilder()
@@ -167,7 +167,7 @@ public class Notification {
 
 	public void notifyOnComplete(Dictionary data, int seconds) {
         if (data.get("image_uri") == null && data.get("type") == "image") {
-            Utils.d(
+            Utils.d("GodotFireBase", 
             "Notification: using Image in content need `image_uri` (i.e, \"res://image.png\")");
 
             return;
@@ -187,7 +187,7 @@ public class Notification {
 	}
 
     private void dispatch_single_job(Bundle bundle, int seconds) {
-		Utils.d(
+		Utils.d("GodotFireBase", 
         "Setting new Notification: " + bundle.toString() + ", Seconds: " + String.valueOf(seconds));
 
 		Job myJob = dispatcher.newJobBuilder()
@@ -236,7 +236,7 @@ public class Notification {
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Utils.d("Notification is not initialized.");
+			Utils.d("GodotFireBase", "Notification is not initialized.");
 			return false;
 		} else {
 			return true;

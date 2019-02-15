@@ -68,7 +68,7 @@ public class Storage {
 		mBroadcastReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				Utils.d("SD:OnReceive:" + intent.toString());
+				Utils.d("GodotFireBase", "SD:OnReceive:" + intent.toString());
 
 				// hideProgressDialog(); // Hiding our progress dialog
 
@@ -106,13 +106,13 @@ public class Storage {
 
 		onStart();
 
-		Utils.d("Initilaized Storage");
+		Utils.d("GodotFireBase", "Initilaized Storage");
 	}
 
 	public void download(String url, String path) {
 		if (!isInitialized() || Auth.getInstance(activity).getCurrentUser() == null) { return; }
 
-		Utils.d("SD:Downloading:"+url);
+		Utils.d("GodotFireBase", "SD:Downloading:"+url);
 		mDownloadUrl = Uri.parse(url);
 		// String path = mFileUri.getLastPathSegment();
 
@@ -122,7 +122,7 @@ public class Storage {
 		.putExtra(DownloadService.EXTRA_DOWNLOAD_TO, path)
 		.setAction(DownloadService.ACTION_DOWNLOAD);
 
-		Utils.d("SD:Starting:Service:Download");
+		Utils.d("GodotFireBase", "SD:Starting:Service:Download");
 		activity.startService(intent);
 	}
 
@@ -138,7 +138,7 @@ public class Storage {
 			Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filePath;
 		}
 
-		Utils.d("SD:Uploading:"+path);
+		Utils.d("GodotFireBase", "SD:Uploading:"+path);
 		Uri fileUri = Uri.fromFile(new File(path));
 		// String path = mFileUri.getLastPathSegment();
 
@@ -148,7 +148,7 @@ public class Storage {
 		.putExtra(UploadService.EXTRA_FILE_CHILD, child)
 		.setAction(UploadService.ACTION_UPLOAD);
 
-		Utils.d("SD:Starting:Service:Upload");
+		Utils.d("GodotFireBase", "SD:Starting:Service:Upload");
 		activity.startService(intent);
 	}
 
@@ -165,7 +165,7 @@ public class Storage {
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Utils.d("FireBase Storage, not initialized");
+			Utils.d("GodotFireBase", "FireBase Storage, not initialized");
 			return false;
 		}
 

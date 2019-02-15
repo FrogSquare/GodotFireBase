@@ -96,14 +96,14 @@ public class FacebookSignIn {
 				if (user != null) {
 					for (UserInfo usr : user.getProviderData()) {
 						if (usr.getProviderId().equals("facebook.com")) {
-							Utils.d("FB:AuthStateChanged:signed_in:"+
+							Utils.d("GodotFireBase", "FB:AuthStateChanged:signed_in:"+
 							user.getUid());
 							successSignin(user);
 						}
 					}
 				} else {
 					// User is signed out
-					Utils.d("FB:onAuthStateChanged:signed_out");
+					Utils.d("GodotFireBase", "FB:onAuthStateChanged:signed_out");
 					successSignOut();
 				}
 
@@ -116,7 +116,7 @@ public class FacebookSignIn {
 		initCallbacks();
 		onStart();
 
-		Utils.d("Facebook auth initialized.");
+		Utils.d("GodotFireBase", "Facebook auth initialized.");
 	}
 
 	private void initCallbacks() {
@@ -127,7 +127,7 @@ public class FacebookSignIn {
 		new FacebookCallback<GameRequestDialog.Result>() {
 			@Override
 			public void onSuccess (GameRequestDialog.Result result) {
-				Utils.d("Facebook request sent.");
+				Utils.d("GodotFireBase", "Facebook request sent.");
 			}
 		});
 		**/
@@ -136,18 +136,18 @@ public class FacebookSignIn {
 		new FacebookCallback<LoginResult>() {
 			@Override
 			public void onSuccess(LoginResult result) {
-				Utils.d("FB:Connected");
+				Utils.d("GodotFireBase", "FB:Connected");
 				handleAccessToken(result.getAccessToken());
 			}
 
 			@Override
 			public void onCancel() {
-				Utils.d("FB:Canceled");
+				Utils.d("GodotFireBase", "FB:Canceled");
 			}
 
 			@Override
 			public void onError(FacebookException exception) {
-				Utils.d("FB:Error, " + exception.toString());
+				Utils.d("GodotFireBase", "FB:Error, " + exception.toString());
 			}
 		});
 
@@ -156,7 +156,7 @@ public class FacebookSignIn {
 			protected void onCurrentAccessTokenChanged(
 			AccessToken old, AccessToken current) {
 
-				Utils.d("FB:AccessToken:Changed");
+				Utils.d("GodotFireBase", "FB:AccessToken:Changed");
 				if (current == null) { successSignOut(); }
 				else {
 					accessToken = current;
@@ -165,7 +165,7 @@ public class FacebookSignIn {
 						currentFBUser
 						.put("token", accessToken.getToken().toString());
 					} catch (JSONException e) {
-						Utils.d("FB:JSON:Error:162:" + e.toString());
+						Utils.d("GodotFireBase", "FB:JSON:Error:162:" + e.toString());
 					}
 				}
 			}
@@ -174,7 +174,7 @@ public class FacebookSignIn {
 		mProfileTracker = new ProfileTracker() {
 			@Override
 			protected void onCurrentProfileChanged(Profile old, Profile current) {
-				Utils.d("FB:Profile:Changed");
+				Utils.d("GodotFireBase", "FB:Profile:Changed");
 				profile = current;
 			}
 		};
@@ -187,11 +187,11 @@ public class FacebookSignIn {
 	}
 
 	public boolean isPermissionGiven (final String permission) {
-		Utils.d("FB:Checking:Available:Permissions:For: " + permission);
+		Utils.d("GodotFireBase", "FB:Checking:Available:Permissions:For: " + permission);
 		accessToken = AccessToken.getCurrentAccessToken();
 
 		if (accessToken == null && accessToken.isExpired()) {
-			Utils.d("FB:Token:NotValid");
+			Utils.d("GodotFireBase", "FB:Token:NotValid");
 			return false;
 		}
 
@@ -224,7 +224,7 @@ public class FacebookSignIn {
 
 	public String getUserPermissions() {
 		if (!isConnected() && mUserPermissions.size() > 0) {
-			Utils.d("FB:Check:Login");
+			Utils.d("GodotFireBase", "FB:Check:Login");
 			return "NULL";
 		}
 
@@ -242,7 +242,7 @@ public class FacebookSignIn {
 			public void onCompleted(GraphResponse response) {
 				FacebookRequestError error = response.getError();
 				if (error == null) {
-					Utils.d("FB:Revoke:Response:" + response.toString());
+					Utils.d("GodotFireBase", "FB:Revoke:Response:" + response.toString());
 					getPermissions();
 				}
 			}
@@ -284,7 +284,7 @@ public class FacebookSignIn {
 
 	public void signIn() {
 		if (callbackManager == null) {
-			Utils.d("FB:Initialized");
+			Utils.d("GodotFireBase", "FB:Initialized");
 			return;
 		}
 
@@ -296,7 +296,7 @@ public class FacebookSignIn {
 	public void signOut() {
 		if (callbackManager == null) { return; }
 
-		Utils.d("FB:Logout");
+		Utils.d("GodotFireBase", "FB:Logout");
 
 		mAuth.signOut();
 		LoginManager.getInstance().logOut();
@@ -316,7 +316,7 @@ public class FacebookSignIn {
 		token, uri, new GraphRequest.Callback() {
 			@Override
 			public void onCompleted(GraphResponse response) {
-				Utils.d("Revoke Permission: " + permission);
+				Utils.d("GodotFireBase", "Revoke Permission: " + permission);
 			}
 		});
 
@@ -340,7 +340,7 @@ public class FacebookSignIn {
 			public void onCompleted(GraphResponse response) {
 				FacebookRequestError error = response.getError();
 				if (error == null) {
-					Utils.d("FB:Delete:Access" + response.toString());
+					Utils.d("GodotFireBase", "FB:Delete:Access" + response.toString());
 				}
 			}
 		});
@@ -349,7 +349,7 @@ public class FacebookSignIn {
 	}
 
 	public void handleAccessToken(AccessToken token) {
-		Utils.d("FB:Handle:AccessToken: " + token.getToken());
+		Utils.d("GodotFireBase", "FB:Handle:AccessToken: " + token.getToken());
 		// showProgressDialog();
 
 		AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -359,14 +359,14 @@ public class FacebookSignIn {
 
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
-				Utils.d("FB:signInWithCredential:onComplete:" + task.isSuccessful());
+				Utils.d("GodotFireBase", "FB:signInWithCredential:onComplete:" + task.isSuccessful());
 
 				// If sign in fails, display a message to the user. If sign in succeeds
 				// the auth state listener will be notified and logic to handle the
 				// signed in user can be handled in the listener.
 
 				if (!task.isSuccessful()) {
-					Utils.w("FB:signInWithCredential" + 
+					Utils.w("GodotFireBase", "FB:signInWithCredential" + 
 						task.getException().toString());
 				}
 
@@ -376,7 +376,7 @@ public class FacebookSignIn {
 	}
 
 	protected void successSignin (FirebaseUser user) {
-		Utils.d("FB:Login:Success");
+		Utils.d("GodotFireBase", "FB:Login:Success");
 
 		isFacebookConnected = true;
 		accessToken = AccessToken.getCurrentAccessToken();
@@ -388,7 +388,7 @@ public class FacebookSignIn {
 			currentFBUser.put("photo_uri", user.getPhotoUrl());
 			currentFBUser.put("token", accessToken.getToken().toString());
 
-		} catch (JSONException e) { Utils.d("FB:JSON:Error:" + e.toString()); }
+		} catch (JSONException e) { Utils.d("GodotFireBase", "FB:JSON:Error:" + e.toString()); }
 
 		getPermissions();
 

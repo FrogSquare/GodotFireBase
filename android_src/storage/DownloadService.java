@@ -59,7 +59,7 @@ public class DownloadService extends BaseTaskService {
 	public void onCreate() {
 		super.onCreate();
 
-		Utils.d("SD:DownloadTask:Created");
+		Utils.d("GodotFireBase", "SD:DownloadTask:Created");
 
 		mStorageRef = FirebaseStorage.getInstance().getReference();
 	}
@@ -73,7 +73,7 @@ public class DownloadService extends BaseTaskService {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Utils.d("SD:OnStartCommand: {" + intent + ":" + startId + "}");
+		Utils.d("GodotFireBase", "SD:OnStartCommand: {" + intent + ":" + startId + "}");
 
 		if (ACTION_DOWNLOAD.equals(intent.getAction())) {
 			String downloadPath = intent.getStringExtra(EXTRA_DOWNLOAD_PATH);
@@ -87,8 +87,8 @@ public class DownloadService extends BaseTaskService {
 
 	private void downloadToFile(final String downloadPath, final String downloadTo) {
 		if (Utils.isExternalStorageWritable()) {
-			Utils.d("SD:CanWrite");
-		} else { Utils.d("SD:CannotWrite"); }
+			Utils.d("GodotFireBase", "SD:CanWrite");
+		} else { Utils.d("GodotFireBase", "SD:CannotWrite"); }
 
 		File rootPath = new File(
 		Environment.getExternalStorageDirectory(), downloadTo);
@@ -126,7 +126,7 @@ public class DownloadService extends BaseTaskService {
 	}
 
 	private void downloadFromPath(final String downloadPath) {
-		Utils.d("SD:DownloadFromPath:" + downloadPath);
+		Utils.d("GodotFireBase", "SD:DownloadFromPath:" + downloadPath);
 
 		taskStarted();
 //		showProgressNotification(getString(R.string.progress_downloading), 0, 0);
@@ -171,7 +171,7 @@ public class DownloadService extends BaseTaskService {
 	}
 
 	private void onMainSuccess(String path, long totalByteCount) {
-		Utils.d("SD:Download:SUCCESS");
+		Utils.d("GodotFireBase", "SD:Download:SUCCESS");
 
 		// Send success broadcast with number of bytes downloaded
 		broadcastDownloadFinished(path, totalByteCount);
@@ -182,7 +182,7 @@ public class DownloadService extends BaseTaskService {
 	}
 
 	private void onMainFailure(String path, @NonNull Exception exception) {
-		Utils.w("SD:Download:FAILURE" + exception.toString());
+		Utils.w("GodotFireBase", "SD:Download:FAILURE" + exception.toString());
 
 		// Send failure broadcast
 		broadcastDownloadFinished(path, -1);

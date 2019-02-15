@@ -49,12 +49,12 @@ public abstract class BaseTaskService extends Service {
 	}
 
 	private synchronized void changeNumberOfTasks(int delta) {
-		Utils.d("Storage:ChangeNumOfTasks: {" + mNumTasks + ":" + delta + "}");
+		Utils.d("GodotFireBase", "Storage:ChangeNumOfTasks: {" + mNumTasks + ":" + delta + "}");
 		mNumTasks += delta;
 
 		// If there are no tasks left, stop the service
 		if (mNumTasks <= 0) {
-			Utils.d("stopping");
+			Utils.d("GodotFireBase", "stopping");
 			stopSelf();
 		}
 	}

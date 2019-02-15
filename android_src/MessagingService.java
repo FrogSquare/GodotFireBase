@@ -46,14 +46,14 @@ public class MessagingService extends FirebaseMessagingService {
 
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {
-		Utils.d("Message From: " + remoteMessage.getFrom());
-		Utils.d("Message From: " + remoteMessage.toString());
+		Utils.d("GodotFireBase", "Message From: " + remoteMessage.getFrom());
+		Utils.d("GodotFireBase", "Message From: " + remoteMessage.toString());
 
 		// Check if message contains a data payload.
 		if (remoteMessage.getData().size() > 0) {
 			Map<String, String> data = remoteMessage.getData();
 
-			Utils.d("Message data payload: " + data.toString());
+			Utils.d("GodotFireBase", "Message data payload: " + data.toString());
 
 			KeyValueStorage.set_context(this);
 			handleData(data);
@@ -61,7 +61,7 @@ public class MessagingService extends FirebaseMessagingService {
 
 		// Check if message contains a notification payload.
 		if (remoteMessage.getNotification() != null) {
-			Utils.d(
+			Utils.d("GodotFireBase", 
 			"Notification Body: " + remoteMessage.getNotification().getBody());
 
 			sendNotification(remoteMessage.getNotification().getBody(), this);
@@ -78,7 +78,7 @@ public class MessagingService extends FirebaseMessagingService {
 			for (Map.Entry<String, String> entry : data.entrySet()) {
 				jobject.put(entry.getKey(), entry.getValue());
 			}
-		} catch (JSONException e) { Utils.d("JSONException: parsing, " + e.toString()); }
+		} catch (JSONException e) { Utils.d("GodotFireBase", "JSONException: parsing, " + e.toString()); }
 
 		if (jobject.length() > 0) {
 			KeyValueStorage.setValue("firebase_notification_data", jobject.toString());

@@ -328,5 +328,5 @@ While exporting, don't forget to add `*.json` under Resources tab,
 # Log Event
 
 ```
-adb -d logcat godot:V FireBase:V DEBUG:V AndroidRuntime:V ValidateServiceOp:V *:S
+adb -d logcat godot:V FrogSquare:V DEBUG:V AndroidRuntime:V ValidateServiceOp:V *:S
 ```

@@ -61,11 +61,11 @@ public class EmailAndPassword {
 			public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 				FirebaseUser user = firebaseAuth.getCurrentUser();
 				if (user != null) {
-					Utils.d("E&P:onAuthStateChanged:signed_in:" + user.getUid());
+					Utils.d("GodotFireBase", "E&P:onAuthStateChanged:signed_in:" + user.getUid());
 					successSignIn(user);
 				} else {
 					// User is signed out
-					Utils.d("E&P:onAuthStateChanged:signed_out");
+					Utils.d("GodotFireBase", "E&P:onAuthStateChanged:signed_out");
 					successSignOut();
 				}
 
@@ -75,20 +75,20 @@ public class EmailAndPassword {
 	}
 
 	public void createAccount(final String email, final String password) {
-		Utils.d("E&P:CreateAccount:" + email);
+		Utils.d("GodotFireBase", "E&P:CreateAccount:" + email);
 
 		mAuth.createUserWithEmailAndPassword(email, password)
 		.addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
-				Utils.d("E&P:CreateUserWithEmail:onComplete:" + task.isSuccessful());
+				Utils.d("GodotFireBase", "E&P:CreateUserWithEmail:onComplete:" + task.isSuccessful());
 
 				// If sign in fails, display a message to the user. If sign in succeeds
 				// the auth state listener will be notified and logic to handle the
 				// signed in user can be handled in the listener.
 
 				if (!task.isSuccessful()) {
-					Utils.d("E&P:CreateAccount:Error");
+					Utils.d("GodotFireBase", "E&P:CreateAccount:Error");
 				}
 			}
 		});
@@ -103,13 +103,13 @@ public class EmailAndPassword {
 	}
 
 	private void successSignIn(FirebaseUser user) {
-		Utils.d("E&P:SignIn:Success");
+		Utils.d("GodotFireBase", "E&P:SignIn:Success");
 
 		try {
 			currentEPUser.put("name", user.getDisplayName());
 			currentEPUser.put("email_id", user.getEmail());
 			currentEPUser.put("photo_uri", user.getPhotoUrl());
-		} catch(JSONException e) { Utils.d("E&P:JSON:Parse:Error"); }
+		} catch(JSONException e) { Utils.d("GodotFireBase", "E&P:JSON:Parse:Error"); }
 
 		// Utils.callScriptFunc("Auth", "login", "true");
 	}

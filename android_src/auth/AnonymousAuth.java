@@ -69,13 +69,13 @@ public class AnonymousAuth {
 
 				if (user != null) {
 					// User is signed in
-					Utils.d(
+					Utils.d("GodotFireBase", 
 					"Anonymous:onAuthStateChanged:signed_in:" + user.getUid());
 
 					successSignIn(user);
 				} else {
 					// User is signed out
-					Utils.d("Anonymous:onAuthStateChanged:signed_out");
+					Utils.d("GodotFireBase", "Anonymous:onAuthStateChanged:signed_out");
 					successSignOut();
 				}
 
@@ -93,7 +93,7 @@ public class AnonymousAuth {
 			public void onComplete(@NonNull Task<AuthResult> task) {
 				if (task.isSuccessful()) {
 					//Sign in success, update with the signed-in user's information
-					Utils.d("Anonymous:SignIn:Success");
+					Utils.d("GodotFireBase", "Anonymous:SignIn:Success");
 				}
 			}
 

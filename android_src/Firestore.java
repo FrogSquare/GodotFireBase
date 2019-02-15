@@ -64,11 +64,11 @@ public class Firestore {
 		FirebaseFirestore.setLoggingEnabled(true);
 		db = FirebaseFirestore.getInstance();
 
-		Utils.d("Firestore::Initialized");
+		Utils.d("GodotFireBase", "Firestore::Initialized");
 	}
 
 	public void loadDocuments (final String p_name, final int callback_id) {
-		Utils.d("Firestore::LoadData");
+		Utils.d("GodotFireBase", "Firestore::LoadData");
 
 		db.collection(p_name).get()
 		.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -86,11 +86,11 @@ public class Firestore {
 
                         jobject.put(p_name, jobject_1);
 					} catch (JSONException e) {
-						Utils.d("JSON Exception: " + e.toString());
+						Utils.d("GodotFireBase", "JSON Exception: " + e.toString());
 					}
 
                     
-			    	Utils.d("Data: " + jobject.toString());
+			    	Utils.d("GodotFireBase", "Data: " + jobject.toString());
 
                     if (callback_id == -1) {
     					Utils.callScriptFunc(
@@ -101,14 +101,14 @@ public class Firestore {
                     }
 
 				} else {
-					Utils.w("Error getting documents: " + task.getException());
+					Utils.w("GodotFireBase", "Error getting documents: " + task.getException());
 				}
 			}
 		});
 	}
 
 	public void addDocument (final String p_name, final Dictionary p_dict) {
-		Utils.d("Firestore::AddData");
+		Utils.d("GodotFireBase", "Firestore::AddData");
 
 		// Add a new document with a generated ID
 		db.collection(p_name)
@@ -116,13 +116,13 @@ public class Firestore {
 		.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 			@Override
 			public void onSuccess(DocumentReference documentReference) {
-				Utils.d("DocumentSnapshot added with ID: " + documentReference.getId());
+				Utils.d("GodotFireBase", "DocumentSnapshot added with ID: " + documentReference.getId());
 				Utils.callScriptFunc("Firestore", "DocumentAdded", true);
 			}
 		}).addOnFailureListener(new OnFailureListener() {
 			@Override
 			public void onFailure(@NonNull Exception e) {
-				Utils.w("Error adding document: " + e);
+				Utils.w("GodotFireBase", "Error adding document: " + e);
 				Utils.callScriptFunc("Firestore", "DocumentAdded", false);
 			}
 		});
@@ -134,13 +134,13 @@ public class Firestore {
 		.addOnSuccessListener(new OnSuccessListener<Void>() {
 			@Override
 			public void onSuccess(Void aVoid) {
-				Utils.d("DocumentSnapshot successfully written!");
+				Utils.d("GodotFireBase", "DocumentSnapshot successfully written!");
 				Utils.callScriptFunc("Firestore", "DocumentAdded", true);
 			}
 		}).addOnFailureListener(new OnFailureListener() {
 			@Override
 			public void onFailure(@NonNull Exception e) {
-				Utils.w("Error adding document: " + e);
+				Utils.w("GodotFireBase", "Error adding document: " + e);
 				Utils.callScriptFunc("Firestore", "DocumentAdded", false);
 			}
 		});

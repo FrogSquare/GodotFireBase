@@ -86,7 +86,7 @@ public class GoogleSignIn
 		.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
 		.build();
 
-		Utils.d("Google:Initialized");
+		Utils.d("GodotFireBase", "Google:Initialized");
 
 		mAuth = FirebaseAuth.getInstance();
 
@@ -98,7 +98,7 @@ public class GoogleSignIn
 				if (user != null) {
 					for (UserInfo usr : user.getProviderData()) {
 						if (usr.getProviderId().equals("google.com")) {
-							Utils.d("Google:AuthStateChanged:signed_in:"+
+							Utils.d("GodotFireBase", "Google:AuthStateChanged:signed_in:"+
 							user.getUid());
 
 							successSignIn(user);
@@ -106,7 +106,7 @@ public class GoogleSignIn
 					}
 				} else {
 					// User is signed out
-					Utils.d("Google:onAuthStateChanged:signed_out");
+					Utils.d("GodotFireBase", "Google:onAuthStateChanged:signed_out");
 					successSignOut();
 				}
 
@@ -119,14 +119,14 @@ public class GoogleSignIn
 
 	public void signIn() {
 		if (mGoogleApiClient == null) {
-			Utils.d("Google:NotInitialized");
+			Utils.d("GodotFireBase", "Google:NotInitialized");
 			return;
 		}
 
 		if (!mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting()) {
 			Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 			activity.startActivityForResult(signInIntent, Utils.FIREBASE_GOOGLE_SIGN_IN);
-		} else { Utils.d("Google auth connected."); }
+		} else { Utils.d("GodotFireBase", "Google auth connected."); }
 	}
 
 	public void signOut() {
@@ -169,7 +169,7 @@ public class GoogleSignIn
 	}
 
 	protected void successSignIn(FirebaseUser user) {
-		Utils.d("Google:Connection:Success");
+		Utils.d("GodotFireBase", "Google:Connection:Success");
 
 		isResolvingConnectionFailure = false;
 		isGooglePlayConnected = true;
@@ -180,13 +180,13 @@ public class GoogleSignIn
 			currentGoogleUser.put("name", user.getDisplayName());
 			currentGoogleUser.put("email_id", user.getEmail());
 			currentGoogleUser.put("photo_uri", user.getPhotoUrl());
-		} catch (JSONException e) { Utils.d("Google:JSON:Error:" + e.toString()); }
+		} catch (JSONException e) { Utils.d("GodotFireBase", "Google:JSON:Error:" + e.toString()); }
 
 		Utils.callScriptFunc("Auth", "GoogleLogin", "true");
 	}
 
 	protected void successSignOut() {
-		Utils.d("Google:Disconnected");
+		Utils.d("GodotFireBase", "Google:Disconnected");
 
 		isGooglePlayConnected = false;
 
@@ -198,7 +198,7 @@ public class GoogleSignIn
 
 	private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
-		Utils.d("Google:FirebaseAuthWithGoogle:" + acct.getId());
+		Utils.d("GodotFireBase", "Google:FirebaseAuthWithGoogle:" + acct.getId());
 
 		// FireBase.showProgressDialog();
 
@@ -208,14 +208,14 @@ public class GoogleSignIn
 
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
-				Utils.d(
+				Utils.d("GodotFireBase", 
 				"Google:SignInWithCredential:onComplete:" + task.isSuccessful());
 
 				// If sign in fails, display a message to the user. If sign in succeeds
 				// the auth state listener will be notified and logic to handle the
 				// signed in user can be handled in the listener.
 				if (!task.isSuccessful()) {
-					Utils.w("Google:SignInWithCredential:" + task.getException());
+					Utils.w("GodotFireBase", "Google:SignInWithCredential:" + task.getException());
 				}
 
 				// FireBase.hideProgressDialog();
@@ -225,7 +225,7 @@ public class GoogleSignIn
 
 	@Override
 	public void onConnected(Bundle m_bundle) {
-		Utils.d("Google:onConnected");
+		Utils.d("GodotFireBase", "Google:onConnected");
 
 		if (m_bundle != null) {
 
@@ -234,12 +234,12 @@ public class GoogleSignIn
 
 	@Override
 	public void onConnectionSuspended(int m_cause) {
-		Utils.d("Google:Connection:Suspended:Check:Internet");
+		Utils.d("GodotFireBase", "Google:Connection:Suspended:Check:Internet");
 	}
 
 	@Override
 	public void onConnectionFailed(@NonNull ConnectionResult m_result) {
-		Utils.d("Google:Connection:Failed");
+		Utils.d("GodotFireBase", "Google:Connection:Failed");
 
 		if (isResolvingConnectionFailure) { return; }
 		if(!isIntentInProgress && m_result.hasResolution()) {
@@ -256,7 +256,7 @@ public class GoogleSignIn
 			}
 
 			isResolvingConnectionFailure = true;
-			Utils.d("Google:Connection:Resolving.");
+			Utils.d("GodotFireBase", "Google:Connection:Resolving.");
                 }
 	}
 

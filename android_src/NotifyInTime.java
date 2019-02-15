@@ -31,10 +31,10 @@ public class NotifyInTime extends JobService {
 	@Override
 	public boolean onStartJob(JobParameters job) {
 		// Do some work here
-		Utils.d("Job Started.");
+		Utils.d("GodotFireBase", "Job Started.");
 
 		Bundle bundle = job.getExtras();
-		Utils.d("Message: " + bundle.getString("message"));
+		Utils.d("GodotFireBase", "Message: " + bundle.getString("message"));
 
         if (bundle.getString("type").equals("image")) {
     		MessagingService.sendNotification(bundle, this);
@@ -47,7 +47,7 @@ public class NotifyInTime extends JobService {
 
 	@Override
 	public boolean onStopJob(JobParameters job) {
-		Utils.d("Job Stopped.");
+		Utils.d("GodotFireBase", "Job Stopped.");
 
 		return false; // Answers the question: "Should this job be retried?"
 	}

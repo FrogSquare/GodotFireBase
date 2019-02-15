@@ -66,7 +66,7 @@ public class Invites {
 	public void invite (final String message, final String deepLink) {
 		if (!isInitialized()) { return; }
 		if (message.length() > AppInviteInvitation.IntentBuilder.MAX_MESSAGE_LENGTH) {
-			Utils.d("Message is too big for Invite, Max 100 characters.");
+			Utils.d("GodotFireBase", "Message is too big for Invite, Max 100 characters.");
 			return;
 		}
 
@@ -80,28 +80,28 @@ public class Invites {
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Utils.d("onActivityResult: reqCode=" + requestCode + ", resCode=" + resultCode);
+		Utils.d("GodotFireBase", "onActivityResult: reqCode=" + requestCode + ", resCode=" + resultCode);
 
 		if (requestCode == Utils.FIREBASE_INVITE_REQUEST) {
 			if (resultCode == activity.RESULT_OK) {
 				// Get the invitation IDs of all sent messages
-				Utils.d("Invite sent...!");
+				Utils.d("GodotFireBase", "Invite sent...!");
 
 				String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
 
 				for (String id : ids) {
-					Utils.d("onActivityResult: sent invitation " + id);
+					Utils.d("GodotFireBase", "onActivityResult: sent invitation " + id);
 				}
 			} else {
 				// Sending failed or it was canceled, show failure message to the user
-				Utils.d("Invite send failed...!");
+				Utils.d("GodotFireBase", "Invite send failed...!");
 			}
 		}
 	}
 
 	private boolean isInitialized() {
 		if (mFirebaseApp == null) {
-			Utils.d("Invites is not initialized.");
+			Utils.d("GodotFireBase", "Invites is not initialized.");
 			return false;
 		} else {
 			return true;

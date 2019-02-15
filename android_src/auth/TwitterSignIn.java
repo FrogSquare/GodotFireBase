@@ -89,7 +89,7 @@ public class TwitterSignIn {
 					// User is signed in
 					for (UserInfo usr : user.getProviderData()) {
 						if (usr.getProviderId().equals("twitter.com")) {
-							Utils.d("Twitter:AuthStateChanged:signed_in:"+
+							Utils.d("GodotFireBase", "Twitter:AuthStateChanged:signed_in:"+
 							user.getUid());
 
 							successSignIn(user);
@@ -98,7 +98,7 @@ public class TwitterSignIn {
 
 				} else {
 					// User is signed out
-					Utils.d("Twitter:onAuthStateChanged:signed_out");
+					Utils.d("GodotFireBase", "Twitter:onAuthStateChanged:signed_out");
 					successSignOut();
 				}
 
@@ -120,7 +120,7 @@ public class TwitterSignIn {
 			@Override
 			public void failure(final TwitterException e) {
 				// Do something on fail
-				Utils.d("Twitter::Login:Failed");
+				Utils.d("GodotFireBase", "Twitter::Login:Failed");
 			}
 		});
 	}
@@ -130,7 +130,7 @@ public class TwitterSignIn {
 	}
 
 	protected void successSignIn(FirebaseUser user) {
-		Utils.d("Twitter:Connection:Success");
+		Utils.d("GodotFireBase", "Twitter:Connection:Success");
 
 		isTwitterConnected = true;
 
@@ -139,13 +139,13 @@ public class TwitterSignIn {
 			currentTwitterUser.put("name", user.getDisplayName());
 			currentTwitterUser.put("email_id", user.getEmail());
 			currentTwitterUser.put("photo_uri", user.getPhotoUrl());
-		} catch (JSONException e) { Utils.d("Twitter:JSON:Error:" + e.toString()); }
+		} catch (JSONException e) { Utils.d("GodotFireBase", "Twitter:JSON:Error:" + e.toString()); }
 
 		Utils.callScriptFunc("Auth", "TwitterLogin", "true");
 	}
 
 	protected void successSignOut() {
-		Utils.d("Twitter:Disconnected");
+		Utils.d("GodotFireBase", "Twitter:Disconnected");
 
 		isTwitterConnected = false;
 
@@ -156,7 +156,7 @@ public class TwitterSignIn {
 	}
 
 	private void handleTwitterSession(TwitterSession session) {
-		Utils.d("Twitter:HandleSession:" + session);
+		Utils.d("GodotFireBase", "Twitter:HandleSession:" + session);
 
 		AuthCredential credential = TwitterAuthProvider.getCredential(
 		session.getAuthToken().token,
@@ -168,10 +168,10 @@ public class TwitterSignIn {
 			public void onComplete(@NonNull Task<AuthResult> task) {
 				if (task.isSuccessful()) {
 					// Sign in success, update UI with the signed-in user's information
-					Utils.d("signInWithCredential:success");
+					Utils.d("GodotFireBase", "signInWithCredential:success");
 				} else {
 					// If sign in fails, display a message to the user.
-					Utils.w("signInWithCredential:failure: " + task.getException());
+					Utils.w("GodotFireBase", "signInWithCredential:failure: " + task.getException());
 				}
 
 				// ...
