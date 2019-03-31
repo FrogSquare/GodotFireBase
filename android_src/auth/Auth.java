@@ -26,6 +26,9 @@ import android.util.Log;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -214,6 +217,24 @@ public class Auth {
 		//AuthFacebook--
 
 		return "NULL";
+	}
+
+	public void getIdToken() {
+		if (!isInitialized()) { return; }
+
+		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+		if (user == null) { return; }
+
+		user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+			public void onComplete(@NonNull Task<GetTokenResult> task) {
+				if (task.isSuccessful()) {
+					String idToken = task.getResult().getToken();
+					Utils.callScriptFunc("Auth", "getIdToken", idToken);
+				} else {
+					Utils.callScriptFunc("Auth", "getIdToken", null);
+				}
+			}
+		});
 	}
 
 	//AuthFacebook++
