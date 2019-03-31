@@ -1,4 +1,4 @@
-/**
+**
  * Copyright 2017 FrogSquare. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,7 +60,7 @@ public class Utils {
             DebugCfg = new HashMap< String, Boolean>();
         }
 
-        DebugCfg.put(from, true);
+        set_debug(from, true);
     }
 
     public static void set_debug(final String from, final boolean value) {
@@ -76,7 +76,12 @@ public class Utils {
             initDebug(from);
         }
 
-        return DebugCfg.get(from);
+        if (DebugCfg.containsKey(from)) {
+            return DebugCfg.get(from);
+        } else {
+            set_debug(from, true);
+            return DebugCfg.get(from);
+        }
     }
 
     /** GodotSQL **/
