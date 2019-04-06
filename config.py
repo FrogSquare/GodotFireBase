@@ -9,7 +9,7 @@ from colors import *
 from helper import *
 
 # Set your Android app ID
-p_app_id = "com.example.game"
+p_app_id = "com.your.id"
 
 # Update this to customize the module
 _config = {
@@ -201,12 +201,13 @@ def implement(api, support=True):
     pass
 
 def configure(env):
+    global p_app_id
     if env["platform"] == "android":
         if (not update_module(env)):
             print("Error updating module.")
             return
 
-        if env["application_id"] != None:
+        if env.get("application_id", None) != None:
             p_app_id = env["application_id"]
 
         env.android_add_maven_repository("url 'https://maven.fabric.io/public'")
