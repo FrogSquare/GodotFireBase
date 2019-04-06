@@ -84,21 +84,22 @@ public class AdMob {
 			List<String> ad_units = new ArrayList<String>();
 
 			if (ad_unit_id.length() <= 0) {
-				Utils.d("GodotFireBase", "AdMob:RewardedVideo:UnitId:NotProvided");
+				Utils.d("GodotFireBase", "AdMob:RewardedVideo:UnitId:NotProvided:AddingDefault");
 				ad_units.add(activity.getString(R.string.rewarded_video_ad_unit_id));
 			} else {
 				ad_units = Arrays.asList(ad_unit_id.split(","));
+                ad_unit_id = ad_units[0];
 
-				Utils.d("GodotFireBase", "AdMob:RewardedVideo:" + String.valueOf(ad_units.size()) +":UnitIdS:Found");
-                Utils.d("GodotFireBase", "AdMob:MultipleAdUnits:NotSupported_By_AdMob [AdMob SDK provided only single instance for rewarded_ads]");
+                if (ad_units.size() > 1) {
+	    			Utils.d("GodotFireBase", "AdMob:RewardedVideo:" + String.valueOf(ad_units.size()) +":UnitIdS:Found");
+                    Utils.d("GodotFireBase", "AdMob:MultipleAdUnits:NotSupported_By_AdMob [Using first adunit]" + ad_unit_id);
+                }
 			}
 
-			for (String id : ad_units) {
-				RewardedVideoAd mrv = createRewardedVideo(id);
-				requestNewRewardedVideo(mrv, id);
+			RewardedVideoAd mrv = createRewardedVideo(ad_unit_id);
+			requestNewRewardedVideo(mrv, ad_unit_id);
 
-				reward_ads.put(id, mrv);
-			}
+			reward_ads.put(ad_unit_id, mrv);
 		}
 
 		mAdSize = new Dictionary();
@@ -126,7 +127,7 @@ public class AdMob {
 		String ad_unit_id = AdMobConfig.optString("BannerAdId", "");
 
 		if (ad_unit_id.length() <= 0) {
-			Utils.d("GodotFireBase", "AdMob:Banner:UnitId:NotProvided");
+			Utils.d("GodotFireBase", "AdMob:Banner:UnitId:NotProvided:AddingDefault");
 			ad_unit_id = activity.getString(R.string.banner_ad_unit_id);
 		}
 
@@ -194,7 +195,7 @@ public class AdMob {
 		String ad_unit_id = AdMobConfig.optString("InterstitialAdId", "");
 
 		if (ad_unit_id.length() <= 0) {
-			Utils.d("GodotFireBase", "AdMob:Interstitial:UnitId:NotProvided");
+			Utils.d("GodotFireBase", "AdMob:Interstitial:UnitId:NotProvided:AddingDefault");
 			ad_unit_id = activity.getString(R.string.interstitial_ad_unit_id);
 		}
 

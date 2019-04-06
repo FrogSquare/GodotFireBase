@@ -35,6 +35,7 @@ Godot_FireBase is a firebase integration for godot android;
 
 * Copy your `google-services.json` file to `[GODOT-ROOT]/platform/android/java/`
 * Edit file modules/FireBase/config.py at line 11
+* To build Admob you need to set your AdMob Application Id in the `AndroidManifestChunk.xml` so go to `android_src/AndroidManifestChunk.xml` and replace the APP_ID
 
 ```
 p_app_id = "com.your.appid"     # config.py L:11
@@ -203,7 +204,7 @@ Recive message from java
 
 ```
 func _receive_message(tag, from, key, data):
-    if tag == "FireBase":
+    if tag == "FrogSquare":
         if from == "Auth":
             if key == "GoogleLogin" && data == "true": print("User Signed in.")
             if key == "FacebookLogin" && data == "true": print("User Signed in.")

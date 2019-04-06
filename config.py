@@ -16,13 +16,13 @@ _config = {
 "Analytics"      : True,
 "AdMob"          : True,
 "Invites"        : True,
-"RemoteConfig"   : False,
-"Notification"   : False,
+"RemoteConfig"   : True,
+"Notification"   : True,
 "Storage"        : False,
-"Firestore"      : False,
+"Firestore"      : True,
 
-"Authentication" : False,
-"AuthGoogle"     : False,
+"Authentication" : True,
+"AuthGoogle"     : True,
 "AuthFacebook"   : False,
 "AuthTwitter"    : False
 }
@@ -37,6 +37,7 @@ def can_build(env_plat, plat = None):
             plat = env_plat
         else:
             print("GodotFireBase: "+RED+" Platform not set, Disabling GodotFireBase "+RESET)
+            print("GodotFireBase: "+RED+" To use `GodotFireBase` in Godot 2.X copy the `build.gradle.template` from Godot 3.X and place it in `platform/android/`"+RESET)
             return False
 
     if plat == "android":
@@ -144,6 +145,9 @@ def update_module(env):
         if d == "AdMob":
             if any(elem in env.module_list for elem in ["GodotAds"]):
                 _config[d] = False
+        elif d == "AuthGoogle":
+            if any(elem in env.module_list for elem in ["GodotGoogleService"]):
+                _config[d] = False
 
         if not _config[d]:
             regex_list.append(\
@@ -201,6 +205,9 @@ def configure(env):
         if (not update_module(env)):
             print("Error updating module.")
             return
+
+        if env["application_id"] != None:
+            p_app_id = env["application_id"]
 
         env.android_add_maven_repository("url 'https://maven.fabric.io/public'")
         env.android_add_maven_repository("url 'https://maven.google.com'")
