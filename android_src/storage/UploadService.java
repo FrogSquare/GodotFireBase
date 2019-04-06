@@ -127,7 +127,7 @@ public class UploadService extends BaseTaskService {
 				Utils.d("GodotFireBase", "SD:UploadFromUri:onSuccess");
 
 				// Get the public download URL
-				Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
+				Uri downloadUri = photoRef.getDownloadUrl();
 
 				broadcastUploadFinished(downloadUri, fileUri);
 				showUploadFinishedNotification(downloadUri, fileUri);

@@ -88,7 +88,7 @@ public class AdMob {
 				ad_units.add(activity.getString(R.string.rewarded_video_ad_unit_id));
 			} else {
 				ad_units = Arrays.asList(ad_unit_id.split(","));
-                ad_unit_id = ad_units[0];
+                ad_unit_id = ad_units.get(0);
 
                 if (ad_units.size() > 1) {
 	    			Utils.d("GodotFireBase", "AdMob:RewardedVideo:" + String.valueOf(ad_units.size()) +":UnitIdS:Found");
@@ -321,7 +321,12 @@ public class AdMob {
     }
 
     public boolean isInterstitialLoaded() {
-        return mInterstitialAd.isLoaded();
+        if (mInterstitialAd != null) {
+            return mInterstitialAd.isLoaded();
+        }
+
+        Utils.d("GodotFireBase", "Interstitial:NotInitialized");
+        return false;
     }
 
     public boolean isRewardedAdLoaded() {
