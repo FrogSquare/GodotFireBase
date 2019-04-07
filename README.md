@@ -27,8 +27,6 @@ Godot_FireBase is a firebase integration for godot android;
 
 > Storage
 
-> Invites (Email & SMS)
-
 > Firestore (W.I.P)
 
 # Build/Compile module
@@ -85,7 +83,6 @@ GodotFireBase config file, By default every feature is disabled.
 {
 	"AdMob" : true,
 	"Authentication" : true,
-	"Invites" : true,
 	"RemoteConfig" : true,
 	"Notification" : true,
 	"Storage" : true,
@@ -260,15 +257,6 @@ firebase.upload("images/file", "destFolder") # uploads file from sdcard to fireb
 
 # Download Files from Firebase
 firebase.download("file", "images") # Saves file from firebase to sdcard
-```
-
-# Firebase Invites
-
-```
-Invite Friends with Email & SMS, DeepLink example: https://play.google.com/store/apps/details?id=[package-id].
-
-firebase.invite("message", "https://example.com/beed/link") # Send Firebase Invites.
-firebase.invite("message", "")  # Fallback to use default android share eg: Whatsapp, Twitter and more.
 ```
 
 # Firebase AdMob

@@ -15,14 +15,13 @@ p_app_id = "com.your.id"
 _config = {
 "Analytics"      : True,
 "AdMob"          : True,
-"Invites"        : True,
-"RemoteConfig"   : True,
-"Notification"   : True,
+"RemoteConfig"   : False,
+"Notification"   : False,
 "Storage"        : False,
-"Firestore"      : True,
+"Firestore"      : False,
 
-"Authentication" : True,
-"AuthGoogle"     : True,
+"Authentication" : False,
+"AuthGoogle"     : False,
 "AuthFacebook"   : False,
 "AuthTwitter"    : False
 }
@@ -128,7 +127,7 @@ def update_module(env):
         return False
 
     data_to_check = \
-    ["Analytics", "AdMob", "Auth", "Invites", "Notification", "RemoteConfig",\
+    ["Analytics", "AdMob", "Auth", "Notification", "RemoteConfig",\
     "Storage", "Firestore", "AuthFacebook", "AuthGoogle", "AuthTwitter"]
 
     regex_list = []
@@ -196,7 +195,7 @@ def update_module(env):
     return True
 
 def implement(api, support=True):
-    supportv4 = "{exclude group: 'com.android.support' exclude module: 'support-v4'}"
+    supportv4 = "{exclude group: 'com.android.support' exclude module: 'appcompat-v7' exclude module: 'support-v4'}"
     return "implementation('"+api+"')" + (supportv4 if support else "")
     pass
 
@@ -218,17 +217,15 @@ def configure(env):
         env.android_add_gradle_classpath("com.google.gms:google-services:4.1.0")
         env.android_add_gradle_plugin("com.google.gms.google-services")
 
-        env.android_add_dependency("implementation 'com.android.support:support-annotations:25.0.1'")
-        env.android_add_dependency(implement("com.google.firebase:firebase-core:16.0.7"))
-        env.android_add_dependency(implement("com.google.android.gms:play-services-measurement-base:16.0.0"))
-
+        env.android_add_dependency(implement("com.google.firebase:firebase-core:16.0.8"))
         if _config["Auth"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-auth:16.1.0"))
+            env.android_add_dependency(implement("com.google.firebase:firebase-auth:16.2.1"))
             if _config["AuthGoogle"]:
-                env.android_add_dependency(implement("com.google.android.gms:play-services-auth:16.0.1"))
+                env.android_add_dependency(implement("com.google.android.gms:play-services-auth:+"))
+                pass
 
             if _config["AuthFacebook"]:
-                env.android_add_dependency(implement("com.facebook.android:facebook-android-sdk:4.18.0", False))
+                env.android_add_dependency(implement("com.facebook.android:facebook-android-sdk:[4,5]", False))
 
             if _config["AuthTwitter"]:
                 env.android_add_dependency(\
@@ -239,25 +236,22 @@ def configure(env):
         if _config["AdMob"]:
             if any(elem in env.module_list for elem in ["GodotAds"]): pass
             else:
-                env.android_add_dependency(implement("com.google.firebase:firebase-ads:17.1.3"))
+                env.android_add_dependency(implement("com.google.firebase:firebase-ads:17.2.0"))
 
         if _config["RemoteConfig"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-config:16.3.0"))
+            env.android_add_dependency(implement("com.google.firebase:firebase-config:16.5.0"))
 
         if _config["Notification"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-messaging:17.3.4"))
+            env.android_add_dependency(implement("com.google.firebase:firebase-messaging:17.6.0"))
             env.android_add_dependency(implement("com.firebase:firebase-jobdispatcher:0.8.5"))
 
-        if _config["Invites"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-invites:16.1.0"))
-
         if _config["Storage"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-storage:16.0.5"))
+            env.android_add_dependency(implement("com.google.firebase:firebase-storage:16.1.0"))
 
         if _config["Firestore"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-firestore:18.0.1"))
+            env.android_add_dependency(implement("com.google.firebase:firebase-firestore:18.2.0"))
 
-        env.android_add_dependency("implementation 'commons-codec:commons-codec:1.10'")
+        env.android_add_dependency("implementation 'commons-codec:commons-codec:1.12'")
 
         env.android_add_java_dir("android");
         env.android_add_res_dir("res");

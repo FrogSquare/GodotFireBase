@@ -7,7 +7,6 @@ FILES_LIST		= \
 "Analytics"	: ["Analytics.java"],
 "Auth"		: ["AnonymousAuth.java", "Auth.java", "EmailAndPassword.java"],
 "Base"		: ["FireBase.java", "AndroidPermissionsChunk.xml"],
-"Invites"	: ["Invites.java"],
 "Notification"	: ["MessagingService.java", "Notification.java", \
                    "NotifyInTime.java", "InstanceIDService.java"],
 "RemoteConfig"	: ["RemoteConfig.java"],

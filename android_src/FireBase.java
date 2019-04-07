@@ -94,10 +94,6 @@ public class FireBase extends Godot.SingletonBase {
 			"notifyOnComplete", "repeatNotification",
 			//Notification--
 
-			//Invites++
-			"invite",
-			//Invites--
-
 			//RemoteConfig++
 			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile",
 			//RemoteConfig--
@@ -158,13 +154,6 @@ public class FireBase extends Godot.SingletonBase {
 			Notification.getInstance(activity).init(mFirebaseApp);
 		}
 		//Notification--
-
-		//Invites++
-		if (config.optBoolean("Invites", false)) {
-			Utils.d("GodotFireBase", "Initializing Firebase Invites.");
-			Invites.getInstance(activity).init(mFirebaseApp);
-		}
-		//Invites--
 
 		//RemoteConfig++
 		if (config.optBoolean("RemoteConfig", false)) {
@@ -673,22 +662,6 @@ public class FireBase extends Godot.SingletonBase {
 	}
 	//Notification--
 
-	//Invites++
-	public void invite (final String message, final String deepLink) {
-		activity.runOnUiThread(new Runnable() {
-			public void run() {
-				if (deepLink.length() <= 0) {
-					Utils.d("GodotFireBase", "DeepLink not provided fall back to simple share");
-					Invites.getInstance(activity).invite(message);
-				} else {
-					Utils.d("GodotFireBase", "Using Firebase DeepLink");
-					Invites.getInstance(activity).invite(message, deepLink);
-				}
-			}
-		});
-	}
-	//Invites--
-
 	//RemoteConfig++
 	public String getRemoteValue (final String key) {
 		if (key.length() <= 0) {
@@ -789,10 +762,6 @@ public class FireBase extends Godot.SingletonBase {
 		//Analytics++
 		// Analytics.getInstance(activity).onActivityResult(requestCode, resultCode, data);
 		//Analytics--
-
-		//Invites++
-		Invites.getInstance(activity).onActivityResult(requestCode, resultCode, data);
-		//Invites--
 
 		//Auth++
 		Auth.getInstance(activity).onActivityResult(requestCode, resultCode, data);
