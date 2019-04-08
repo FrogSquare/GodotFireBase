@@ -58,6 +58,7 @@ import com.godot.game.R;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -272,12 +273,12 @@ public class FacebookSignIn {
 		.show();
 	}
 
-	public void requestReadPermissions(List permissions) {
+	public void requestReadPermissions(Collection<String> permissions) {
 		LoginManager.getInstance().logInWithReadPermissions(
 		activity, permissions);
 	}
 
-	public void requestPublishPermissions(List permissions) {
+	public void requestPublishPermissions(Collection<String> permissions) {
 		LoginManager.getInstance().logInWithPublishPermissions(
 		activity, permissions);
 	}
@@ -448,7 +449,7 @@ public class FacebookSignIn {
 	private Boolean isFacebookConnected = false;
 	private JSONObject currentFBUser = new JSONObject();
 
-	private ArrayList mUserPermissions = new ArrayList<String>();
+	private ArrayList<String> mUserPermissions = new ArrayList<String>();
 
 	private FirebaseAuth mAuth;
 	private FirebaseAuth.AuthStateListener mAuthListener;
