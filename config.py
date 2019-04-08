@@ -16,12 +16,12 @@ _config = {
 "Analytics"      : True,
 "AdMob"          : True,
 "RemoteConfig"   : False,
-"Notification"   : False,
+"Notification"   : True,
 "Storage"        : False,
-"Firestore"      : False,
+"Firestore"      : True,
 
-"Authentication" : False,
-"AuthGoogle"     : False,
+"Authentication" : True,
+"AuthGoogle"     : True,
 "AuthFacebook"   : False,
 "AuthTwitter"    : False
 }
