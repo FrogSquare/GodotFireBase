@@ -1,6 +1,6 @@
 # GodotFireBase
 
-Godot_FireBase is a firebase integration for godot android;
+GodotFireBase is a Firebase integration module for Godot Android.
 
 [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://github.com/FrogSquare/GodotFireBase)
 [![GodotEngine](https://img.shields.io/badge/Godot_Engine-2.X%20/%203.X-blue.svg)](https://github.com/godotengine/godot)
@@ -33,13 +33,15 @@ Godot_FireBase is a firebase integration for godot android;
 
 * Copy your `google-services.json` file to `[GODOT-ROOT]/platform/android/java/`
 * Edit file modules/FireBase/config.py at line 11
-* To build Admob you need to set your AdMob Application Id in the `AndroidManifestChunk.xml` so go to `android_src/AndroidManifestChunk.xml` and replace the APP_ID
 
 ```
 p_app_id = "com.your.appid"     # config.py L:11
 ```
 
-* Replay `com.your.appid` with you android application id.
+* Replace `com.your.appid` with you android application id.
+
+* To build Admob you need to set your AdMob Application ID in the `AndroidManifestChunk.xml` file. To do this, edit the file `android_src/AndroidManifestChunk.xml`. Navigate to the end of the file. Replace the **value** for APPLICATION_ID with your real application ID.
+
 
 *For customizing the module go [here](https://github.com/FrogSquare/GodotFireBase/wiki/Customize-GodotFireBase)*
 
@@ -122,7 +124,7 @@ func _ready():
         firebase.initWithFile("res://godot-firebase-config.json", get_instance_ID())
 
 func _receive_message(tag, from, key, data):
-    if tag == "FireBase":
+    if tag == "FrogSquare":
         print("From: ", from, " Key: ", key, " Data: ", data)
 ```
 
@@ -280,7 +282,7 @@ AdMob Recive message from java
 
 ```
 func _receive_message(tag, from, key, data):
-    if tag == "FireBase" and from == "AdMob":
+    if tag == "FrogSquare" and from == "AdMob":
         if key == "AdMobReward":
             # when rewared video play complete
             print("json data with [RewardType & RewardAmount]: ", data);
