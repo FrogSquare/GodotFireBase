@@ -217,7 +217,7 @@ def configure(env):
         env.android_add_gradle_classpath("com.google.gms:google-services:4.1.0")
         env.android_add_gradle_plugin("com.google.gms.google-services")
 
-        env.android_add_dependency(implement("com.google.firebase:firebase-core:16.0.8"))
+        env.android_add_dependency(implement("com.google.firebase:firebase-core:16.0.7"))
         if _config["Auth"]:
             env.android_add_dependency(implement("com.google.firebase:firebase-auth:16.2.1"))
             if _config["AuthGoogle"]:
