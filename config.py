@@ -194,7 +194,7 @@ def update_module(env):
 
     return True
 
-def implement(api, support=True):
+def implement(api, support=False):
     supportv4 = "{exclude group: 'com.android.support' exclude module: 'appcompat-v7' exclude module: 'support-v4'}"
     return "implementation('"+api+"')" + (supportv4 if support else "")
     pass
@@ -240,6 +240,7 @@ def configure(env):
 
         if _config["RemoteConfig"]:
             env.android_add_dependency(implement("com.google.firebase:firebase-config:16.5.0"))
+            env.android_add_dependency(implement("com.android.support:support-v4:28.0.0"))
 
         if _config["Notification"]:
             env.android_add_dependency(implement("com.google.firebase:firebase-messaging:17.6.0"))
