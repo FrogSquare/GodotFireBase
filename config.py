@@ -19,6 +19,7 @@ _config = {
 "Notification"   : True,
 "Storage"        : False,
 "Firestore"      : True,
+"Share"          : True,
 
 "Authentication" : True,
 "AuthGoogle"     : True,
@@ -128,7 +129,7 @@ def update_module(env):
 
     data_to_check = \
     ["Analytics", "AdMob", "Auth", "Notification", "RemoteConfig",\
-    "Storage", "Firestore", "AuthFacebook", "AuthGoogle", "AuthTwitter"]
+    "Storage", "Firestore", "Share", "AuthFacebook", "AuthGoogle", "AuthTwitter"]
 
     regex_list = []
 

@@ -12,6 +12,7 @@ FILES_LIST		= \
 "RemoteConfig"	: ["RemoteConfig.java"],
 "Storage"	: ["storage/"],
 "Firestore"	: ["Firestore.java"],
+"Share"         : ["Share.java"],
 
 "AuthGoogle"    : ["GoogleSignIn.java"],
 "AuthFacebook"  : ["FacebookSignIn.java"],
