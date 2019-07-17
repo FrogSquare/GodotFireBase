@@ -313,6 +313,12 @@ firebase.load_document("collection_name") # load or retrive from the server,
 # Note: documents will be sent to the `_receive_message` function as json
 ```
 
+# Sharing
+```
+# Simple text based sharing. Include links if needed. 'Subject' can be null or empty.
+firebase.share("Message", "Subject")
+```
+
 # Note
 
 While exporting, don't forget to add `*.json` under Resources tab,
