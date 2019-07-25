@@ -352,8 +352,8 @@ public class FireBase extends Godot.SingletonBase {
 
     }
 
-    public boolean is_rewarded_video_loaded() {
-        return AdMob.getInstance(activity).isRewardedAdLoaded();
+    public boolean is_rewarded_video_loaded(final String unit_id) {
+        return AdMob.getInstance(activity).isRewardedAdLoaded(unit_id);
     }
 
 	public void set_banner_unitid(final String unit_id) {
@@ -392,10 +392,10 @@ public class FireBase extends Godot.SingletonBase {
 		});
     }
 
-	public void show_rvideo(final Dictionary data) {
+	public void show_rvideo(final String unit_id) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
-				AdMob.getInstance(activity).show_rewarded_video(data);
+				AdMob.getInstance(activity).show_rewarded_video(unit_id);
 			}
 		});
 	}
