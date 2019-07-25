@@ -103,8 +103,12 @@ public class FireBase extends Godot.SingletonBase {
 			//Storage--
 
 			//Firestore++
-			"load_document", "load_document_to", "set_document", "add_document"
+			"load_document", "load_document_to", "set_document", "add_document",
 			//Firestore--
+			
+			//Share++
+			"share"
+			//Share--
 		});
 
 		activity = p_activity;
@@ -742,6 +746,16 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 	//Firestore--
+	
+	//Sharing++
+	public void share(final String p_text, final String p_subject) {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				Share.getInstance(activity).share(p_text, p_subject);
+			}
+		});
+	}
+	//Sharing--
 
 	/** Main Funcs **/
 	public static JSONObject getConfig() {
