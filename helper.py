@@ -8,7 +8,7 @@ FILES_LIST		= \
 "Auth"		: ["AnonymousAuth.java", "Auth.java", "EmailAndPassword.java"],
 "Base"		: ["FireBase.java", "AndroidPermissionsChunk.xml"],
 "Notification"	: ["MessagingService.java", "Notification.java", \
-                   "NotifyInTime.java", "InstanceIDService.java"],
+                   "NotifyInTime.java"],
 "RemoteConfig"	: ["RemoteConfig.java"],
 "Storage"	: ["storage/"],
 "Firestore"	: ["Firestore.java"],

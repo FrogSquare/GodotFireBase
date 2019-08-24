@@ -29,6 +29,13 @@ GodotFireBase is a Firebase integration module for Godot Android.
 
 > Firestore (W.I.P)
 
+# Ready your project
+* open `<GODOT>/platform/android/java/gradle.properties` and add the following line
+```
+android.useAndroidX=true
+android.enableJetifier=true
+```
+
 # Build/Compile module
 
 * Copy your `google-services.json` file to `[GODOT-ROOT]/platform/android/java/`

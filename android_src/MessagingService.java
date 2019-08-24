@@ -25,8 +25,9 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -67,6 +68,17 @@ public class MessagingService extends FirebaseMessagingService {
 			sendNotification(remoteMessage.getNotification().getBody(), this);
 		}
 	}
+
+    @Override
+    public void onNewToken(String token) {
+        Utils.d("GodotFireBase", "Refreshed token: " + token);
+        sendRegistrationToServer(token);
+    }
+
+    private void sendRegistrationToServer(String token) {
+        // TODO: Implement this method to send token to your app server.
+        Utils.d("GodotFireBase", "Token: " + token);
+    }
 
 	private void handleData (Map<String, String> data) {
 		// TODO: Perform some action now..!

@@ -147,7 +147,8 @@ def update_module(env):
                 _config[d] = False
         elif d == "AuthGoogle":
             if any(elem in env.module_list for elem in ["GodotGoogleService"]):
-                _config[d] = False
+                #_config[d] = False
+                pass
 
         if not _config[d]:
             regex_list.append(\
@@ -215,12 +216,12 @@ def configure(env):
         env.android_add_maven_repository(\
         "url 'https://oss.sonatype.org/content/repositories/snapshots'")
 
-        env.android_add_gradle_classpath("com.google.gms:google-services:4.1.0")
+        env.android_add_gradle_classpath("com.google.gms:google-services:4.3.0")
         env.android_add_gradle_plugin("com.google.gms.google-services")
 
-        env.android_add_dependency(implement("com.google.firebase:firebase-core:16.0.7"))
+        env.android_add_dependency(implement("com.google.firebase:firebase-core:17.0.1"))
         if _config["Auth"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-auth:16.2.1"))
+            env.android_add_dependency(implement("com.google.firebase:firebase-auth:18.1.0"))
             if _config["AuthGoogle"]:
                 env.android_add_dependency(implement("com.google.android.gms:play-services-auth:+"))
                 pass
@@ -237,21 +238,21 @@ def configure(env):
         if _config["AdMob"]:
             if any(elem in env.module_list for elem in ["GodotAds"]): pass
             else:
-                env.android_add_dependency(implement("com.google.firebase:firebase-ads:17.2.0"))
+                env.android_add_dependency(implement("com.google.firebase:firebase-ads:18.1.1"))
 
         if _config["RemoteConfig"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-config:16.5.0"))
-            env.android_add_dependency(implement("com.android.support:support-v4:28.0.0"))
+            env.android_add_dependency(implement("com.google.firebase:firebase-config:18.0.0"))
+            env.android_add_dependency(implement("com.android.support:appcompat-v7:28.0.0"))
 
         if _config["Notification"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-messaging:17.6.0"))
+            env.android_add_dependency(implement("com.google.firebase:firebase-messaging:19.0.1"))
             env.android_add_dependency(implement("com.firebase:firebase-jobdispatcher:0.8.5"))
 
         if _config["Storage"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-storage:16.1.0"))
+            env.android_add_dependency(implement("com.google.firebase:firebase-storage:18.1.0"))
 
         if _config["Firestore"]:
-            env.android_add_dependency(implement("com.google.firebase:firebase-firestore:18.2.0"))
+            env.android_add_dependency(implement("com.google.firebase:firebase-firestore:20.1.0"))
 
         env.android_add_dependency("implementation 'commons-codec:commons-codec:1.12'")
 

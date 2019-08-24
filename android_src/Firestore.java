@@ -23,7 +23,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.view.View;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 import java.util.List;

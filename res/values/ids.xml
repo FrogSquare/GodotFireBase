@@ -6,5 +6,7 @@
 	<string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
 	<string name="rewarded_video_ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
 	<string name="twitter_consumer_key">Mv71bxjlRumBlPI3HoRdle4I7</string>
-	<string name="twitter_consumer_secret">7yShM5dovdoBfLSnTfiIlZmZj6s6efBxQqapWcoZEOzDMHaKYx</string>
+    <string name="twitter_consumer_secret">7yShM5dovdoBfLSnTfiIlZmZj6s6efBxQqapWcoZEOzDMHaKYx</string>
+
+	<string name="default_web_client_id"></string>
 </resources>
