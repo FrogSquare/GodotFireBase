@@ -2,6 +2,8 @@
 
 GodotFireBase is a Firebase integration module for Godot Android.
 
+### Project has been moved to newer repo [GDFirebase](https://github.com/FrogSquare/GDFirebase)
+
 [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://github.com/FrogSquare/GodotFireBase)
 [![GodotEngine](https://img.shields.io/badge/Godot_Engine-2.X%20/%203.X-blue.svg)](https://github.com/godotengine/godot)
 [![LICENCE](https://img.shields.io/badge/License-Apache_V2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
